@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   primitives.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:24 by jcat             ###   ########.fr       */
+/*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
+/*   Updated: 2024/03/31 21:43:37 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef PRIMITIVES_H
+# define PRIMITIVES_H
 
-#include "vec3.h"
+#include "rt.h"
 
-typedef	struct s_ray {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
+typedef struct s_plane
+{
+	t_vec3	normal;
+	float	height;	
+}	t_plane;
 
-t_ray	ray_lookat(t_vec3 origin, t_vec3 lookat);
+typedef struct s_sphere
+{
+	t_vec3	pos;
+	float	radius;
+}	t_sphere;
 
 #endif

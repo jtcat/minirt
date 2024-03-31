@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   rt2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:24 by jcat             ###   ########.fr       */
+/*   Created: 2024/03/31 23:39:06 by jcat              #+#    #+#             */
+/*   Updated: 2024/03/31 23:41:10 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "rt.h"
+#include <unistd.h>
 
-#include "vec3.h"
-
-typedef	struct s_ray {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
-
-t_ray	ray_lookat(t_vec3 origin, t_vec3 lookat);
-
-#endif
+void	exit_err(t_rtctx *ctx, char *msg)
+{
+	rtctx_destroy(ctx);
+	ft_putstr_fd("Error\n", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	exit(1);
+}

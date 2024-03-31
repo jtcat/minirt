@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:24 by jcat             ###   ########.fr       */
+/*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
+/*   Updated: 2024/03/31 23:57:51 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef UTILS_H
+# define UTILS_H
 
+#include <stdlib.h>
 #include "vec3.h"
 
-typedef	struct s_ray {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
+double	deg_to_rad(const double deg);
 
-t_ray	ray_lookat(t_vec3 origin, t_vec3 lookat);
+void	free_ptrarr(void **arr);
+
+t_vec3	perf_ray(t_vec3 *ldir, t_vec3 *normal);
 
 #endif

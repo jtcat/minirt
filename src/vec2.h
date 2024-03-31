@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   vec2.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:24 by jcat             ###   ########.fr       */
+/*   Created: 2024/03/31 17:08:15 by jcat              #+#    #+#             */
+/*   Updated: 2024/03/31 17:08:49 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef VEC2_H
+# define VEC2_H
 
-#include "vec3.h"
-
-typedef	struct s_ray {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
-
-t_ray	ray_lookat(t_vec3 origin, t_vec3 lookat);
+typedef struct s_vec2 {
+	double	x;
+	double	y;
+}	t_vec2;
 
 #endif

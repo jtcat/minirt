@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   argb.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:24 by jcat             ###   ########.fr       */
+/*   Created: 2024/03/31 17:59:47 by jcat              #+#    #+#             */
+/*   Updated: 2024/03/31 18:02:46 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef ARGB_H
+# define ARGB_H
 
-#include "vec3.h"
+typedef int		t_argb;
 
-typedef	struct s_ray {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
+typedef struct s_mlx_img {
+	char	*img_addr;
+	int		line_len;
+	int		color_depth;
 
-t_ray	ray_lookat(t_vec3 origin, t_vec3 lookat);
+}	t_mlx_img;
+
+t_argb	rgb(int r, int g, int b);
+void	write_pix(t_mlx_img *img, int x, int y, t_argb color);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/03/31 16:24:59 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/01 02:50:11 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef CAMERA_H
+# define CAMERA_H
 
 # include "vec3.h"
 # include "utils.h"
@@ -25,13 +25,13 @@ typedef struct s_camera {
 	double	viewport_height;
 	double	hfov;
 	t_vec3	lookfrom;
-	t_vec3	lookat;
+	t_vec3	lookdir;
 	t_vec3	pix_ul_p;
 	t_vec3	pix_du;
 	t_vec3	pix_dv;
-	t_vec3	u; 
-	t_vec3	v; 
-	t_vec3	w; 
+	t_vec3	u;
+	t_vec3	v;
+	t_vec3	w;
 }	t_camera;
 
 void	cam_init(t_camera *cam);

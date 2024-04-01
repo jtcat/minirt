@@ -6,35 +6,32 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:05:42 by jcat              #+#    #+#             */
-/*   Updated: 2024/03/31 23:32:08 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/01 02:02:04 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include "argb.h"
-#include "ray.h"
-#include "vec3.h"
 
 bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 {
-	int		i;
+	t_list	*iter;
 	bool	hit_any;
 	t_hit	tmp_hit;
 	t_vec2	bound;
 
-	i = 0;
 	hit_any = false;
-	bound = (t_vec2){INFINITY, INFINITY};
-	while (i < ctx->prim_n)
+	bound = (t_vec2){-INFINITY, INFINITY};
+	iter = ctx->prims;
+	while (iter)
 	{
-		if (ctx->prims[i].intersect(ctx->prims[i].spec, ray, bound, &tmp_hit))
+		if (((t_primitive *)iter->content)->intersect(((t_primitive *)iter->content)->spec, ray, bound, &tmp_hit))
 		{
 			hit_any = true;
 			bound.y = tmp_hit.dist;
 			if (final_hit)
 				*final_hit = tmp_hit;
 		}
-		i++;
+		iter = iter->next;
 	}
 	return (hit_any);
 }

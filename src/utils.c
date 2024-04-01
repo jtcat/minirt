@@ -6,11 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:10:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/03/31 23:41:45 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/01 00:10:06 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "unistd.h"
 
 void	free_ptrarr(void **arr)
 {
@@ -30,4 +31,11 @@ void	free_ptrarr(void **arr)
 t_vec3	perf_ray(t_vec3 *ldir, t_vec3 *normal)
 {
 	return (v3sub(v3scalef(*normal, 2 * v3dot(*ldir, *normal)), *normal));
+}
+
+void	print_err(char *msg)
+{
+	ft_putstr_fd("Error\n", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 }

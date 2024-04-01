@@ -6,16 +6,17 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:05:56 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/02/03 14:09:45 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/01 02:39:50 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	render(void)
 {
-	float	aspect_ratio = 16.0 / 9.0;
-	int		image_width = 400;
+	const float	aspect_ratio = 16.0 / 9.0;
+	const int	image_width = 400;
+	int			image_height;
 
-	int		image_height = (image_width / aspect_ratio);
+	image_height = image_width / aspect_ratio;
 	if (image_height < 1)
 		image_height = 1;
 }

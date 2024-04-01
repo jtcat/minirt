@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/03/31 23:52:57 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/01 01:14:44 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int	main(int argc, char **argv)
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		exit_err("Cannot open file\n");
-	if (!parse_main(&ctx, fd))
+		exit_err(&ctx, "Cannot open file\n");
+	rtctx_init(&ctx);
+	if (!parser_main(&ctx, fd))
+	{
+		rtctx_destroy(&ctx);
 		return (1);
+	}
 	rt_main(&ctx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:53:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 16:36:18 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 20:59:48 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "rt.h"
 #include "utils.h"
-#include "../gnl/get_next_line_bonus.h"
+#include "../gnl/gnl.h"
 #include "../libft/libft.h"
 #include <stdbool.h>
 

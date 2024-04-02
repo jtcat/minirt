@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:05:42 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 01:04:46 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 21:51:27 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	render(t_rtctx *ctx)
 		{
 			ray.origin = v3sum(v3sum(ctx->cam.pix_ul_p, v3scalei(ctx->cam.pix_du, i)), v3scalei(ctx->cam.pix_dv, j));
 			ray.dir = v3sub(ray.origin, ctx->cam.lookfrom);
-			write_pix(ctx->img, i, j, get_ray_color(ctx, &ray));
+			write_pix(&ctx->img, i, j, get_ray_color(ctx, &ray));
+			mlx_put_image_to_window(ctx->mlx_ptr, ctx->window_ptr, ctx->img.img_ptr, 0, 0);
 			j++;
 		}
 		i++;

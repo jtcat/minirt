@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 02:56:32 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 22:16:56 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define RT_H
 
 # include "../libft/libft.h"
+# include "../minilibx-linux/mlx.h"
+# include "X11/keysym.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include "ray.h"
@@ -22,6 +24,10 @@
 # include "vec3.h"
 # include "vec2.h"
 # include "primitives.h"
+# include "argb.h"
+
+# define WINDOW_TITLE "miniRT"
+# define DESTROY_NOTIFY 17
 
 typedef struct s_light {
 	t_vec3	pos;
@@ -29,7 +35,9 @@ typedef struct s_light {
 }	t_light;
 
 typedef struct s_rtctx {
-	t_mlx_img	*img;
+	void		*mlx_ptr;
+	void		*window_ptr;
+	t_mlx_img	img;
 	t_camera	cam;
 	t_list		*prims;
 	int			prim_n;

@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   gnl_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:14:43 by joaoteix          #+#    #+#             */
-/*   Updated: 2022/11/20 17:20:31 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:21:50 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdint.h>
 #include <stddef.h>
-#include "get_next_line_bonus.h"
+#include "gnl.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {

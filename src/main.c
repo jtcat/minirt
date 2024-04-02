@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 01:14:44 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 00:51:19 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <fcntl.h>
 #include "rt.h"
 #include "parser.h"
-
 
 int	main(int argc, char **argv)
 {
@@ -41,6 +40,7 @@ int	main(int argc, char **argv)
 		rtctx_destroy(&ctx);
 		return (1);
 	}
-	rt_main(&ctx);
+	rtctx_destroy(&ctx);
+	//rt_main(&ctx);
 	return (0);
 }

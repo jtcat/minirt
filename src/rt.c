@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:05:42 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 02:02:04 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 01:04:46 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 	iter = ctx->prims;
 	while (iter)
 	{
+		// Transform ray before intersection and then after
+		ray_prim_transform(ray, (t_primitive *)iter->content);
 		if (((t_primitive *)iter->content)->intersect(((t_primitive *)iter->content)->spec, ray, bound, &tmp_hit))
 		{
 			hit_any = true;
@@ -78,7 +80,6 @@ void	render(t_rtctx *ctx)
 	int		i;
 	int		j;
 	t_ray	ray;
-	t_hit	hit;
 
 	i = 0;
 	while (i < ctx->cam.image_height)

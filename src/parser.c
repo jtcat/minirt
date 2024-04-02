@@ -6,25 +6,13 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:45:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 01:43:16 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 00:56:39 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "utils.h"
 #include <stdbool.h>
-
-void	read_element(const char *str)
-{
-}
-
-int		read_int(const char *str)
-{
-}
-
-float	read_float(const char *str)
-{
-}
 
 bool	proc_line(t_rtctx *ctx, char **tokens)
 {
@@ -52,6 +40,7 @@ bool	proc_line(t_rtctx *ctx, char **tokens)
 		print_err("Too many tokens on a line");
 		return (false);
 	}
+	return (valid);
 }
 
 bool	parser_main(t_rtctx *ctx, int fd)

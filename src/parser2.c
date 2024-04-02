@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 01:48:19 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 01:03:26 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	parse_ambient(t_rtctx *ctx, char **tokens)
 		print_err("Ambient light was redefined");
 		return (false);
 	}
-	if (!parse_float(*(tokens++), f))
+	if (!parse_float(*(tokens++), &f))
 		return (false);
 	if (f < 0.0f || f > 1.0f)
 	{
@@ -82,7 +82,7 @@ bool parse_light(t_rtctx *ctx, char **tokens)
 		print_err("Light intensity out of range (0.0 - 1.0)");
 		return (false);
 	}
-	return (false);
+	return (true);
 }
 
 bool parse_sphere(t_rtctx *ctx, char **tokens)
@@ -103,6 +103,7 @@ bool parse_sphere(t_rtctx *ctx, char **tokens)
 		return (false);
 	sphere->intersect = iSphere;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(sphere));
+	return (true);
 }
 
 bool parse_plane(t_rtctx *ctx, char **tokens)
@@ -121,32 +122,37 @@ bool parse_plane(t_rtctx *ctx, char **tokens)
 		return (false);
 	if (!parse_rgb(*(tokens++), &plane->color))
 		return (false);
-	((t_plane *)plane->spec)->height = point;
+	//((t_plane *)plane->spec)->height = point;
 	((t_plane *)plane->spec)->normal = normal;
-	plane->intersect = iPlane;
+	//plane->intersect = iPlane;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(plane));
+	return (true);
 }
 
 bool parse_cylinder(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*cyl;
-	t_vec3		center;
 	t_vec3		normal;
+	float		tmp;
 	
 	cyl = malloc(sizeof(t_primitive));
 	cyl->spec = malloc(sizeof(t_cylinder));
 	if (!cyl || !cyl->spec)
 		return (false);
-	if (!parse_vec3(*(tokens++), &((t_cylinder *)cyl->spec)->center))
+	if (!parse_vec3(*(tokens++), &((t_cylinder *)cyl->spec)->pos))
 		return (false);
 	if (!parse_vec3(*(tokens++), &normal) || !is_normal(&normal))
 		return (false);
-	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
+	//((t_cylinder *)cyl->spec)->normal = normal;
+	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (false);
+	((t_cylinder *)cyl->spec)->radius = tmp;
+	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+		return (false);
+	((t_cylinder *)cyl->spec)->height = tmp;
 	if (!parse_rgb(*(tokens++), &cyl->color))
 		return (false);
-	((t_plane *)plane->spec)->height = point;
-	((t_plane *)plane->spec)->normal = normal;
-	cyl->intersect = iCylinder;
+	//cyl->intersect = iCylinder;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(cyl));
+	return (true);
 }

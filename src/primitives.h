@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 01:57:39 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 00:58:36 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cylinder
 {
 	t_vec3	pos;
 	float	radius;
+	float	height;
 }	t_cylinder;
 
 void	prim_init(t_primitive *prim);

@@ -6,11 +6,11 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:44:26 by jcat              #+#    #+#             */
-/*   Updated: 2024/03/31 20:07:45 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 01:12:33 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec3.h"
+#include "primitives.h"
 
 double length_squared(t_vec3 *v)
 {
@@ -28,13 +28,13 @@ double	v3dot(const t_vec3 u, const t_vec3 v) {
 		+ u.z * v.z);
 }
 
-t_vec3 cross(const t_vec3 u, const t_vec3 v) {
+t_vec3 v3cross(const t_vec3 u, const t_vec3 v) {
 	return ((t_vec3){u.y * v.z - u.z * v.y,
 			u.z * v.x - u.x * v.z,
 			u.x * v.y - u.y * v.x});
 }
 
-t_vec3 unit(t_vec3 v) {
+t_vec3 v3unit(t_vec3 v) {
 	return (v3scalef(v, 1 / length(&v)));
 }
 

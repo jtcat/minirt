@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 02:37:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/01 02:54:02 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,39 +61,26 @@ bool	iSphere(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	}
 }
 
-float cylinder( in vec3 ro, in vec3 rd, in vec2 distBound, inout vec3 normal,
-		in vec3 pa, in vec3 pb, float ra ) {
-	vec3 ca = pb-pa;
-	vec3 oc = ro-pa;
+bool	iCylinder(t_ray *ray, float he, float ra )
+{
+    float k2 = 1.0        - rd.y*rd.y;
+    float k1 = dot(ro,rd) - ro.y*rd.y;
+    float k0 = dot(ro,ro) - ro.y*ro.y - ra*ra;
+    
+    float h = k1*k1 - k2*k0;
+    if( h<0.0 ) return vec4(-1.0);
+    h = sqrt(h);
+    float t = (-k1-h)/k2;
 
-	float caca = dot(ca,ca);
-	float card = dot(ca,rd);
-	float caoc = dot(ca,oc);
+    // body
+    float y = ro.y + t*rd.y;
+    if( y>-he && y<he ) return vec4( t, (ro + t*rd - vec3(0.0,y,0.0))/ra );
+    
+    // caps
+    t = ( ((y<0.0)?-he:he) - ro.y)/rd.y;
+    if( abs(k1+k2*t)<h ) return vec4( t, vec3(0.0,sign(y),0.0) );
 
-	float a = caca - card*card;
-	float b = caca*dot( oc, rd) - caoc*card;
-	float c = caca*dot( oc, oc) - caoc*caoc - ra*ra*caca;
-	float h = b*b - a*c;
-
-	if (h < 0.) return MAX_DIST;
-
-	h = sqrt(h);
-	float d = (-b-h)/a;
-
-	float y = caoc + d*card;
-	if (y > 0. && y < caca && d >= distBound.x && d <= distBound.y) {
-		normal = (oc+d*rd-ca*y/caca)/ra;
-		return d;
-	}
-
-	d = ((y < 0. ? 0. : caca) - caoc)/card;
-
-	if( abs(b+a*d) < h && d >= distBound.x && d <= distBound.y) {
-		normal = normalize(ca*sign(y)/caca);
-		return d;
-	} else {
-		return MAX_DIST;
-	}
+    return vec4(-1.0);
 }
 
 void	prim_init(t_primitive *prim)

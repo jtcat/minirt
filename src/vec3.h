@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 13:19:19 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/01 01:55:44 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/02 01:09:10 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VEC3_H
 
 #include <math.h>
+#include <stdbool.h>
 
 typedef struct s_vec3 {
 	double	x;

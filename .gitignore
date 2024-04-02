@@ -1,3 +1,5 @@
 *.pdf
 *.o
+*.a
 a.out
+bonus

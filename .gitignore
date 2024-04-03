@@ -3,3 +3,5 @@
 *.a
 a.out
 bonus
+scenes/
+miniRT

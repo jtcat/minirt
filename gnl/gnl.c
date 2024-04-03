@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:57 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/02 01:21:21 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:17:38 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ char	*get_next_line(int fd)
 	}
 	if (buff->len == 0)
 		clearbuff(fd, bufflist);
+	if (linelen > 0)
+		line[linelen - 1] = '\0';
 	return (line);
 }

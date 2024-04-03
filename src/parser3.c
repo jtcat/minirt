@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 01:03:53 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:02:53 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ bool	parse_float(const char *str, float* f)
 	float		mag;
 
 	parse_numb(&str, &dec);
+	*f = (float)dec;
+	if (!*str)
+		return (true);
 	if (*(str++) != '.')
 	{
 		print_err("Malformed float value");
 		return (false);
 	}
-	*f = (float)dec;
 	mag = 0.1f;
 	while (ft_isdigit(*str))
 	{
@@ -100,12 +102,12 @@ bool	parse_vec3(const char *str, t_vec3 *f)
 	return (valid);
 }
 
-bool	parse_rgb(const char *str, t_argb *f)
+bool	parse_rgb(const char *str, t_argb *color)
 {
 	char const	**strs = (char const **)ft_split(str, ',');
 	int			i;
+	int			tmp;
 	bool		valid;
-	t_argb		tmp;
 
 	i = 0;
 	valid = true;
@@ -117,7 +119,7 @@ bool	parse_rgb(const char *str, t_argb *f)
 			valid = false;
 			break ;
 		}
-		*f += tmp << (8 * i);
+		color->comp[i] = (unsigned char)tmp;
 		++i;
 	}
 	if (i < 2 || strs[i] != NULL)

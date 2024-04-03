@@ -6,11 +6,31 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:05:42 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 21:51:27 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/03 22:31:54 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+# define SPEC_EXP 1.0f
+
+void	hit_transform(t_hit *hit)
+{
+	float	res[4][4];
+
+	mat_mult(hit->prim->transl.mat, hit->prim->rot.mat, res);
+	hit->pos = mat_vec3_mult(res, &hit->pos);
+	hit->normal = mat_vec3_mult(hit->prim->rot.mat, &hit->normal);
+}
+
+void	ray_prim_transform(t_ray *ray, t_primitive *prim)
+{
+	float	res[4][4];
+
+	mat_mult(prim->rot.inv, prim->transl.inv, res);
+	ray->origin = mat_vec3_mult(res, &ray->origin);
+	ray->dir = mat_vec3_mult(prim->rot.inv, &ray->dir);
+}
 
 bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 {
@@ -48,18 +68,19 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 	t_argb	diffuse;
 	t_argb	specular;
 
+	hit_transform(hit);
 	ray.origin = hit->pos;
-	ray.dir = v3unit(v3sub(ctx->light.pos, ray.origin));
+	ray.dir = v3unit(v3sub(mat_getpos(&ctx->light.transl), ray.origin));
 	hit->normal = v3unit(hit->normal);
 	if (scene_intersect(ctx, &ray, NULL))
-		return (0);
-	diffuse = v3dot(ray.dir, hit->normal);
-	specular = diffuse > 0;
-	diffuse *= (diffuse > 0 ) * hit->prim->color;
-	specular *= v3dot(perf_ray(&ray.dir, &hit->normal),
-			v3unit(v3sub(ctx->cam.lookfrom, hit->pos)));
-	specular *= (specular > 0) * hit->prim->color;
-	return (diffuse + specular);
+		return ((t_argb)0);
+	diffuse.argb = v3dot(ray.dir, hit->normal);
+	specular.argb = diffuse.argb > 0;
+	diffuse.argb *= (diffuse.argb > 0 ) * hit->prim->color.argb;
+	specular.argb *= pow(-v3dot(perf_ray(&ray.dir, &hit->normal),
+			v3unit(v3sub(ctx->cam.lookfrom, hit->pos))), SPEC_EXP);
+	specular= argbScalef(specular, (specular.argb > 0) * hit->prim->color.argb);
+	return (argbSum(diffuse, specular));
 }
 
 t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
@@ -69,10 +90,10 @@ t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
 
 	if (scene_intersect(ctx, ray, &hit))
 	{
-		color = ctx->ambient + get_light_color(ctx, &hit);
+		color = argbSum(ctx->ambient, get_light_color(ctx, &hit));
 		return color;
 	}
-	return (0);
+	return ((t_argb)0);
 }
 
 void	render(t_rtctx *ctx)

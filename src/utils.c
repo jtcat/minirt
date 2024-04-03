@@ -6,12 +6,17 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:10:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 00:10:06 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/03 01:10:48 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "unistd.h"
+
+float	fsign(float f)
+{
+	return ((f > 0.0f) - (f < 0.0f));
+}
 
 void	free_ptrarr(void **arr)
 {

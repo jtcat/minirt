@@ -6,81 +6,98 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/01 02:54:02 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:27:08 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "primitives.h"
+#include "vec3.h"
 
 typedef bool	(*t_fnIntersect)(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit);
 
-bool	plane(t_ray *ray, t_vec2 distBound, t_vec3 normal, t_vec3 planeNormal, float planeDist)
+bool	i_plane(t_primitive *prim, t_ray *ray, t_vec2 distBound, t_hit *hit)
 {
-	float	a;
-	float	d;
+	const t_vec3	up = (t_vec3){0.0, 1.0, 0.0};
+	const float		a = v3dot(ray->dir, up);
+	const float	 d = -v3dot(ray->origin, up) / a;
 
-	a = v3dot(ray->dir, ((t_plane)spec)->normal);
-	d = -(v3dot(ray->origin, ((t_plane)spec)->planeNormal) + planeDist) / a;
+	(void)prim;
 	if (a > 0. || d < distBound.x || d > distBound.y) {
-		return MAX_DIST;
-	} else {
-		normal = planeNormal;
-		return d;
-	}
-}
-
-bool	iSphere(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit)
-{
-	const t_sphere	*sphere_spec = (t_sphere *)spec;
-
-	t_vec3	oc;
-	float	b;
-	float	c;
-	float	h;
-
-	oc = v3sub(ray->origin, spec->pos);
-	b = v3dot(oc, ray->dir);
-	c = v3dot(oc, oc) - spec->radius * spec->radius;
-	h = b * b - c;
-	if (h < 0.)
 		return (false);
-	else
-	{
-		h = sqrt(h);
-		c = -b - h;
-		b = -b + h;
-		if (c >= bound.x && c <= bound.y) {
-			hit->normal = v3unit(v3sum(oc, v3scalef(ray->dir, c)));
-			bound.y = c;
-		} else if (b >= bound.x && b <= bound.y) { 
-			hit->normal = v3unit(v3sum(oc, v3scalef(ray->dir, b)));            
-			bound.y = b;
-		} else 
-			return (false);
+	} else {
+		hit->normal = up;
+		hit->dist = d;
 		return (true);
 	}
 }
 
-bool	iCylinder(t_ray *ray, float he, float ra )
+bool	i_sphere(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 {
-    float k2 = 1.0        - rd.y*rd.y;
-    float k1 = dot(ro,rd) - ro.y*rd.y;
-    float k0 = dot(ro,ro) - ro.y*ro.y - ra*ra;
-    
-    float h = k1*k1 - k2*k0;
-    if( h<0.0 ) return vec4(-1.0);
-    h = sqrt(h);
-    float t = (-k1-h)/k2;
+	const float	radius = ((t_sphere *)prim->spec)->radius;
+	const float	b = v3dot(ray->origin, ray->dir);
+	const float	c = v3dot(ray->origin, ray->origin) - radius * radius;
+	float		h;
+	float		dist;
 
-    // body
-    float y = ro.y + t*rd.y;
-    if( y>-he && y<he ) return vec4( t, (ro + t*rd - vec3(0.0,y,0.0))/ra );
-    
-    // caps
-    t = ( ((y<0.0)?-he:he) - ro.y)/rd.y;
-    if( abs(k1+k2*t)<h ) return vec4( t, vec3(0.0,sign(y),0.0) );
+	h = b * b - c;
+	if (h < 0.f)
+		return (false);
+	else
+	{
+		h = sqrt(h);
+		dist = - b - h;
+		if (dist >= bound.x && dist <= bound.y)
+		{
+			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
+			hit->dist = dist;
+			return (true);
+		}
+		dist = -b + h;
+		if (dist >= bound.x && dist <= bound.y)
+		{ 
+			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
+			hit->dist = dist;
+			return (true);
+		} else
+			return (false);
+	}
+}
 
-    return vec4(-1.0);
+bool	i_cylinder(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
+{
+	t_cylinder const	*spec = (t_cylinder *)prim->spec;
+	const float			k2 = 1.0 - ray->dir.y*ray->dir.y;
+	const float			k1 = v3dot(ray->origin, ray->dir) \
+						 - ray->origin.y*ray->dir.y;
+	const float			k0 = v3dot(ray->origin, ray->origin) \
+						 - ray->origin.y*ray->origin.y - spec->radius*spec->radius;
+
+	float	h = k1 * k1 - k2 * k0;
+	if (h < 0.0)
+		return (false);
+	h = sqrt(h);
+	float	t = (-k1 - h) / k2;
+	if (t < bound.x || t > bound.y)
+		return (false);
+
+	// body
+	float	y = ray->origin.y + t * ray->dir.y;
+	if (y > -spec->height && y < spec->height )
+	{
+		hit->dist = t;
+		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), vec3(0.0,y,0.0)), 1.0f / spec->radius);
+		return (true);
+	}
+
+	// caps
+	t = ( ((y < 0.0) ? -spec->height : spec->height) - ray->origin.y) / ray->dir.y;
+	if (t > bound.x && t < bound.y && fabs(k1 + k2 * t) < h)
+	{
+		hit->dist = t;
+		hit->normal = vec3(0.0, fsign(y),0.0);
+		return (true);
+	}
+	return (false);
 }
 
 void	prim_init(t_primitive *prim)
@@ -90,8 +107,10 @@ void	prim_init(t_primitive *prim)
 
 void	prim_destroy(void *vprim)
 {
-	const t_primitive	*prim = (t_primitive *)vrim;
+	t_primitive	*prim;
 
+	prim = (t_primitive *)vprim;
 	if (prim->spec)
 		free(prim->spec);
+	free(prim);
 }

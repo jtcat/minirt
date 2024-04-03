@@ -6,12 +6,13 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 01:03:26 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:40:10 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "argb.h"
 #include "parser.h"
+#include "matrix.h"
+#include "argb.h"
 #include "rt.h"
 #include "utils.h"
 #include <stdbool.h>
@@ -20,139 +21,145 @@
 #include "vec3.h"
 
 // Top level token parsers like parse_float should
-// print their own errors and return false
+// print their own errors and return NULL
 //
-bool	parse_ambient(t_rtctx *ctx, char **tokens)
+char	**parse_ambient(t_rtctx *ctx, char **tokens)
 {
 	float	f;
 	t_argb	color;
 
-	if (ctx->ambient >= 0.0)
+	if (ctx->ambient.argb >= 0)
 	{
 		print_err("Ambient light was redefined");
-		return (false);
+		return (NULL);
 	}
 	if (!parse_float(*(tokens++), &f))
-		return (false);
+		return (NULL);
 	if (f < 0.0f || f > 1.0f)
 	{
 		print_err("Ambient ratio out of range (0.0 - 1.0)");
-		return (false);
+		return (NULL);
 	}
 	if (!parse_rgb(*(tokens++), &color))
-		return (false);
-	ctx->ambient = color * f;
-	return (true);
+		return (NULL);
+	ctx->ambient = argbScalef(color, f);
+	return (tokens);
 }
 
-bool	parse_camera(t_rtctx *ctx, char **tokens)
+char	**parse_camera(t_rtctx *ctx, char **tokens)
 {
 	if (ctx->cam.hfov != -1)
 	{
 		print_err("Camera was redefined");
-		return (false);
+		return (NULL);
 	}
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookfrom))
-		return (false);
+		return (NULL);
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir) || !is_normal(&ctx->cam.lookdir))
-		return (false);
+		return (NULL);
 	if (!parse_int(*(tokens++), &ctx->cam.hfov))
-		return (false);
+		return (NULL);
 	if (ctx->cam.hfov < 0 || ctx->cam.hfov > 180)
 	{
 		print_err("Camera FOV out of range (0 - 180)");
-		return (false);
+		return (NULL);
 	}
-	return (true);
+	return (tokens);
 }
 
-bool parse_light(t_rtctx *ctx, char **tokens)
+char	**parse_light(t_rtctx *ctx, char **tokens)
 {
+	t_vec3	tmpv;
+
 	if (ctx->light.f > 0)
 	{
 		print_err("Light was redefined");
-		return (false);
+		return (NULL);
 	}
-	if (!parse_vec3(*(tokens++), &ctx->light.pos))
-		return (false);
+	if (!parse_vec3(*(tokens++), &tmpv))
+		return (NULL);
+	transf_from_v3(&tmpv, &ctx->light.transl);
 	if (!parse_float(*(tokens++), &ctx->light.f))
-		return (false);
+		return (NULL);
 	if (ctx->light.f < 0.0f || ctx->light.f > 1.0f)
 	{
 		print_err("Light intensity out of range (0.0 - 1.0)");
-		return (false);
+		return (NULL);
 	}
-	return (true);
+	return (tokens);
 }
 
-bool parse_sphere(t_rtctx *ctx, char **tokens)
+char	**parse_sphere(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*sphere;
 	float		radius;
+	t_vec3		tmpv;
 	
 	sphere = malloc(sizeof(t_primitive));
 	sphere->spec = malloc(sizeof(t_sphere));
 	if (!sphere || !sphere->spec)
-		return (false);
-	if (!parse_vec3(*(tokens++), &((t_sphere *)sphere->spec)->pos))
-		return (false);
+		return (NULL);
+	if (!parse_vec3(*(tokens++), &tmpv))
+		return (NULL);
+	transf_from_v3(&tmpv, &sphere->transl);
 	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
-		return (false);
+		return (NULL);
 	((t_sphere *)sphere->spec)->radius = radius / 2.0f;
 	if (!parse_rgb(*(tokens++), &sphere->color))
-		return (false);
-	sphere->intersect = iSphere;
+		return (NULL);
+	mat_zero(&sphere->rot);
+	sphere->intersect = i_sphere;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(sphere));
-	return (true);
+	return (tokens);
 }
 
-bool parse_plane(t_rtctx *ctx, char **tokens)
+char	**parse_plane(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*plane;
-	t_vec3		point;
-	t_vec3		normal;
+	t_vec3		tmpv;
 	
 	plane = malloc(sizeof(t_primitive));
-	plane->spec = malloc(sizeof(t_plane));
-	if (!plane || !plane->spec)
-		return (false);
-	if (!parse_vec3(*(tokens++), &point))
-		return (false);
-	if (!parse_vec3(*(tokens++), &normal) || !is_normal(&normal))
-		return (false);
+	plane->spec = NULL;
+	if (!plane)
+		return (NULL);
+	if (!parse_vec3(*(tokens++), &tmpv))
+		return (NULL);
+	transf_from_v3(&tmpv, &plane->transl);
+	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
+		return (NULL);
+	rot_from_up(&tmpv, &plane->rot);
 	if (!parse_rgb(*(tokens++), &plane->color))
-		return (false);
-	//((t_plane *)plane->spec)->height = point;
-	((t_plane *)plane->spec)->normal = normal;
-	//plane->intersect = iPlane;
+		return (NULL);
+	plane->intersect = i_plane;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(plane));
-	return (true);
+	return (tokens);
 }
 
-bool parse_cylinder(t_rtctx *ctx, char **tokens)
+char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*cyl;
-	t_vec3		normal;
+	t_vec3		tmpv;
 	float		tmp;
 	
 	cyl = malloc(sizeof(t_primitive));
 	cyl->spec = malloc(sizeof(t_cylinder));
 	if (!cyl || !cyl->spec)
-		return (false);
-	if (!parse_vec3(*(tokens++), &((t_cylinder *)cyl->spec)->pos))
-		return (false);
-	if (!parse_vec3(*(tokens++), &normal) || !is_normal(&normal))
-		return (false);
-	//((t_cylinder *)cyl->spec)->normal = normal;
+		return (NULL);
+	if (!parse_vec3(*(tokens++), &tmpv))
+		return (NULL);
+	transf_from_v3(&tmpv, &cyl->transl);
+	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
+		return (NULL);
+	rot_from_up(&tmpv, &cyl->rot);
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
-		return (false);
+		return (NULL);
 	((t_cylinder *)cyl->spec)->radius = tmp;
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
-		return (false);
+		return (NULL);
 	((t_cylinder *)cyl->spec)->height = tmp;
 	if (!parse_rgb(*(tokens++), &cyl->color))
-		return (false);
-	//cyl->intersect = iCylinder;
+		return (NULL);
+	cyl->intersect = i_cylinder;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(cyl));
-	return (true);
+	return (tokens);
 }

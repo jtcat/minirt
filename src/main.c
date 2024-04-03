@@ -6,13 +6,14 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 21:51:08 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:22:52 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+#include "camera.h"
 #include "rt.h"
 #include "parser.h"
 
@@ -33,16 +34,16 @@ void	create_window(t_rtctx *ctx)
 			&ctx->img.color_depth, &ctx->img.line_len, &ctx->img.endian);
 }
 
-int	render_main(void)
+int	render_main(t_rtctx *ctx)
 {
-	t_rtctx	ctx;
-
-	ctx.mlx_ptr = mlx_init();
-	create_window(&ctx);
-	mlx_key_hook(ctx.window_ptr, &key_handler, ctx.mlx_ptr);
-	mlx_hook(ctx.window_ptr, DESTROY_NOTIFY, 0, &mlx_loop_end, ctx.mlx_ptr);
-	mlx_loop(ctx.mlx_ptr);
-	rtctx_destroy(&ctx);
+	cam_init(&ctx->cam);
+	ctx->mlx_ptr = mlx_init();
+	create_window(ctx);
+	mlx_key_hook(ctx->window_ptr, &key_handler, ctx->mlx_ptr);
+	mlx_hook(ctx->window_ptr, DESTROY_NOTIFY, 0, &mlx_loop_end, ctx->mlx_ptr);
+	render(ctx);
+	mlx_loop(ctx->mlx_ptr);
+	cleanup_mlx(ctx);
 	return (0);
 }
 
@@ -75,7 +76,7 @@ int	main(int argc, char **argv)
 		rtctx_destroy(&ctx);
 		return (1);
 	}
+	//render_main(&ctx);
 	rtctx_destroy(&ctx);
-	//rt_main(&ctx);
 	return (0);
 }

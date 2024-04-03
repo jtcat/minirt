@@ -2,11 +2,12 @@ CC:= cc
 
 LIBFLAGS:= -lm -lXext -lX11
 
-CFLAGS:= -Wall -Wextra -Werror $(LIBFLAGS)
+CFLAGS:= -g -Wall -Wextra -Werror $(LIBFLAGS)
 
 NAME:= miniRT
 
-SRC:= $(addprefix src/, main.c vec3.c vec3_2.c parser.c parser2.c parser3.c rt.c rt2.c utils.c argb.c) \
+SRC:= $(addprefix src/, main.c vec3.c vec3_2.c parser.c parser2.c camera.c \
+						parser3.c rt.c rt2.c utils.c argb.c matrix.c primitives.c) \
 	$(addprefix gnl/, gnl.c gnl_utils.c)
 
 OBJ:= $(SRC:.c=.o)

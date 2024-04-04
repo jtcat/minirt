@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:15:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/03 01:06:29 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 02:03:20 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 t_vec3	v3scalef(const t_vec3 v, const double f)
 {
-	return ((t_vec3){v.x * f, v.y + f, v.z + f});
+	return ((t_vec3){v.x * f, v.y * f, v.z * f});
 }
 
 t_vec3	v3scalei(const t_vec3 v, const int i)
 {
-	return ((t_vec3){v.x * i, v.y + i, v.z + i});
+	return ((t_vec3){v.x * i, v.y * i, v.z * i});
 }
 
 t_vec3	v3sum(const t_vec3 a, const t_vec3 b)

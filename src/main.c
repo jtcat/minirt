@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:22:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 00:43:48 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int argc, char **argv)
 		rtctx_destroy(&ctx);
 		return (1);
 	}
-	//render_main(&ctx);
+	render_main(&ctx);
 	rtctx_destroy(&ctx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:40:10 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:18:44 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ char	**parse_ambient(t_rtctx *ctx, char **tokens)
 
 char	**parse_camera(t_rtctx *ctx, char **tokens)
 {
-	if (ctx->cam.hfov != -1)
+	int	fov;
+
+	if (ctx->cam.hfov > -1.0)
 	{
 		print_err("Camera was redefined");
 		return (NULL);
@@ -57,13 +59,14 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir) || !is_normal(&ctx->cam.lookdir))
 		return (NULL);
-	if (!parse_int(*(tokens++), &ctx->cam.hfov))
+	if (!parse_int(*(tokens++), &fov))
 		return (NULL);
-	if (ctx->cam.hfov < 0 || ctx->cam.hfov > 180)
+	if (fov < 0 || fov > 180)
 	{
 		print_err("Camera FOV out of range (0 - 180)");
 		return (NULL);
 	}
+	ctx->cam.hfov = (float)fov / 360.0f * M_2_PI;
 	return (tokens);
 }
 

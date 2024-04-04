@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 23:47:01 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 01:16:03 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	write_pix(t_mlx_img *img, int x, int y, t_argb color)
 {
 	char	*dst;
 
-	dst = img->img_addr + y * img->line_len + x * (img->color_depth / 8);
-	*(unsigned int *)dst = (unsigned int)color.argb;
+	dst = img->img_addr + x * img->line_len + y * (img->color_depth / 8);
+	*(unsigned int *)dst = color.argb;
 }
 
 t_argb	argbSum(t_argb a, t_argb b)

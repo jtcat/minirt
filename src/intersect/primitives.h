@@ -6,19 +6,19 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 01:31:19 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:01:09 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRIMITIVES_H
 # define PRIMITIVES_H
 
-# include "matrix.h"
-# include "vec3.h"
-# include "vec2.h"
-# include "ray.h"
-# include "argb.h"
-# include "utils.h"
+# include "../datatypes/matrix.h"
+# include "../datatypes/vec3.h"
+# include "../datatypes/vec2.h"
+# include "../datatypes/argb.h"
+# include "../utils.h"
+# include "../ray.h"
 # include <stdlib.h>
 # include <stdbool.h>
 

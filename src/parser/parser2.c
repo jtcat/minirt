@@ -6,19 +6,19 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 04:58:58 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:18:06 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "matrix.h"
-#include "argb.h"
-#include "rt.h"
-#include "utils.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include "primitives.h"
-#include "vec3.h"
+#include "../utils.h"
+#include "parser.h"
+#include "../datatypes/matrix.h"
+#include "../datatypes/argb.h"
+#include "../datatypes/vec3.h"
+#include "../render/rt.h"
+#include "../intersect/primitives.h"
 
 // Top level token parsers like parse_float should
 // print their own errors and return NULL

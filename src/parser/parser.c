@@ -6,13 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:45:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:16:03 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:15:49 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../utils.h"
 #include "parser.h"
-#include "utils.h"
-#include <stdbool.h>
 
 bool	proc_line(t_rtctx *ctx, char **tokens)
 {

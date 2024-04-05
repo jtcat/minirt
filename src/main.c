@@ -6,16 +6,15 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:43:48 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:01:30 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
-#include "../libft/libft.h"
-#include "camera.h"
-#include "rt.h"
-#include "parser.h"
+#include <libft.h>
+#include "render/rt.h"
+#include "parser/parser.h"
 
 int	key_handler(int keycode, void *params)
 {

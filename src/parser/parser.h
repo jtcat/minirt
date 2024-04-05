@@ -6,18 +6,18 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:53:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 21:19:48 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:18:33 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "rt.h"
-#include "utils.h"
-#include "../gnl/gnl.h"
-#include "../libft/libft.h"
+#include "../utils.h"
 #include <stdbool.h>
+#include <libft.h>
+#include "../render/rt.h"
+#include "../gnl/gnl.h"
 
 bool	parse_float(const char *str, float* f);
 bool	parse_int(const char *str, int* f);

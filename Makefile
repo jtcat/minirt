@@ -1,16 +1,29 @@
 CC:= cc
 
-LIBFLAGS:= -lm -lXext -lX11
+LIBFLAGS:= -lm -lXext -lX11 -Ilibft
 
 CFLAGS:= -g -Wall -Wextra -Werror $(LIBFLAGS)
 
 NAME:= miniRT
 
-SRC:= $(addprefix src/, main.c vec3.c vec3_2.c parser.c parser2.c camera.c \
-						parser3.c rt.c rt2.c utils.c argb.c matrix.c primitives.c) \
-	$(addprefix gnl/, gnl.c gnl_utils.c)
+SRC_DIR:= src/
 
-OBJ:= $(SRC:.c=.o)
+SRC:= $(addprefix $(SRC_DIR), \
+			main.c utils.c \
+		$(addprefix datatypes/, \
+			camera.c vec3.c vec3_2.c matrix.c argb.c) \
+		$(addprefix gnl/, \
+				gnl.c gnl_utils.c) \
+		$(addprefix parser/, \
+				parser.c parser2.c parser3.c) \
+		$(addprefix intersect/, \
+				primitives.c) \
+		$(addprefix render/, \
+				rt.c rt2.c))
+
+OBJ_DIR:= obj/
+
+OBJ:= $(patsubst $(SRC_DIR)%,$(OBJ_DIR)%,$(SRC:.c=.o))
 
 MLX_DIR:= minilibx-linux
 
@@ -22,7 +35,8 @@ LFT:= $(LFT_DIR)/libft.a
 
 all: $(NAME)
 
-%.o: %.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	mkdir -p $(OBJ_DIR)$*
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(MLX) $(LFT) $(OBJ)
@@ -39,6 +53,7 @@ $(MLX):
 
 clean:
 	$(RM) $(OBJ)
+	$(RM) -r $(OBJ_DIR)
 	$(MAKE) -C $(MLX_DIR) clean
 	$(MAKE) -C $(LFT_DIR) clean
 

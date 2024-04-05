@@ -6,15 +6,15 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:26:43 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/03 22:34:58 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:00:33 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "../libft/libft.h"
-# include "vec3.h"
+# include <libft.h>
+# include "../datatypes/vec3.h"
 
 typedef struct s_transf
 {

@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 00:58:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:18:55 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../datatypes/vec3.h"
 #include "primitives.h"
-#include "vec3.h"
 
 typedef bool	(*t_fnIntersect)(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit);
 

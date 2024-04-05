@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 04:50:28 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:18:24 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "argb.h"
+#include "../datatypes/argb.h"
 
 // Sets str head via ref
 bool	parse_numb(const char** strref, int* i)

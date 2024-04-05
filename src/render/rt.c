@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 04:53:17 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:19:16 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../datatypes/argb.h"
 #include "rt.h"
-#include "argb.h"
 
 # define SPEC_EXP 6.f
 

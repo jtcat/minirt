@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 01:44:06 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:04:42 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "argb.h"
-#include "utils.h"
+#include "../utils.h"
 
 static inline int	clamp_uint8(int c)
 {

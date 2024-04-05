@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:35:10 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/04 23:51:37 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 18:01:49 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	cam_init(t_camera *cam)
 	cam->v = v3cross(cam->w, cam->u);
 
 	viewport_u = v3scalef(cam->u, cam->viewport_width);
-	viewport_v = v3scalef(cam->v, -cam->viewport_width);
+	viewport_v = v3scalef(cam->v, -cam->viewport_height);
 
 	cam->pix_du = v3scalef(viewport_u, 1.0 / cam->image_width);
 	cam->pix_dv = v3scalef(viewport_v, 1.0 / cam->image_height);

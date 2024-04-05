@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:46:08 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 13:13:40 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	i_plane(t_primitive *prim, t_ray *ray, t_vec2 distBound, t_hit *hit)
 		return (false);
 	else
 	{
-		hit->normal = up;
+		hit->normal = v3scalef(up, -fsign(a));
 		hit->dist = d;
 		return (true);
 	}

@@ -6,22 +6,22 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:19:16 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 17:07:23 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../datatypes/argb.h"
 #include "rt.h"
 
-# define SPEC_EXP 6.f
+# define SPEC_EXP 20.f
 
-void	hit_transform(t_hit *hit)
+void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
 {
 	float	res[4][4];
 
-	mat_mult(hit->prim->transl.mat, hit->prim->rot.mat, res);
-	//hit->pos = mat_vec3_mult(res, &hit->pos);
-	hit->normal = mat_vec3_mult(hit->prim->rot.mat, &hit->normal);
+	mat_mult(prim->transl.mat, prim->rot.mat, res);
+	*hit = mat_vec3_mult(res, hit);
+	*normal = mat_vec3_mult(prim->rot.mat, normal);
 }
 
 void	ray_prim_transform(t_ray *ray, t_primitive *prim)
@@ -45,7 +45,7 @@ bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 	bound = (t_vec2){.0001f, INFINITY};
 	while (iter)
 	{
-		//ray_prim_transform(ray, (t_primitive *)iter->content);
+		ray_prim_transform(ray, (t_primitive *)iter->content);
 		if (((t_primitive *)iter->content)->intersect(iter->content, ray, bound, &tmphit))
 		{
 			hit_any = true;
@@ -77,21 +77,18 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 	t_color3	ambient;
 	t_color3	specular;
 
-	(void)ambient;
-	(void)diffuse;
-	(void)specular;
-	//hit_transform(hit);
 	ray.origin = v3sum(hit->ray->origin, v3scalef(v3unit(hit->ray->dir), hit->dist));
+	hit_transform(hit->prim, &ray.origin, &hit->normal);
 	ray.dir = v3unit(v3sub(mat_getpos(&ctx->light.transl), ray.origin));
 	hit->normal = v3unit(hit->normal);
-	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, ctx->ambient_f), ctx->ambient_f);
+	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, .5f), ctx->ambient_f);
 	if (scene_intersect(ctx, &ray, NULL))
-		return (c3_to_argb(c3scalef(ambient, ctx->ambient_f)));
-	diffuse_f = v3dot(ray.dir, hit->normal);
+		return (c3_to_argb(ambient));
+	diffuse_f = v3dot(ray.dir, hit->normal) * ctx->light.f;
 	diffuse = c3scalef(hit->prim->color, fmax(diffuse_f, 0.f));
-	specular = c3scalef((t_color3){255, 255, 255}, (float)(diffuse_f > 0.f) * fmax(pow(v3dot(perf_ray(&ray.dir, &hit->normal),
+	specular = c3scalef((t_color3){255, 255, 255}, (diffuse_f > 0) * fmax(pow(v3dot(perf_ray(&ray.dir, &hit->normal),
 			v3unit(v3sub(hit->ray->origin, ray.origin))), SPEC_EXP), 0.f));
-	return (c3_to_argb(c3sum(specular, c3blend(&ambient,&diffuse, ctx->ambient_f))));
+	return (c3_to_argb(c3sum(c3sum(ambient,diffuse), specular)));
 }
 
 t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)

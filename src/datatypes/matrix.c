@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 04:17:00 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 17:59:05 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,8 @@
 
 void	mat_zero(t_transf *t)
 {
-    t->mat[0][0] = 0;
-    t->mat[1][0] = 0;
-    t->mat[2][0] = 0;
-    t->mat[3][0] = 0;
-    t->mat[0][1] = 0;
-    t->mat[1][1] = 0;
-    t->mat[2][1] = 0;
-    t->mat[3][1] = 0;
-    t->mat[0][2] = 0;
-    t->mat[1][2] = 0;
-    t->mat[2][2] = 0;
-    t->mat[3][2] = 0;
-    t->mat[0][3] = 0;
-    t->mat[1][3] = 0;
-    t->mat[2][3] = 0;
-    t->mat[3][3] = 0;
+	ft_bzero(t->mat, sizeof(t->mat));
+	ft_bzero(t->mat, sizeof(t->inv));
 }
 
 static inline void	mat_4x4_transpose(float m[4][4], float dst[4][4])
@@ -125,36 +111,26 @@ t_vec3	mat_vec3_mult(float m[4][4], t_vec3 *vec)
 	return ((t_vec3){prod.mat[0][3], prod.mat[1][3], prod.mat[2][3]});
 }
 
-void	rot_from_up(t_vec3 *direction, t_transf *t)
+void	rot_from_up(t_vec3 *up, t_transf *t)
 {
-	const t_vec3 up = {0.f, 1.f, 0.f};
-	const t_vec3 xaxis = v3unit(v3cross(up, *direction));
-	const t_vec3 yaxis = v3unit(v3cross(*direction, xaxis));
+	const t_vec3 ff = {0.f, 0.f, -1.f};
+
+	const t_vec3 xaxis = v3unit(v3cross(*up, ff));
+	const t_vec3 zaxis = v3unit(v3cross(*up, xaxis));
 
 	mat_zero(t);
 	t->mat[0][0] = xaxis.x;
-	t->mat[1][0] = yaxis.x;
-	t->mat[2][0] = direction->x;
+	t->mat[1][0] = up->x;
+	t->mat[2][0] = zaxis.x;
 
 	t->mat[0][1] = xaxis.y;
-	t->mat[1][1] = yaxis.y;
-	t->mat[2][1] = direction->y;
+	t->mat[1][1] = up->y;
+	t->mat[2][1] = zaxis.y;
 
 	t->mat[0][2] = xaxis.z;
-	t->mat[1][2] = yaxis.z;
-	t->mat[2][2] = direction->z;
+	t->mat[1][2] = up->z;
+	t->mat[2][2] = zaxis.z;
 
-//	column1.x = xaxis.x;
-//	column1.y = yaxis.x;
-//	column1.z = direction.x;
-//
-//	column2.x = xaxis.y;
-//	column2.y = yaxis.y;
-//	column2.z = direction.y;
-//
-//	column3.x = xaxis.z;
-//	column3.y = yaxis.z;
-//	column3.z = direction.z;
 	mat_4x4_transpose(t->mat, t->inv);
 }
 

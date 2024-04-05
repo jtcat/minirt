@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:18:06 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 17:11:23 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ char	**parse_sphere(t_rtctx *ctx, char **tokens)
 	((t_sphere *)sphere->spec)->radius = radius / 2.0f;
 	if (!parse_rgb(*(tokens++), &sphere->color))
 		return (NULL);
-	mat_zero(&sphere->rot);
+	tmpv = (t_vec3){0, 1.0, 0};
+	rot_from_up(&tmpv, &sphere->rot);
 	sphere->intersect = i_sphere;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(sphere));
 	return (tokens);

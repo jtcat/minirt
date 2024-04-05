@@ -5,21 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 16:05:42 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/03 22:31:54 by jcat             ###   ########.fr       */
+/*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
+/*   Updated: 2024/04/05 04:53:17 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "argb.h"
 
-# define SPEC_EXP 1.0f
+# define SPEC_EXP 6.f
 
 void	hit_transform(t_hit *hit)
 {
 	float	res[4][4];
 
 	mat_mult(hit->prim->transl.mat, hit->prim->rot.mat, res);
-	hit->pos = mat_vec3_mult(res, &hit->pos);
+	//hit->pos = mat_vec3_mult(res, &hit->pos);
 	hit->normal = mat_vec3_mult(hit->prim->rot.mat, &hit->normal);
 }
 
@@ -35,27 +36,33 @@ void	ray_prim_transform(t_ray *ray, t_primitive *prim)
 bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 {
 	t_list	*iter;
-	bool	hit_any;
-	t_hit	tmp_hit;
 	t_vec2	bound;
+	t_hit	tmphit;
+	bool	hit_any;
 
 	hit_any = false;
-	bound = (t_vec2){-INFINITY, INFINITY};
 	iter = ctx->prims;
+	bound = (t_vec2){.0001f, INFINITY};
 	while (iter)
 	{
-		// Transform ray before intersection and then after
-		ray_prim_transform(ray, (t_primitive *)iter->content);
-		if (((t_primitive *)iter->content)->intersect(((t_primitive *)iter->content)->spec, ray, bound, &tmp_hit))
+		//ray_prim_transform(ray, (t_primitive *)iter->content);
+		if (((t_primitive *)iter->content)->intersect(iter->content, ray, bound, &tmphit))
 		{
 			hit_any = true;
-			bound.y = tmp_hit.dist;
-			if (final_hit)
-				*final_hit = tmp_hit;
+			tmphit.ray = ray;
+			bound.y = tmphit.dist;
+			tmphit.prim = iter->content;
 		}
 		iter = iter->next;
 	}
+	if (final_hit)
+		*final_hit = tmphit;
 	return (hit_any);
+}
+
+static inline t_color3	c3blend(t_color3 *a, t_color3 *b, float f)
+{
+	return (c3sum(c3scalef(*a, f), c3scalef(*b, 1.f - f)));
 }
 
 // Each dot product term should only be included if
@@ -64,56 +71,58 @@ bool	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *final_hit)
 // diffuse dot product is positive
 t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 {
-	t_ray	ray;
-	t_argb	diffuse;
-	t_argb	specular;
+	t_ray		ray;
+	float		diffuse_f;
+	t_color3	diffuse;
+	t_color3	ambient;
+	t_color3	specular;
 
-	hit_transform(hit);
-	ray.origin = hit->pos;
+	(void)ambient;
+	(void)diffuse;
+	(void)specular;
+	//hit_transform(hit);
+	ray.origin = v3sum(hit->ray->origin, v3scalef(v3unit(hit->ray->dir), hit->dist));
 	ray.dir = v3unit(v3sub(mat_getpos(&ctx->light.transl), ray.origin));
 	hit->normal = v3unit(hit->normal);
+	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, ctx->ambient_f), ctx->ambient_f);
 	if (scene_intersect(ctx, &ray, NULL))
-		return ((t_argb)0);
-	diffuse.argb = v3dot(ray.dir, hit->normal);
-	specular.argb = diffuse.argb > 0;
-	diffuse.argb *= (diffuse.argb > 0 ) * hit->prim->color.argb;
-	specular.argb *= pow(-v3dot(perf_ray(&ray.dir, &hit->normal),
-			v3unit(v3sub(ctx->cam.lookfrom, hit->pos))), SPEC_EXP);
-	specular= argbScalef(specular, (specular.argb > 0) * hit->prim->color.argb);
-	return (argbSum(diffuse, specular));
+		return (c3_to_argb(c3scalef(ambient, ctx->ambient_f)));
+	diffuse_f = v3dot(ray.dir, hit->normal);
+	diffuse = c3scalef(hit->prim->color, fmax(diffuse_f, 0.f));
+	specular = c3scalef((t_color3){255, 255, 255}, (float)(diffuse_f > 0.f) * fmax(pow(v3dot(perf_ray(&ray.dir, &hit->normal),
+			v3unit(v3sub(hit->ray->origin, ray.origin))), SPEC_EXP), 0.f));
+	return (c3_to_argb(c3sum(specular, c3blend(&ambient,&diffuse, ctx->ambient_f))));
 }
 
 t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
 {
 	t_hit	hit;
-	t_argb	color;
 
 	if (scene_intersect(ctx, ray, &hit))
-	{
-		color = argbSum(ctx->ambient, get_light_color(ctx, &hit));
-		return color;
-	}
-	return ((t_argb)0);
+		return (get_light_color(ctx, &hit));
+	return (0);
 }
 
 void	render(t_rtctx *ctx)
 {
-	int		i;
-	int		j;
+	int		y;
+	int		x;
 	t_ray	ray;
+	t_vec3	pix_center;
 
-	i = 0;
-	while (i < ctx->cam.image_height)
+	y = 0;
+	while (y < ctx->cam.image_height)
 	{
-		j = 0;
-		while (j < ctx->cam.image_width)
+		x = 0;
+		while (x < ctx->cam.image_width)
 		{
-			ray.origin = v3sum(v3sum(ctx->cam.pix_ul_p, v3scalei(ctx->cam.pix_du, i)), v3scalei(ctx->cam.pix_dv, j));
-			ray.dir = v3sub(ray.origin, ctx->cam.lookfrom);
-			write_pix(&ctx->img, i, j, get_ray_color(ctx, &ray));
-			mlx_put_image_to_window(ctx->mlx_ptr, ctx->window_ptr, ctx->img.img_ptr, 0, 0);
-			j++;
+			pix_center = v3sum(v3sum(ctx->cam.pix_ul_p, v3scalei(ctx->cam.pix_du, x)), v3scalei(ctx->cam.pix_dv, y));
+			ray.origin = ctx->cam.lookfrom;
+			ray.dir = v3sub(pix_center, ctx->cam.lookfrom);
+			write_pix(&ctx->img, x, y, get_ray_color(ctx, &ray));
+			x++;
 		}
-		i++;
+		y++;
 	}
+	mlx_put_image_to_window(ctx->mlx_ptr, ctx->window_ptr, ctx->img.img_ptr, 0, 0);
 }

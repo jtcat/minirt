@@ -6,23 +6,23 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:44:26 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 02:08:56 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 04:49:26 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec3.h"
 
-double	length_squared(t_vec3 *v)
+float	length_squared(t_vec3 *v)
 {
 	return (v->x * v->x + v->y * v->y + v->z * v->z);
 } 
 
-double	length(t_vec3 *v)
+float	length(t_vec3 *v)
 {
 	return (sqrt(length_squared(v)));
 }
 
-double	v3dot(const t_vec3 u, const t_vec3 v) {
+float	v3dot(const t_vec3 u, const t_vec3 v) {
 	return (u.x * v.x
 		+ u.y * v.y
 		+ u.z * v.z);
@@ -35,5 +35,5 @@ t_vec3 v3cross(const t_vec3 u, const t_vec3 v) {
 }
 
 t_vec3 v3unit(t_vec3 v) {
-	return (v3scalef(v, 1.0 / length(&v)));
+	return (v3scalef(v, 1.0f / length(&v)));
 }

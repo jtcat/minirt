@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/03 22:36:18 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 04:17:00 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,25 @@
 
 void	mat_zero(t_transf *t)
 {
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		ft_bzero(t->mat[i++], sizeof(float[4]));
-		ft_bzero(t->inv[i++], sizeof(float[4]));
-	}
+    t->mat[0][0] = 0;
+    t->mat[1][0] = 0;
+    t->mat[2][0] = 0;
+    t->mat[3][0] = 0;
+    t->mat[0][1] = 0;
+    t->mat[1][1] = 0;
+    t->mat[2][1] = 0;
+    t->mat[3][1] = 0;
+    t->mat[0][2] = 0;
+    t->mat[1][2] = 0;
+    t->mat[2][2] = 0;
+    t->mat[3][2] = 0;
+    t->mat[0][3] = 0;
+    t->mat[1][3] = 0;
+    t->mat[2][3] = 0;
+    t->mat[3][3] = 0;
 }
 
-void	mat_4x4_transpose(float m[4][4], float dst[4][4])
+static inline void	mat_4x4_transpose(float m[4][4], float dst[4][4])
 {
     dst[0][0] = m[0][0];
     dst[1][0] = m[0][1];
@@ -44,7 +52,7 @@ void	mat_4x4_transpose(float m[4][4], float dst[4][4])
     dst[3][3] = m[3][3];
 }
 
-void	calc_transl_inv(t_transf *t)
+static inline void	calc_transl_inv(t_transf *t)
 {
 	t->inv[0][3] = -t->inv[0][3];
 	t->inv[1][3] = -t->inv[1][3];
@@ -80,7 +88,7 @@ void	transf_from_v3(t_vec3 *v, t_transf *t)
 	t->inv[3][3] = 1;
 }
 
-float	calc_el(float a[4][4], float b[4][4], int row, int col) {
+static inline float	calc_el(float a[4][4], float b[4][4], int row, int col) {
 	return (a[row][0] * b[0][col]
 		+ a[row][1] * b[1][col]
 		+ a[row][2] * b[2][col]

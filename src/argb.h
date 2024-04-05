@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:59:47 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/02 23:00:50 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 21:23:38 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 #include <stdint.h>
 
-typedef union u_argb
+typedef struct s_color3
 {
-	int		argb;
-	uint8_t	comp[4];
-}	t_argb;
+	int	r;
+	int	g;
+	int	b;
+}	t_color3;
+
+typedef int	t_argb;
 
 typedef struct s_mlx_img {
 	char	*img_addr;
@@ -29,9 +32,10 @@ typedef struct s_mlx_img {
 	int		endian;
 }	t_mlx_img;
 
-t_argb	rgb(int r, int g, int b);
-t_argb 	argbSum(t_argb a, t_argb b);
-t_argb 	argbScalef(t_argb a, float f);
-void	write_pix(t_mlx_img *img, int x, int y, t_argb color);
+t_color3	color3(int r, int g, int b);
+t_argb		c3_to_argb(t_color3 c);
+t_color3 	c3sum(t_color3 a, t_color3 b);
+t_color3	c3scalef(t_color3 a, float f);
+void		write_pix(t_mlx_img *img, int x, int y, t_argb color);
 
 #endif

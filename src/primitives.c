@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:27:08 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 00:58:52 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,26 @@ bool	i_plane(t_primitive *prim, t_ray *ray, t_vec2 distBound, t_hit *hit)
 {
 	const t_vec3	up = (t_vec3){0.0, 1.0, 0.0};
 	const float		a = v3dot(ray->dir, up);
-	const float	 d = -v3dot(ray->origin, up) / a;
+	const float		d = -v3dot(ray->origin, up) / a;
 
 	(void)prim;
-	if (a > 0. || d < distBound.x || d > distBound.y) {
+	if (a > 0. || d < distBound.x || d > distBound.y)
 		return (false);
-	} else {
+	else
+	{
 		hit->normal = up;
 		hit->dist = d;
 		return (true);
 	}
 }
 
+// Sphere intersection
+// IMPORTANT:	ray dir MUST be normalized!
 bool	i_sphere(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 {
-	const float	radius = ((t_sphere *)prim->spec)->radius;
-	const float	b = v3dot(ray->origin, ray->dir);
-	const float	c = v3dot(ray->origin, ray->origin) - radius * radius;
+	const float	r = ((t_sphere *)prim->spec)->radius;
+	const float	b = v3dot(ray->origin, v3unit(ray->dir));
+	const float	c = v3dot(ray->origin, ray->origin) - r * r;
 	float		h;
 	float		dist;
 
@@ -45,7 +48,7 @@ bool	i_sphere(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 	else
 	{
 		h = sqrt(h);
-		dist = - b - h;
+		dist = -b - h;
 		if (dist >= bound.x && dist <= bound.y)
 		{
 			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
@@ -58,8 +61,8 @@ bool	i_sphere(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
 			hit->dist = dist;
 			return (true);
-		} else
-			return (false);
+		}
+		return (false);
 	}
 }
 

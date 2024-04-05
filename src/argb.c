@@ -6,33 +6,44 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 01:16:03 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 01:44:06 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "argb.h"
-#include <math.h>
+#include "utils.h"
+
+static inline int	clamp_uint8(int c)
+{
+	return (clamp(c, 0, 255));
+}
 
 void	write_pix(t_mlx_img *img, int x, int y, t_argb color)
 {
 	char	*dst;
 
-	dst = img->img_addr + x * img->line_len + y * (img->color_depth / 8);
-	*(unsigned int *)dst = color.argb;
+	dst = img->img_addr + y * img->line_len + x * (img->color_depth / 8);
+	*(unsigned int *)dst = color;
 }
 
-t_argb	argbSum(t_argb a, t_argb b)
+t_argb	c3_to_argb(t_color3 c)
 {
-	return ((t_argb){.comp[0] = a.comp[0] + b.comp[0],
-			.comp[1] = a.comp[1] + b.comp[1],
-			.comp[2] = a.comp[2] + b.comp[2]});
+	return ((c.r << (8 * 2)) | (c.g << 8) | c.b);
 }
 
-t_argb	argbScalef(t_argb a, float f)
+t_color3	c3scalef(t_color3 a, float f)
 {
-	f = fmin(f, 0.0f);
-	f = fmax(f, 1.0f);
-	return ((t_argb){.comp[0] = (float)a.comp[0] * f,
-			.comp[1] = (float)a.comp[1] * f,
-			.comp[2] = (float)a.comp[2] * f});
+	t_color3	nc;
+
+	nc.r = clamp_uint8(a.r * f);
+	nc.g = clamp_uint8(a.g * f);
+	nc.b = clamp_uint8(a.b * f);
+	return(nc);
+}
+
+t_color3	c3sum(t_color3 a, t_color3 b)
+{
+	return((t_color3){clamp_uint8(a.r + b.r),
+			clamp_uint8(a.g + b.g),
+			clamp_uint8(a.b + b.b)});
 }

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:23:36 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 02:06:49 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define DESTROY_NOTIFY 17
 
 typedef struct s_light {
+	t_color3	color;
 	t_transf	transl;
 	float		f;
 }	t_light;
@@ -42,7 +43,8 @@ typedef struct s_rtctx {
 	t_list		*prims;
 	int			prim_n;
 	t_light		light;
-	t_argb		ambient;
+	t_color3	ambient;
+	float		ambient_f;
 }	t_rtctx;
 
 void	rtctx_init(t_rtctx *ctx);

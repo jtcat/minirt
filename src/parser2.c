@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 18:18:44 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 04:58:58 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,20 @@
 //
 char	**parse_ambient(t_rtctx *ctx, char **tokens)
 {
-	float	f;
-	t_argb	color;
-
-	if (ctx->ambient.argb >= 0)
+	if (ctx->ambient.r > -1)
 	{
 		print_err("Ambient light was redefined");
 		return (NULL);
 	}
-	if (!parse_float(*(tokens++), &f))
+	if (!parse_float(*(tokens++), &ctx->ambient_f))
 		return (NULL);
-	if (f < 0.0f || f > 1.0f)
+	if (ctx->ambient_f < 0.0f || ctx->ambient_f > 1.0f)
 	{
 		print_err("Ambient ratio out of range (0.0 - 1.0)");
 		return (NULL);
 	}
-	if (!parse_rgb(*(tokens++), &color))
+	if (!parse_rgb(*(tokens++), &ctx->ambient))
 		return (NULL);
-	ctx->ambient = argbScalef(color, f);
 	return (tokens);
 }
 
@@ -59,6 +55,7 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir) || !is_normal(&ctx->cam.lookdir))
 		return (NULL);
+	ctx->cam.lookdir = v3scalef(ctx->cam.lookdir, -1.f);
 	if (!parse_int(*(tokens++), &fov))
 		return (NULL);
 	if (fov < 0 || fov > 180)
@@ -66,7 +63,7 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 		print_err("Camera FOV out of range (0 - 180)");
 		return (NULL);
 	}
-	ctx->cam.hfov = (float)fov / 360.0f * M_2_PI;
+	ctx->cam.hfov = (double)fov / 360.0f * 2 * M_PI;
 	return (tokens);
 }
 
@@ -89,6 +86,8 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 		print_err("Light intensity out of range (0.0 - 1.0)");
 		return (NULL);
 	}
+	if (!parse_rgb(*(tokens++), &ctx->light.color))
+		return (NULL);
 	return (tokens);
 }
 

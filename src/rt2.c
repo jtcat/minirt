@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:39:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:23:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/04 21:50:56 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	rtctx_init(t_rtctx *ctx)
 	ctx->light.f = -1;
 	ctx->prims = NULL;
 	ctx->prim_n = 0;
-	ctx->ambient.argb = -1;
+	ctx->ambient.r = -1;
 }
 
 void	cleanup_mlx(t_rtctx *ctx)

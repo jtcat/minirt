@@ -6,15 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/04 00:02:53 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 04:50:28 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "argb.h"
 #include "parser.h"
-#include "utils.h"
-#include "vec3.h"
-#include <stdbool.h>
+#include "argb.h"
 
 // Sets str head via ref
 bool	parse_numb(const char** strref, int* i)
@@ -44,6 +41,8 @@ bool	parse_numb(const char** strref, int* i)
 
 bool	parse_int(const char* str, int* i)
 {
+	if (!str)
+		return (false);
 	return (parse_numb(&str, i));
 }
 
@@ -52,6 +51,8 @@ bool	parse_float(const char *str, float* f)
 	int			dec;
 	float		mag;
 
+	if (!str)
+		return (false);
 	parse_numb(&str, &dec);
 	*f = (float)dec;
 	if (!*str)
@@ -71,29 +72,27 @@ bool	parse_float(const char *str, float* f)
 	return (!*str);
 }
 
-bool	parse_vec3(const char *str, t_vec3 *f)
+bool	parse_vec3(const char *str, t_vec3 *v)
 {
-	char const	**strs = (char const **)ft_split(str, ',');
-	float		tmp;
-	int			i;
-	bool		valid;
+	char const		**strs = (char const **)ft_split(str, ',');
+	float * const	comp[] = {&v->x, &v->y, &v->z};
+	float			tmp;
+	int				i;
+	bool			valid;
 
+	if (!str)
+		return (false);
 	i = 0;
 	valid = true;
 	while (strs[i] && i < 3)
 	{
 		if (!parse_float(strs[i], &tmp))
 		{
-			print_err("Malformed rgb value");
+			print_err("Malformed vec3 value");
 			valid = false;
 			break ;
 		}
-		if (i == 0)
-			f->x = tmp;
-		else if (i == 1)
-			f->y = tmp;
-		else if (i == 2)
-			f->z = tmp;
+		*(comp[i]) = tmp;
 		++i;
 	}
 	if (i < 2 || strs[i] != NULL)
@@ -102,13 +101,16 @@ bool	parse_vec3(const char *str, t_vec3 *f)
 	return (valid);
 }
 
-bool	parse_rgb(const char *str, t_argb *color)
+bool	parse_rgb(const char *str, t_color3 *color)
 {
 	char const	**strs = (char const **)ft_split(str, ',');
+	int * const	comp[] = {&color->r, &color->g, &color->b};
 	int			i;
 	int			tmp;
 	bool		valid;
 
+	if (!str)
+		return (false);
 	i = 0;
 	valid = true;
 	while (strs[i] && i < 3)
@@ -119,7 +121,7 @@ bool	parse_rgb(const char *str, t_argb *color)
 			valid = false;
 			break ;
 		}
-		color->comp[i] = (unsigned char)tmp;
+		*(comp[i]) = tmp;
 		++i;
 	}
 	if (i < 2 || strs[i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 17:59:05 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 20:47:29 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static inline void	mat_4x4_transpose(float m[4][4], float dst[4][4])
 
 static inline void	calc_transl_inv(t_transf *t)
 {
-	t->inv[0][3] = -t->inv[0][3];
-	t->inv[1][3] = -t->inv[1][3];
-	t->inv[2][3] = -t->inv[2][3];
+	t->inv[0][3] = -t->mat[0][3];
+	t->inv[1][3] = -t->mat[1][3];
+	t->inv[2][3] = -t->mat[2][3];
 }
 
 void	transform_transl(t_transf *t, t_vec3 *v)
@@ -114,11 +114,9 @@ t_vec3	mat_vec3_mult(float m[4][4], t_vec3 *vec)
 void	rot_from_up(t_vec3 *up, t_transf *t)
 {
 	const t_vec3 ff = {0.f, 0.f, -1.f};
-
 	const t_vec3 xaxis = v3unit(v3cross(*up, ff));
 	const t_vec3 zaxis = v3unit(v3cross(*up, xaxis));
 
-	mat_zero(t);
 	t->mat[0][0] = xaxis.x;
 	t->mat[1][0] = up->x;
 	t->mat[2][0] = zaxis.x;
@@ -131,6 +129,13 @@ void	rot_from_up(t_vec3 *up, t_transf *t)
 	t->mat[1][2] = up->z;
 	t->mat[2][2] = zaxis.z;
 
+	t->mat[0][3] = 0.f;
+	t->mat[1][3] = 0.f;
+	t->mat[2][3] = 0.f;
+	t->mat[3][0] = 0.f;
+	t->mat[3][1] = 0.f;
+	t->mat[3][2] = 0.f;
+	t->mat[3][3] = 1.f;
 	mat_4x4_transpose(t->mat, t->inv);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:18:55 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:46:08 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,13 @@ bool	i_sphere(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 
 bool	i_cylinder(t_primitive *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 {
+	ray->dir = v3unit(ray->dir);
 	t_cylinder const	*spec = (t_cylinder *)prim->spec;
-	const float			k2 = 1.0 - ray->dir.y*ray->dir.y;
+	const float			k2 = 1.0 - ray->dir.y * ray->dir.y;
 	const float			k1 = v3dot(ray->origin, ray->dir) \
-						 - ray->origin.y*ray->dir.y;
+						 - ray->origin.y * ray->dir.y;
 	const float			k0 = v3dot(ray->origin, ray->origin) \
-						 - ray->origin.y*ray->origin.y - spec->radius*spec->radius;
+						 - ray->origin.y * ray->origin.y - spec->radius * spec->radius;
 
 	float	h = k1 * k1 - k2 * k0;
 	if (h < 0.0)

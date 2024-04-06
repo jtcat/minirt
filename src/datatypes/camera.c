@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:35:10 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/05 18:01:49 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/06 17:08:40 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	cam_init(t_camera *cam)
 
 	cam->focal_length = 1.0f;
 	cam->aspect_ratio = 16.0 / 9.0;
-	cam->image_width = 900;
+	cam->image_width = 1300;
 	cam->image_height = cam->image_width / cam->aspect_ratio;
 	cam->viewport_width = 2.0f * tan(cam->hfov / 2.0f) * cam->focal_length;
 	cam->viewport_height = cam->viewport_width / cam->aspect_ratio;
 
-	cam->w = v3unit(cam->lookdir);
+	cam->w = v3unit(v3scalef(cam->lookdir, -1.0f));
 	cam->u = v3unit(v3cross(v3_up, cam->w));
 	cam->v = v3cross(cam->w, cam->u);
 

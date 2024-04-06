@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 17:11:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/06 17:24:16 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir) || !is_normal(&ctx->cam.lookdir))
 		return (NULL);
-	ctx->cam.lookdir = v3scalef(ctx->cam.lookdir, -1.f);
 	if (!parse_int(*(tokens++), &fov))
 		return (NULL);
 	if (fov < 0 || fov > 180)

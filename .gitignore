@@ -7,3 +7,4 @@ scenes/
 miniRT
 obj/
 compile_commands.json
+.cache

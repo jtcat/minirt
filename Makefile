@@ -2,6 +2,7 @@ CC:= cc
 
 LIBFLAGS:= -lm -lXext -lX11 -Ilibft
 
+#CFLAGS:= -O3 -Wall -Wextra -Werror $(LIBFLAGS)
 CFLAGS:= -g -Wall -Wextra -Werror $(LIBFLAGS)
 
 NAME:= miniRT

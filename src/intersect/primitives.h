@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 18:09:55 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/07 01:10:27 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ typedef bool	(*t_fn_intersect)(void *prim, t_ray *ray, t_vec2 bound, t_hit *hit)
 
 typedef struct s_primitive {
 	enum e_primtype	type;
-	t_transf		transl;
-	t_transf		rot;
+	t_transf		transf;
 	t_color3		color;
 	void			*spec;
 	t_fn_intersect	intersect;

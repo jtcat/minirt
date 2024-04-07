@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 17:24:16 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/07 01:26:44 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ char	**parse_sphere(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
-	transf_from_v3(&tmpv, &sphere->transl);
+	transf_from_v3(&tmpv, &sphere->transf);
 	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
 		return (NULL);
 	((t_sphere *)sphere->spec)->radius = radius / 2.0f;
 	if (!parse_rgb(*(tokens++), &sphere->color))
 		return (NULL);
 	tmpv = (t_vec3){0, 1.0, 0};
-	rot_from_up(&tmpv, &sphere->rot);
+	rot_from_up(&tmpv, &sphere->transf);
 	sphere->intersect = i_sphere;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(sphere));
 	return (tokens);
@@ -126,10 +126,10 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
-	transf_from_v3(&tmpv, &plane->transl);
+	transf_from_v3(&tmpv, &plane->transf);
 	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
 		return (NULL);
-	rot_from_up(&tmpv, &plane->rot);
+	rot_from_up(&tmpv, &plane->transf);
 	if (!parse_rgb(*(tokens++), &plane->color))
 		return (NULL);
 	plane->intersect = i_plane;
@@ -149,13 +149,13 @@ char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
-	transf_from_v3(&tmpv, &cyl->transl);
+	transf_from_v3(&tmpv, &cyl->transf);
 	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
 		return (NULL);
-	rot_from_up(&tmpv, &cyl->rot);
+	rot_from_up(&tmpv, &cyl->transf);
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (NULL);
-	((t_cylinder *)cyl->spec)->radius = tmp;
+	((t_cylinder *)cyl->spec)->radius = tmp / 2.0;
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (NULL);
 	((t_cylinder *)cyl->spec)->height = tmp;

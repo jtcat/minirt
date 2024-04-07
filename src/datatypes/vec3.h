@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 13:19:19 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/05 04:49:50 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/06 23:46:24 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_vec3 {
 	float	z;
 }	t_vec3;
 
-float	length(t_vec3 *v);
+float	v3length(t_vec3 *v);
 bool	is_normal(t_vec3* v);
 
 t_vec3	vec3(const float x, const float y, const float z);

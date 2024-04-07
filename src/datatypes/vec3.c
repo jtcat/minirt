@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:44:26 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 17:21:28 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/06 23:46:48 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ float	length_squared(t_vec3 *v)
 	return (v->x * v->x + v->y * v->y + v->z * v->z);
 } 
 
-float	length(t_vec3 *v)
+float	v3length(t_vec3 *v)
 {
 	return (sqrt(length_squared(v)));
 }
@@ -35,7 +35,7 @@ t_vec3 v3cross(const t_vec3 u, const t_vec3 v) {
 }
 
 t_vec3 v3unit(t_vec3 v) {
-	const float	len = length(&v);
+	const float	len = v3length(&v);
 
 	return (v3scalef(v, 1.0f / (len + (len == 0.f))));
 }

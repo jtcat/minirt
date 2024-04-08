@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:18:24 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 10:47:17 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../datatypes/argb.h"
 
 // Sets str head via ref
-bool	parse_numb(const char** strref, int* i)
+bool	parse_numb(const char** strref, int* i, int *outsign)
 {
 	const char 	*str;
 	int			numb;
@@ -35,6 +35,8 @@ bool	parse_numb(const char** strref, int* i)
 		str++;
 	}
 	*i = sign * numb;
+	if (outsign)
+		*outsign = sign;
 	*strref = str;
 	return(!*str);
 }
@@ -43,17 +45,18 @@ bool	parse_int(const char* str, int* i)
 {
 	if (!str)
 		return (false);
-	return (parse_numb(&str, i));
+	return (parse_numb(&str, i, NULL));
 }
 
 bool	parse_float(const char *str, float* f)
 {
 	int			dec;
+	int			sign;
 	float		mag;
 
 	if (!str)
 		return (false);
-	parse_numb(&str, &dec);
+	parse_numb(&str, &dec, &sign);
 	*f = (float)dec;
 	if (!*str)
 		return (true);
@@ -65,7 +68,7 @@ bool	parse_float(const char *str, float* f)
 	mag = 0.1f;
 	while (ft_isdigit(*str))
 	{
-		*f += (float)(*str - '0') * mag;
+		*f += (float)(*str - '0') * mag * sign;
 		mag /= 10.0f;
 		++str;
 	}

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/07 01:30:12 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 10:48:23 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,16 @@
 # define SPEC_EXP 20.f
 # define MIN_HIT_DIST .0001f
 
-// Please precalculate full transforms (rot * transl or vice versa)
-// They only need to be recalculated when each component is changed
-// i.e when the user moves or rotates the primitive
 static inline void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
 {
-	*hit = mat_vec3_mult(prim->transf.tr_prod, hit);
-	*normal = mat_vec3_mult(prim->transf.rot.mat, normal);
+	*hit = transf_point(prim->transf.tr_prod, hit);
+	*normal = transf_vec(prim->transf.rot.mat, normal);
 }
 
-// Please precalculate full transforms (rot * transl or vice versa)
 static inline void	ray_transform(t_ray *og_ray, t_ray *new_ray, t_primitive *prim)
 {
-	new_ray->origin = mat_vec3_mult(prim->transf.rot_inv_prod, &og_ray->origin);
-	new_ray->dir = mat_vec3_mult(prim->transf.rot.inv, &og_ray->dir);
+	new_ray->origin = transf_point(prim->transf.rot_inv_prod, &og_ray->origin);
+	new_ray->dir = transf_vec(prim->transf.rot.inv, &og_ray->dir);
 }
 
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit)
@@ -81,7 +77,7 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 	hit_transform(hit->prim, &ray.origin, &hit->normal);
 	surf_to_light = v3sub(mat_getpos(&ctx->light.transl), ray.origin);
 	ray.dir = v3unit(surf_to_light);
-	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, ctx->ambient_f), ctx->ambient_f);
+	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, .5f), ctx->ambient_f);
 	if (scene_intersect(ctx, &ray, &pass) < v3length(&surf_to_light))
 		return (c3_to_argb(ambient));
 	diffuse_f = v3dot(ray.dir, hit->normal) * ctx->light.f;

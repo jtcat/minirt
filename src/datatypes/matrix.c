@@ -6,11 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/07 01:46:53 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 10:58:42 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
+#include "vec3.h"
 
 void	mat_zero(t_mat *t)
 {
@@ -105,7 +106,7 @@ void	mat_mult(float a[4][4], float b[4][4], float d[4][4])
 	d[3][3] = calc_el(a, b, 3, 3);
 }
 
-t_vec3	mat_vec3_mult(float m[4][4], t_vec3 *v)
+t_vec3	transf_point(float m[4][4], t_vec3 *v)
 {
 	return ((t_vec3){
 		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z + m[0][3],
@@ -114,12 +115,26 @@ t_vec3	mat_vec3_mult(float m[4][4], t_vec3 *v)
 		});
 }
 
+t_vec3	transf_vec(float m[4][4], t_vec3 *v)
+{
+	return ((t_vec3){
+		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z,
+		m[1][0] * v->x + m[1][1] * v->y + m[1][2] * v->z,
+		m[2][0] * v->x + m[2][1] * v->y + m[2][2] * v->z,
+		});
+}
+
 void	rot_from_up(t_vec3 *up, t_transf *t)
 {
-	const t_vec3	ff = {0.f, 0.f, 1.f};
-	const t_vec3	xaxis = v3unit(v3cross(*up, ff));
-	const t_vec3	zaxis = v3unit(v3cross(xaxis, *up));
+	const t_vec3	vup = {0.f, 1.f, 0.f};
+	t_vec3			xaxis;
+	t_vec3			zaxis;
 
+	*up = v3unit(*up);
+	xaxis = v3unit(v3cross(vup, *up));
+	if (xaxis.x == 0 && xaxis.y == 0 && xaxis.x == 0)
+		xaxis = (t_vec3){1.f, 0.f, 0.f};
+	zaxis = v3unit(v3cross(xaxis, *up));
 	t->rot.mat[0][0] = xaxis.x;
 	t->rot.mat[1][0] = up->x;
 	t->rot.mat[2][0] = zaxis.x;

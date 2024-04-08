@@ -36,6 +36,9 @@ LFT:= $(LFT_DIR)/libft.a
 
 all: $(NAME)
 
+maps:
+	cp -r ../minirt_bruno/scenes .
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	mkdir -p $(OBJ_DIR)$*
 	$(CC) $(CFLAGS) -c $< -o $@

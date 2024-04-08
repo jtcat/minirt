@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 23:54:24 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/07 01:56:43 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ bool	i_plane(void *spec, t_ray *ray, t_vec2 distBound, t_hit *hit)
 	}
 }
 
-// Sphere intersection
 // IMPORTANT:	ray dir MUST be normalized!
 bool	i_sphere(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit)
 {

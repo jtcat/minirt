@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:15:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 23:54:45 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/07 02:25:28 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_vec3	vec3(const float x, const float y, const float z)
 
 bool	is_normal(t_vec3 *v)
 {
+	return (1);
 	return (v3length(v) <= 1.0f);
 }

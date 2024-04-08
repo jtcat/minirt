@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/08 10:48:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 20:31:37 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <unistd.h>
 #include "rt.h"
 
-# define SPEC_EXP 20.f
+# define SPEC_EXP 4.f
+# define SPEC_F .9f
 # define MIN_HIT_DIST .0001f
 
 static inline void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
@@ -82,8 +83,8 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 		return (c3_to_argb(ambient));
 	diffuse_f = v3dot(ray.dir, hit->normal) * ctx->light.f;
 	diffuse = c3scalef(hit->prim->color, diffuse_f);
-	specular = c3scalef((t_color3){255, 255, 255}, (diffuse_f >= 0.f) * fmax(pow(-v3dot(perf_ray(&ray.dir, &hit->normal),
-			hit->ray.dir), SPEC_EXP), 0.f));
+	specular = c3scalef((t_color3){255, 255, 255}, (diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray.dir, &hit->normal),
+			hit->ray.dir), 0.f) * SPEC_F, SPEC_EXP));
 	return (c3_to_argb(c3sum(c3sum(ambient,diffuse), specular)));
 }
 

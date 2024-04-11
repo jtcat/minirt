@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/08 20:31:37 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/11 04:21:20 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 #include <unistd.h>
 #include "rt.h"
 
-# define SPEC_EXP 4.f
-# define SPEC_F .9f
+# define SPEC_EXP 5.f
+# define SPEC_F .8f
 # define MIN_HIT_DIST .0001f
 
 static inline void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
 {
-	*hit = transf_point(prim->transf.tr_prod, hit);
-	*normal = transf_vec(prim->transf.rot.mat, normal);
+	*hit = transf_point(prim->transf.mat, hit);
+	*normal = transf_vec(prim->transf.mat, normal);
 }
 
 static inline void	ray_transform(t_ray *og_ray, t_ray *new_ray, t_primitive *prim)
 {
-	new_ray->origin = transf_point(prim->transf.rot_inv_prod, &og_ray->origin);
-	new_ray->dir = transf_vec(prim->transf.rot.inv, &og_ray->dir);
+	new_ray->origin = transf_point(prim->transf.inv, &og_ray->origin);
+	new_ray->dir = og_ray->dir;
+	new_ray->dir = transf_vec(prim->transf.inv, &og_ray->dir);
 }
 
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit)
@@ -63,29 +64,31 @@ static inline t_color3	c3blend(t_color3 *a, t_color3 *b, float f)
 // its dot product is positive. In addition, the
 // specular term should only be included if the
 // diffuse dot product is positive
+//
+// specular term is -dot to negate ray dir
 t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 {
-	t_hit		pass;
 	t_ray		ray;
+	t_hit		pass;
 	float		diffuse_f;
+	t_color3	specular;
 	t_color3	diffuse;
 	t_color3	ambient;
-	t_color3	specular;
 	t_vec3		surf_to_light;
 
 	hit->normal = v3unit(hit->normal);
 	ray.origin = v3sum(hit->ray.origin, v3scalef(v3unit(hit->ray.dir), hit->dist * 0.999f));
 	hit_transform(hit->prim, &ray.origin, &hit->normal);
-	surf_to_light = v3sub(mat_getpos(&ctx->light.transl), ray.origin);
+	surf_to_light = v3sub(ctx->light.pos, ray.origin);
 	ray.dir = v3unit(surf_to_light);
-	ambient = c3scalef(c3blend(&ctx->ambient, &hit->prim->color, .5f), ctx->ambient_f);
+	ambient = c3sum(c3scalef(hit->prim->color, ctx->ambient_f), c3scalef(ctx->ambient, ctx->ambient_f));
 	if (scene_intersect(ctx, &ray, &pass) < v3length(&surf_to_light))
 		return (c3_to_argb(ambient));
-	diffuse_f = v3dot(ray.dir, hit->normal) * ctx->light.f;
-	diffuse = c3scalef(hit->prim->color, diffuse_f);
+	diffuse_f = fmax(v3dot(ray.dir, hit->normal) * ctx->light.f, 0.f);
+	diffuse = c3sum(c3scalef(hit->prim->color, diffuse_f), ambient);
 	specular = c3scalef((t_color3){255, 255, 255}, (diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray.dir, &hit->normal),
-			hit->ray.dir), 0.f) * SPEC_F, SPEC_EXP));
-	return (c3_to_argb(c3sum(c3sum(ambient,diffuse), specular)));
+						hit->ray.dir), 0.f) * SPEC_F, SPEC_EXP));
+	return (c3_to_argb(c3sum(diffuse, specular)));
 }
 
 t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)

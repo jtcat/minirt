@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 23:20:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 23:12:35 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 typedef struct s_light {
 	t_color3	color;
-	t_transf	transl;
+	t_vec3		pos;
 	float		f;
 }	t_light;
 

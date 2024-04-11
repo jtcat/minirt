@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/07 01:56:43 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 21:01:48 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 		return (false);
 	h = sqrt(h);
 	float	t = (-k1 - h) / k2;
-	if (t < bound.x || t > bound.y)
-		return (false);
 
 	// body
 	float	y = ray->origin.y + t * ray->dir.y;
-	if (y > -spec->height && y < spec->height )
+	if (t > bound.x && t < bound.y && y > -spec->height && y < spec->height )
 	{
 		hit->dist = t;
 		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), vec3(0.0,y,0.0)), 1.0f / spec->radius);

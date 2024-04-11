@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:35:10 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/07 03:02:01 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/11 02:02:47 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	cam_init(t_camera *cam)
 	cam->viewport_height = cam->viewport_width / cam->aspect_ratio;
 
 	cam->w = v3unit(v3scalef(cam->lookdir, -1.0));
-	cam->u = v3unit(v3cross(v3_up, cam->w));
+	cam->u = v3unit(v3cross(cam->w, v3_up));
 	if (cam->u.x == 0 && cam->u.y == 0 && cam->u.x == 0)
 		cam->u = (t_vec3){1.f, 0 ,0};
-	cam->v = v3cross(cam->w, cam->u);
+	cam->v = v3cross(cam->u, cam->w);
 
-	viewport_u = v3scalef(cam->u, cam->viewport_width);
+	viewport_u = v3scalef(cam->u, -cam->viewport_width);
 	viewport_v = v3scalef(cam->v, -cam->viewport_height);
 
 	cam->pix_du = v3scalef(viewport_u, 1.0 / cam->image_width);

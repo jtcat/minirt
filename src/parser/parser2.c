@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/07 02:25:32 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/08 23:53:22 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 	}
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookfrom))
 		return (NULL);
-	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir) || !is_normal(&ctx->cam.lookdir))
+	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir)
+		|| !is_normal(&ctx->cam.lookdir))
 		return (NULL);
 	if (!parse_int(*(tokens++), &fov))
 		return (NULL);
@@ -66,18 +67,28 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 	return (tokens);
 }
 
+char	**parse_transform(char **tokens, t_transf *t)
+{
+	t_vec3	pos;
+	t_vec3	dir;
+
+	if (!parse_vec3(*(tokens++), &pos))
+		return (NULL);
+	if (!parse_vec3(*(tokens++), &dir) || !is_normal(&dir))
+		return (NULL);
+	tf_look_up(&pos, &dir, t);
+	return (tokens);
+}
+
 char	**parse_light(t_rtctx *ctx, char **tokens)
 {
-	t_vec3	tmpv;
-
 	if (ctx->light.f > 0)
 	{
 		print_err("Light was redefined");
 		return (NULL);
 	}
-	if (!parse_vec3(*(tokens++), &tmpv))
+	if (!parse_vec3(*(tokens++), &ctx->light.pos))
 		return (NULL);
-	transf_from_v3(&tmpv, &ctx->light.transl);
 	if (!parse_float(*(tokens++), &ctx->light.f))
 		return (NULL);
 	if (ctx->light.f < 0.0f || ctx->light.f > 1.0f)
@@ -92,24 +103,22 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 
 char	**parse_sphere(t_rtctx *ctx, char **tokens)
 {
+	t_vec3		tmpv;
 	t_primitive	*sphere;
 	float		radius;
-	t_vec3		tmpv;
-	
+
 	sphere = malloc(sizeof(t_primitive));
 	sphere->spec = malloc(sizeof(t_sphere));
 	if (!sphere || !sphere->spec)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
-	transf_from_v3(&tmpv, &sphere->transf);
+	tf_from_pos(&tmpv, &sphere->transf);
 	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
 		return (NULL);
 	((t_sphere *)sphere->spec)->radius = radius / 2.0f;
 	if (!parse_rgb(*(tokens++), &sphere->color))
 		return (NULL);
-	tmpv = (t_vec3){0, 1.0, 0};
-	rot_from_up(&tmpv, &sphere->transf);
 	sphere->intersect = i_sphere;
 	ft_lstadd_back(&ctx->prims, ft_lstnew(sphere));
 	return (tokens);
@@ -118,18 +127,14 @@ char	**parse_sphere(t_rtctx *ctx, char **tokens)
 char	**parse_plane(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*plane;
-	t_vec3		tmpv;
-	
+
 	plane = malloc(sizeof(t_primitive));
 	plane->spec = NULL;
 	if (!plane)
 		return (NULL);
-	if (!parse_vec3(*(tokens++), &tmpv))
+	tokens = parse_transform(tokens, &plane->transf);
+	if (!tokens)
 		return (NULL);
-	transf_from_v3(&tmpv, &plane->transf);
-	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
-		return (NULL);
-	rot_from_up(&tmpv, &plane->transf);
 	if (!parse_rgb(*(tokens++), &plane->color))
 		return (NULL);
 	plane->intersect = i_plane;
@@ -140,25 +145,21 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 {
 	t_primitive	*cyl;
-	t_vec3		tmpv;
 	float		tmp;
-	
+
 	cyl = malloc(sizeof(t_primitive));
 	cyl->spec = malloc(sizeof(t_cylinder));
 	if (!cyl || !cyl->spec)
 		return (NULL);
-	if (!parse_vec3(*(tokens++), &tmpv))
+	tokens = parse_transform(tokens, &cyl->transf);
+	if (!tokens)
 		return (NULL);
-	transf_from_v3(&tmpv, &cyl->transf);
-	if (!parse_vec3(*(tokens++), &tmpv) || !is_normal(&tmpv))
-		return (NULL);
-	rot_from_up(&tmpv, &cyl->transf);
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (NULL);
 	((t_cylinder *)cyl->spec)->radius = tmp / 2.0;
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (NULL);
-	((t_cylinder *)cyl->spec)->height = tmp;
+	((t_cylinder *)cyl->spec)->height = tmp / 2.0;
 	if (!parse_rgb(*(tokens++), &cyl->color))
 		return (NULL);
 	cyl->intersect = i_cylinder;

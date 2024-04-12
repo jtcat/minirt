@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/08 21:01:48 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/12 22:17:11 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ bool	i_plane(void *spec, t_ray *ray, t_vec2 distBound, t_hit *hit)
 	const float		d = -v3dot(ray->origin, up) / a;
 
 	(void)spec;
-	if (a > 0. || d < distBound.x || d > distBound.y)
+	if (a == 0.f || d < distBound.x || d > distBound.y)
 		return (false);
 	else
 	{
-		hit->normal = up;
+		hit->normal = v3scalef(up, -fsign(a));
 		hit->dist = d;
 		return (true);
 	}
@@ -57,7 +57,7 @@ bool	i_sphere(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit)
 		dist = -b + h;
 		if (dist > bound.x && dist < bound.y)
 		{ 
-			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
+			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, -dist));
 			hit->dist = dist;
 			return (true);
 		}

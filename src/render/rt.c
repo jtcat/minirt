@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/11 04:21:20 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/11 15:35:26 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static inline void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
 static inline void	ray_transform(t_ray *og_ray, t_ray *new_ray, t_primitive *prim)
 {
 	new_ray->origin = transf_point(prim->transf.inv, &og_ray->origin);
-	new_ray->dir = og_ray->dir;
 	new_ray->dir = transf_vec(prim->transf.inv, &og_ray->dir);
 }
 

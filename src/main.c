@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 14:54:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:19:23 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ bool validate_scene(t_rtctx *ctx)
 		print_err("No Camera present");
 		return (false);
 	}
-	if(ctx->light.f == -1)
-	{
-		print_err("No Light present");
-		return (false);
-	}	
 	if(ctx->ambient.r == -1)
 	{
 		print_err("No Ambient Light present");

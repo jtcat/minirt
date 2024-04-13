@@ -6,23 +6,23 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 15:04:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 19:03:10 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "../datatypes/argb.h"
 
-char **error_helper(char *msg)
+char	**error_helper(char *msg)
 {
 	print_err(msg);
 	return (NULL);
 }
 
 // Sets str head via ref
-bool	parse_numb(const char** strref, int* i, int *outsign)
+bool	parse_numb(const char **strref, int *i, int *outsign)
 {
-	const char 	*str;
+	const char	*str;
 	int			numb;
 	int			sign;
 
@@ -44,17 +44,17 @@ bool	parse_numb(const char** strref, int* i, int *outsign)
 	if (outsign)
 		*outsign = sign;
 	*strref = str;
-	return(!*str);
+	return (!*str);
 }
 
-bool	parse_int(const char* str, int* i)
+bool	parse_int(const char *str, int *i)
 {
 	if (!str)
 		return (false);
 	return (parse_numb(&str, i, NULL));
 }
 
-bool	parse_float(const char *str, float* f)
+bool	parse_float(const char *str, float *f)
 {
 	int			dec;
 	int			sign;
@@ -74,11 +74,11 @@ bool	parse_float(const char *str, float* f)
 	mag = 0.1f;
 	while (ft_isdigit(*str))
 	{
-		*f += (float)(*str - '0') * mag * sign;
+		*f += (float)(*str - '0') *mag * sign;
 		mag /= 10.0f;
 		++str;
 	}
-	if(*str)
+	if (*str)
 		print_err("Malformed float value");
 	return (!*str);
 }
@@ -86,7 +86,7 @@ bool	parse_float(const char *str, float* f)
 bool	parse_vec3(const char *str, t_vec3 *v)
 {
 	char const		**strs = (char const **)ft_split(str, ',');
-	float * const	comp[] = {&v->x, &v->y, &v->z};
+	float *const	comp[] = {&v->x, &v->y, &v->z};
 	float			tmp;
 	int				i;
 	bool			valid;
@@ -114,11 +114,11 @@ bool	parse_vec3(const char *str, t_vec3 *v)
 
 bool	parse_rgb(const char *str, t_color3 *color)
 {
-	char const	**strs = (char const **)ft_split(str, ',');
-	float * const	comp[] = {&color->r, &color->g, &color->b};
-	int			i;
-	int			tmp;
-	bool		valid;
+	char const		**strs = (char const **)ft_split(str, ',');
+	float *const	comp[] = {&color->r, &color->g, &color->b};
+	int				i;
+	int				tmp;
+	bool			valid;
 
 	if (!str)
 		return (false);

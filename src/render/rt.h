@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 14:55:07 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:41:19 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@
 # define WINDOW_TITLE "miniRT"
 # define DESTROY_NOTIFY 17
 
-typedef struct s_light {
+typedef struct s_light
+{
 	t_color3	color;
 	t_vec3		pos;
 	float		f;
 }	t_light;
 
-typedef struct s_rtctx {
+typedef struct s_rtctx
+{
 	void		*mlx_ptr;
 	void		*window_ptr;
 	t_mlx_img	img;

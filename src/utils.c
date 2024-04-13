@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:10:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 16:13:17 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:57:08 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static inline float	ftern(int cond, float a, float b)
 {
-	return ((float)cond * a + (float)!cond * b);
+	return ((float)cond * a + (float) !cond * b);
 }
 
 float	fsign(float f)
@@ -43,8 +43,8 @@ float	fclamp(float a, float min, float max)
 void	free_ptrarr(void **arr)
 {
 	void	**iter;
-	
-	if(!arr)
+
+	if (!arr)
 		return ;
 	iter = arr;
 	while (*iter)

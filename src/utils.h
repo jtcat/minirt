@@ -6,16 +6,16 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 13:35:24 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 19:10:22 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-#include <stdlib.h>
-#include <libft.h>
-#include "datatypes/vec3.h"
+# include <stdlib.h>
+# include <libft.h>
+# include "datatypes/vec3.h"
 
 void	free_ptrarr(void **arr);
 

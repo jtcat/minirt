@@ -5,15 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 00:00:19 by jcat             ###   ########.fr       */
+/*   Created: 2024/04/14 00:06:45 by jcat              #+#    #+#             */
+/*   Updated: 2024/04/14 00:07:42 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../datatypes/vec3.h"
 #include "primitives.h"
 
-typedef bool	(*t_fnIntersect)(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit);
+typedef bool	(*t_fnIntersect)(void *spec, t_ray *ray, \
+		t_vec2 bound, t_hit *hit);
 
 bool	i_plane(void *spec, t_ray *ray, t_vec2 distBound, t_hit *hit)
 {
@@ -73,8 +74,6 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 		return (false);
 	h = sqrt(h);
 	float	t = (-k1 - h) / k2;
-
-	// body
 	float	y = ray->origin.y + t * ray->dir.y;
 	if (t > bound.x && t < bound.y && y > -spec->h && y < spec->h )
 	{
@@ -88,7 +87,7 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	if (t > bound.x && t < bound.y && fabs(k1 + k2 * t) < h)
 	{
 		hit->dist = t;
-		hit->normal = vec3(0.0, fsign(y),0.0);
+		hit->normal = vec3(0.0, fsign(y), 0.0);
 		return (true);
 	}
 	return (false);

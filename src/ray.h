@@ -6,16 +6,17 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/05 11:59:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:55:16 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY_H
 # define RAY_H
 
-#include "datatypes/vec3.h"
+# include "datatypes/vec3.h"
 
-typedef	struct s_ray {
+typedef struct s_ray
+{
 	t_vec3	origin;
 	t_vec3	dir;
 }	t_ray;

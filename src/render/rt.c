@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 16:13:55 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:58:19 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <unistd.h>
 #include "rt.h"
 
-# define SPEC_EXP 5.f
-# define SPEC_F .8f
-# define MIN_HIT_DIST .0001f
+#define SPEC_EXP 5.f
+#define SPEC_F .8f
+#define MIN_HIT_DIST .0001f
 
 static inline void	hit_transform(t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
 {
@@ -72,8 +72,8 @@ static inline t_color3	light_cast(t_rtctx *ctx, t_ray *ray, t_hit *hit)
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * ctx->lights[i].f, 0.f);
 			color = c3sum(color, c3prod(c3scalef(ctx->lights[i].color, diffuse_f), hit->prim->color));
-			color = c3sum(color ,c3scalef((t_color3){1.f, 1.f, 1.f}, (diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray->dir, &hit->normal),
-						hit->ray.dir), 0.f) * SPEC_F, SPEC_EXP)));
+			color = c3sum(color, c3scalef((t_color3){1.f, 1.f, 1.f}, (diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray->dir, &hit->normal),
+									hit->ray.dir), 0.f) * SPEC_F, SPEC_EXP)));
 		}
 		i++;
 	}

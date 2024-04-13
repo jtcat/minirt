@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 15:05:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 20:46:19 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	}
 
 	// caps
-	t = ( ((y < 0.0) ? -spec->h : spec->h) - ray->origin.y) / ray->dir.y;
+	t = (((y < 0.0) ? -spec->h : spec->h) - ray->origin.y) / ray->dir.y;
 	if (t > bound.x && t < bound.y && fabs(k1 + k2 * t) < h)
 	{
 		hit->dist = t;
@@ -99,11 +99,6 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 		return (true);
 	}
 	return (false);
-}
-
-void	prim_init(t_primitive *prim)
-{
-	prim->spec = NULL;
 }
 
 void	prim_destroy(void *vprim)

@@ -6,11 +6,12 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 20:05:03 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/13 16:28:36 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/14 00:47:30 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+
+#ifndef GNL_H
+# define GNL_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000

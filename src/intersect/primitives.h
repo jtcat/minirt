@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/07 01:10:27 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/12 23:13:43 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
-	float	radius;
-	float	height;
+	float	r;
+	float	h;
 }	t_cylinder;
 
 void	prim_init(t_primitive *prim);

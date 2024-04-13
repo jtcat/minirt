@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/12 22:17:11 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 15:05:23 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	const float			k1 = v3dot(ray->origin, ray->dir) \
 						 - ray->origin.y * ray->dir.y;
 	const float			k0 = v3dot(ray->origin, ray->origin) \
-						 - ray->origin.y * ray->origin.y - spec->radius * spec->radius;
+						 - ray->origin.y * ray->origin.y - spec->r * spec->r;
 
 	float	h = k1 * k1 - k2 * k0;
 	if (h < 0.0)
@@ -83,15 +83,15 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 
 	// body
 	float	y = ray->origin.y + t * ray->dir.y;
-	if (t > bound.x && t < bound.y && y > -spec->height && y < spec->height )
+	if (t > bound.x && t < bound.y && y > -spec->h && y < spec->h )
 	{
 		hit->dist = t;
-		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), vec3(0.0,y,0.0)), 1.0f / spec->radius);
+		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), vec3(0.0,y,0.0)), 1.0f / spec->r);
 		return (true);
 	}
 
 	// caps
-	t = ( ((y < 0.0) ? -spec->height : spec->height) - ray->origin.y) / ray->dir.y;
+	t = ( ((y < 0.0) ? -spec->h : spec->h) - ray->origin.y) / ray->dir.y;
 	if (t > bound.x && t < bound.y && fabs(k1 + k2 * t) < h)
 	{
 		hit->dist = t;

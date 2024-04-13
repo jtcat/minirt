@@ -5,62 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 13:25:57 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/04 00:17:38 by jcat             ###   ########.fr       */
+/*   Created: 2022/11/10 20:05:32 by joaoteix          #+#    #+#             */
+/*   Updated: 2024/04/13 16:36:20 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gnl.h"
 
-void	readtobuff(int fd, t_filebuff *buff)
-{
-	buff->len = read(fd, buff->data, BUFFER_SIZE);
-	buff->head = 0;
-}
-
-t_filebuff	*getbuff(int fd, t_filebuff **bufflist)
-{
-	if (fd == -1)
-		return (NULL);
-	if (!bufflist[fd])
-	{
-		bufflist[fd] = malloc(sizeof(t_filebuff));
-		bufflist[fd]->len = 0;
-		bufflist[fd]->head = 0;
-	}
-	return (bufflist[fd]);
-}
-
-void	clearbuff(int fd, t_filebuff **bufflist)
-{
-	free(bufflist[fd]);
-	bufflist[fd] = NULL;
-}
-
 char	*get_next_line(int fd)
 {
-	static t_filebuff	*bufflist[10000] = {NULL};
-	t_filebuff			*buff;
-	char				*line;
-	size_t				linelen;
+	char			*line;
+	static char		buff[BUFFER_SIZE];
+	static ssize_t	buff_i = 0;
+	static ssize_t	res = 0;
+	size_t			linelen;
 
 	line = NULL;
 	linelen = 0;
-	buff = getbuff(fd, bufflist);
-	if (!buff)
-		return (NULL);
-	if (buff->head == buff->len)
-		readtobuff(fd, buff);
-	while (buff->len > 0 && (!line || line[linelen - 1] != '\n'))
+	if (fd > -1 && (!is_prevfd(fd) || buff_i == res))
 	{
-		if (buff->head == buff->len)
-			readtobuff(fd, buff);
-		buff->head += parse_buff(buff->data + buff->head, buff->data \
-		+ buff->len, &line, &linelen);
+		res = read(fd, buff, BUFFER_SIZE);
+		buff_i = 0;
 	}
-	if (buff->len == 0)
-		clearbuff(fd, bufflist);
-	if (linelen > 0)
+	while (res > 0 && (!line || line[linelen - 1] != '\n'))
+	{
+		if (buff_i >= res)
+		{
+			res = read(fd, buff, BUFFER_SIZE);
+			buff_i = 0;
+		}
+		buff_i += parse_buff(buff + buff_i, buff + res, &line, &linelen);
+	}
+	if (line)
 		line[linelen - 1] = '\0';
 	return (line);
 }

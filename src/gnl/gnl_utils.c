@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 13:14:43 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/02 01:21:50 by jcat             ###   ########.fr       */
+/*   Created: 2022/11/16 15:08:54 by joaoteix          #+#    #+#             */
+/*   Updated: 2024/04/13 16:28:49 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
-#include <stddef.h>
 #include "gnl.h"
+#include <stddef.h>
+#include <stdint.h>
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -65,4 +65,14 @@ ssize_t	parse_buff(char *buff, char *end, char **line, size_t *linelen)
 	newline[*linelen] = '\0';
 	*line = newline;
 	return (i);
+}
+
+int	is_prevfd(int newfd)
+{
+	static int	prevfd = -1;
+	int			res;
+
+	res = newfd == prevfd;
+	prevfd = newfd;
+	return (res);
 }

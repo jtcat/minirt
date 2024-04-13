@@ -24,7 +24,7 @@ SRC:= $(addprefix $(SRC_DIR), \
 		$(addprefix intersect/, \
 				primitives.c) \
 		$(addprefix render/, \
-				rt.c rt2.c))
+				render.c rt.c rt_utils.c))
 
 OBJ_DIR:= obj/
 

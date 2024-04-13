@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 18:41:19 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:34:27 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 # include <libft.h>
 # include "../../minilibx-linux/mlx.h"
 # include "X11/keysym.h"
-# include <stdlib.h>
 # include <stdbool.h>
 # include "../utils.h"
 # include "../ray.h"
 # include "../datatypes/camera.h"
 # include "../datatypes/vec3.h"
-# include "../datatypes/vec2.h"
-# include "../datatypes/matrix.h"
 # include "../datatypes/argb.h"
 # include "../intersect/primitives.h"
 
@@ -54,11 +51,12 @@ typedef struct s_rtctx
 }	t_rtctx;
 
 void	rtctx_init(t_rtctx *ctx);
-void	render(t_rtctx *ctx);
-void	exit_err(t_rtctx *ctx, char *msg);
-void	rtctx_destroy(t_rtctx *ctx);
 void	ll_to_arr(t_rtctx *ctx);
 void	cleanup_mlx(t_rtctx *ctx);
-void	ray_prim_transform(t_ray *ray, t_primitive *primitive);
+void	rtctx_destroy(t_rtctx *ctx);
+void	render(t_rtctx *ctx);
+
+float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit);
+t_argb	get_light_color(t_rtctx *ctx, t_hit *hit);
 
 #endif

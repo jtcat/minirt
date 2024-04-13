@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/05 12:08:10 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 13:35:24 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ float	fsign(float f);
 int		tern(int cond, int a, int b);
 
 int		clamp(int a, int min, int max);
+float	fclamp(float a, float min, float max);
 #endif

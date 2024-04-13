@@ -6,16 +6,16 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/06 21:00:28 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 16:09:50 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "argb.h"
 #include "../utils.h"
 
-static inline int	clamp_uint8(int c)
+static inline float	normalize_f(float f)
 {
-	return (clamp(c, 0, 255));
+	return (fclamp(f, 0.f, 1.f));
 }
 
 void	write_pix(t_mlx_img *img, int x, int y, t_argb color)
@@ -28,22 +28,24 @@ void	write_pix(t_mlx_img *img, int x, int y, t_argb color)
 
 t_argb	c3_to_argb(t_color3 c)
 {
-	return ((c.r << (8 * 2)) | (c.g << 8) | c.b);
+	return (((int)(c.r * 255.f) << 16) | ((int)(c.g * 255.f) << 8) | (int)(c.b * 255.f));
 }
 
 t_color3	c3scalef(t_color3 a, float f)
 {
-	t_color3	nc;
-
-	nc.r = clamp_uint8(a.r * f);
-	nc.g = clamp_uint8(a.g * f);
-	nc.b = clamp_uint8(a.b * f);
-	return(nc);
+	return ((t_color3){normalize_f(a.r * f),
+	normalize_f(a.g * f),
+	normalize_f(a.b * f)});
 }
 
 t_color3	c3sum(t_color3 a, t_color3 b)
 {
-	return((t_color3){clamp_uint8(a.r + b.r),
-			clamp_uint8(a.g + b.g),
-			clamp_uint8(a.b + b.b)});
+	return((t_color3){normalize_f(a.r + b.r),
+			normalize_f(a.g + b.g),
+			normalize_f(a.b + b.b)});
+}
+
+t_color3	c3prod(t_color3 a, t_color3 b)
+{
+	return ((t_color3){a.r * b.r, a.g * b.g, a.b * b.b});
 }

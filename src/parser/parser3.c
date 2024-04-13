@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/08 10:47:17 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 15:04:52 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool	parse_vec3(const char *str, t_vec3 *v)
 bool	parse_rgb(const char *str, t_color3 *color)
 {
 	char const	**strs = (char const **)ft_split(str, ',');
-	int * const	comp[] = {&color->r, &color->g, &color->b};
+	float * const	comp[] = {&color->r, &color->g, &color->b};
 	int			i;
 	int			tmp;
 	bool		valid;
@@ -132,7 +132,7 @@ bool	parse_rgb(const char *str, t_color3 *color)
 			valid = false;
 			break ;
 		}
-		*(comp[i]) = tmp;
+		*(comp[i]) = (float)tmp / 255.f;
 		++i;
 	}
 	if (i < 2 || strs[i] != NULL)

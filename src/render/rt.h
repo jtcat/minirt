@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/08 23:12:35 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 14:55:07 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ typedef struct s_rtctx {
 	void		*window_ptr;
 	t_mlx_img	img;
 	t_camera	cam;
-	t_list		*prims;
+	t_primitive	*prims;
+	t_light		*lights;
+	t_list		*ll_lights;
+	t_list		*ll_prims;
 	int			prim_n;
-	t_light		light;
+	int			light_n;
 	t_color3	ambient;
 	float		ambient_f;
 }	t_rtctx;
@@ -52,6 +55,7 @@ void	rtctx_init(t_rtctx *ctx);
 void	render(t_rtctx *ctx);
 void	exit_err(t_rtctx *ctx, char *msg);
 void	rtctx_destroy(t_rtctx *ctx);
+void	ll_to_arr(t_rtctx *ctx);
 void	cleanup_mlx(t_rtctx *ctx);
 void	ray_prim_transform(t_ray *ray, t_primitive *primitive);
 

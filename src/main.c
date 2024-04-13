@@ -50,14 +50,34 @@ void	arg_val(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		ft_dprintf(STDERR_FILENO, "minirt: incorrect number of arguments\n");
+		print_err("Incorrect number of arguments");
 		exit(1);
 	}
 	if (ft_strnstr(argv[1], ".rt", ft_strlen(argv[1])) == NULL)
 	{
-		ft_dprintf(STDERR_FILENO, "minirt: file must have an '.rt' extension\n");
+		print_err("File must have an '.rt' extension");
 		exit(1);
 	}
+}
+
+bool validate_scene(t_rtctx *ctx)
+{
+	if(ctx->cam.hfov == -1)
+	{
+		print_err("No Camera present");
+		return (false);
+	}
+	if(ctx->light.f == -1)
+	{
+		print_err("No Light present");
+		return (false);
+	}	
+	if(ctx->ambient.r == -1)
+	{
+		print_err("No Ambient Light present");
+		return (false);
+	}
+	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -68,9 +88,12 @@ int	main(int argc, char **argv)
 	arg_val(argc, argv);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		exit_err(&ctx, "Cannot open file\n");
+	{
+		print_err("Cannot open file");
+		exit(1);
+	}
 	rtctx_init(&ctx);
-	if (!parser_main(&ctx, fd))
+	if (!parser_main(&ctx, fd) || !validate_scene(&ctx))
 	{
 		rtctx_destroy(&ctx);
 		return (1);

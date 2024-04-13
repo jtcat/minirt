@@ -37,7 +37,7 @@ bool	proc_line(t_rtctx *ctx, char **tokens)
 		print_err("Too many tokens on a line");
 		return (false);
 	}
-	return (true);
+	return (tokens);
 }
 
 bool	parser_main(t_rtctx *ctx, int fd)

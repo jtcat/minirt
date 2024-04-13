@@ -26,19 +26,13 @@
 char	**parse_ambient(t_rtctx *ctx, char **tokens)
 {
 	if (ctx->ambient.r > -1)
-	{
-		print_err("Ambient light was redefined");
-		return (NULL);
-	}
+		return(error_helper("Ambient light was redefined"));
 	if (!parse_float(*(tokens++), &ctx->ambient_f))
-		return (NULL);
+		return(error_helper("Malformed Floar"));
 	if (ctx->ambient_f < 0.0f || ctx->ambient_f > 1.0f)
-	{
-		print_err("Ambient ratio out of range (0.0 - 1.0)");
-		return (NULL);
-	}
+		return(error_helper("Ambient ratio out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &ctx->ambient))
-		return (NULL);
+		return (error_helper("Malformed RGB"));
 	return (tokens);
 }
 
@@ -48,7 +42,7 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 
 	if (ctx->cam.hfov > -1.0)
 	{
-		print_err("Camera was redefined");
+		("Camera was redefined");
 		return (NULL);
 	}
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookfrom))
@@ -83,21 +77,15 @@ char	**parse_transform(char **tokens, t_transf *t)
 char	**parse_light(t_rtctx *ctx, char **tokens)
 {
 	if (ctx->light.f > 0)
-	{
-		print_err("Light was redefined");
-		return (NULL);
-	}
+		return(error_helper("Light was redefined"));
 	if (!parse_vec3(*(tokens++), &ctx->light.pos))
-		return (NULL);
+		return(error_helper("Missing point light position"));
 	if (!parse_float(*(tokens++), &ctx->light.f))
-		return (NULL);
+		return(error_helper("Error in Float"));
 	if (ctx->light.f < 0.0f || ctx->light.f > 1.0f)
-	{
-		print_err("Light intensity out of range (0.0 - 1.0)");
-		return (NULL);
-	}
+		return(error_helper("Light intensity out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &ctx->light.color))
-		return (NULL);
+		return(error_helper("Missing point light color"));
 	return (tokens);
 }
 

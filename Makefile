@@ -1,11 +1,13 @@
 CC:= cc
 
-LIBFLAGS:= -lm -lXext -lX11 -Ilibft
+INCDIRS:= -Ilibft -Iminilibx-linux
+
+LIBFLAGS:= -lXext -lX11 -lm
 
 MFLAGS:= -O4 -fopt-info-optall-optimized -ftree-vectorize -mavx
 
-#CFLAGS:= -O3 -Wall -Wextra -Werror $(LIBFLAGS)
-CFLAGS:= $(MFLAGS) -Wall -Wextra -Werror $(LIBFLAGS)
+#CFLAGS:= -O3 -Wall -Wextra -Werror
+CFLAGS:= -g -Wall -Wextra -Werror
 
 NAME:= miniRT
 
@@ -43,10 +45,10 @@ maps:
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	mkdir -p $(OBJ_DIR)$*
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCDIRS) -c $< -o $@
 
 $(NAME): $(MLX) $(LFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LFT) -o $@
+	$(CC) $(CFLAGS) $(LIBFLAGS) $(OBJ) $(MLX) $(LFT) $(INCDIRS) -o $@ 
 
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
@@ -68,3 +70,8 @@ fclean: clean
 	$(MAKE) -C $(LFT_DIR) fclean
 
 re: fclean all
+
+minilibx:
+	git clone git@github.com:42Paris/minilibx-linux.git
+	make -C minilibx-linux
+	

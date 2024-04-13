@@ -8,3 +8,5 @@ miniRT
 obj/
 compile_commands.json
 .cache
+.vscode
+notes_parses

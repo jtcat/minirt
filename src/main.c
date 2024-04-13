@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 18:19:23 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 18:48:33 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	create_window(t_rtctx *ctx)
 	ctx->window_ptr = mlx_new_window(ctx->mlx_ptr,
 			ctx->cam.image_width,
 			ctx->cam.image_height, WINDOW_TITLE);
-	ctx->img.img_ptr = mlx_new_image(ctx->mlx_ptr, ctx->cam.image_width, ctx->cam.image_height);
+	ctx->img.img_ptr = mlx_new_image(ctx->mlx_ptr, \
+			ctx->cam.image_width, ctx->cam.image_height);
 	ctx->img.img_addr = mlx_get_data_addr(ctx->img.img_ptr,
 			&ctx->img.color_depth, &ctx->img.line_len, &ctx->img.endian);
 }
@@ -60,14 +61,14 @@ void	arg_val(int argc, char **argv)
 	}
 }
 
-bool validate_scene(t_rtctx *ctx)
+bool	validate_scene(t_rtctx *ctx)
 {
-	if(ctx->cam.hfov == -1)
+	if (ctx->cam.hfov == -1)
 	{
 		print_err("No Camera present");
 		return (false);
 	}
-	if(ctx->ambient.r == -1)
+	if (ctx->ambient.r == -1)
 	{
 		print_err("No Ambient Light present");
 		return (false);
@@ -77,7 +78,7 @@ bool validate_scene(t_rtctx *ctx)
 
 int	main(int argc, char **argv)
 {
-	int	fd;
+	int		fd;
 	t_rtctx	ctx;
 
 	arg_val(argc, argv);

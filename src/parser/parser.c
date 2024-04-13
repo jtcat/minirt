@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:45:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 16:31:32 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 19:08:23 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 bool	proc_line(t_rtctx *ctx, char **tokens)
 {
 	if (ft_strcmp(*tokens, "A") == 0)
-		tokens = parse_ambient(ctx,++tokens);
+		tokens = parse_ambient(ctx, ++tokens);
 	else if (ft_strcmp(*tokens, "C") == 0)
-		tokens = parse_camera(ctx,++tokens);
+		tokens = parse_camera(ctx, ++tokens);
 	else if (ft_strcmp(*tokens, "L") == 0)
-		tokens = parse_light(ctx,++tokens);
+		tokens = parse_light(ctx, ++tokens);
 	else if (ft_strcmp(*tokens, "sp") == 0)
-		tokens = parse_sphere(ctx,++tokens);
+		tokens = parse_sphere(ctx, ++tokens);
 	else if (ft_strcmp(*tokens, "pl") == 0)
-		tokens = parse_plane(ctx,++tokens);
+		tokens = parse_plane(ctx, ++tokens);
 	else if (ft_strcmp(*tokens, "cy") == 0)
-		tokens = parse_cylinder(ctx,++tokens);
+		tokens = parse_cylinder(ctx, ++tokens);
 	else
 	{
 		print_err("Unrecognized primitive");
@@ -56,7 +56,7 @@ bool	parser_main(t_rtctx *ctx, int fd)
 		free_ptrarr((void **)tokens);
 		free(line);
 		if (!valid)
-			break;
+			break ;
 		line = get_next_line(fd);
 	}
 	close(fd);

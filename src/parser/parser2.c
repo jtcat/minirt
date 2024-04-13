@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 18:01:45 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/13 19:05:12 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 char	**parse_ambient(t_rtctx *ctx, char **tokens)
 {
 	if (ctx->ambient.r > -1)
-		return(error_helper("Ambient light was redefined"));
+		return (error_helper("Ambient light was redefined"));
 	if (!parse_float(*(tokens++), &ctx->ambient_f))
-		return(error_helper("Malformed Floar"));
+		return (error_helper("Malformed Floar"));
 	if (ctx->ambient_f < 0.0f || ctx->ambient_f > 1.0f)
-		return(error_helper("Ambient ratio out of range (0.0 - 1.0)"));
+		return (error_helper("Ambient ratio out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &ctx->ambient))
 		return (error_helper("Malformed RGB"));
 	ctx->ambient = c3scalef(ctx->ambient, ctx->ambient_f);
@@ -45,7 +45,7 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 	if (ctx->cam.hfov > -1.0)
 		return (error_helper("Camera was redefined"));
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookfrom))
-		return(error_helper("Camera position error"));
+		return (error_helper("Camera position error"));
 	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir)
 		|| !is_normal(&ctx->cam.lookdir))
 		return (error_helper("Camera direction error"));
@@ -81,8 +81,6 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 	if (!light)
 		return (NULL);
 	ft_lstadd_back(&ctx->ll_lights, ft_lstnew(light));
-//	if (ctx->light_n > 0)
-//		return (error_helper("Light was redefined"));
 	if (!parse_vec3(*(tokens++), &light->pos))
 		return (error_helper("Missing point light position"));
 	if (!parse_float(*(tokens++), &light->f))

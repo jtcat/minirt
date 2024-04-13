@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:08:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 20:46:19 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/14 00:00:19 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,10 @@ bool	i_sphere(void *spec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	else
 	{
 		h = sqrt(h);
-		dist = -b - h;
+		dist = -b -fsign(c) * h;
 		if (dist > bound.x && dist < bound.y)
 		{
-			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, dist));
-			hit->dist = dist;
-			return (true);
-		}
-		dist = -b + h;
-		if (dist > bound.x && dist < bound.y)
-		{ 
-			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, -dist));
+			hit->normal = v3sum(ray->origin, v3scalef(ray->dir, fsign(c) * dist));
 			hit->dist = dist;
 			return (true);
 		}
@@ -86,7 +79,7 @@ bool	i_cylinder(void *rawspec, t_ray *ray, t_vec2 bound, t_hit *hit)
 	if (t > bound.x && t < bound.y && y > -spec->h && y < spec->h )
 	{
 		hit->dist = t;
-		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), vec3(0.0,y,0.0)), 1.0f / spec->r);
+		hit->normal = v3scalef(v3sub(v3sum(ray->origin, v3scalef(ray->dir, t)), (t_vec3){0.0,y,0.0}), 1.0f / spec->r);
 		return (true);
 	}
 

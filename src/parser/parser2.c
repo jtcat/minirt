@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 19:05:12 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:06:54 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**parse_transform(char **tokens, t_transf *t)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &dir) || !is_normal(&dir))
 		return (NULL);
-	tf_look_up(&pos, &dir, t);
+	tf_look_up(&pos, dir, t);
 	return (tokens);
 }
 

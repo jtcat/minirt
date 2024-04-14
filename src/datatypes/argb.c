@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 16:09:50 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/14 00:49:36 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,23 @@ void	write_pix(t_mlx_img *img, int x, int y, t_argb color)
 
 t_argb	c3_to_argb(t_color3 c)
 {
-	return (((int)(c.r * 255.f) << 16) | ((int)(c.g * 255.f) << 8) | (int)(c.b * 255.f));
+	return (((int)(c.r * 255.f) << 16)
+			| ((int)(c.g * 255.f) << 8)
+			| (int)(c.b * 255.f));
 }
 
 t_color3	c3scalef(t_color3 a, float f)
 {
 	return ((t_color3){normalize_f(a.r * f),
-	normalize_f(a.g * f),
-	normalize_f(a.b * f)});
+		normalize_f(a.g * f),
+		normalize_f(a.b * f)});
 }
 
 t_color3	c3sum(t_color3 a, t_color3 b)
 {
-	return((t_color3){normalize_f(a.r + b.r),
-			normalize_f(a.g + b.g),
-			normalize_f(a.b + b.b)});
+	return ((t_color3){normalize_f(a.r + b.r),
+		normalize_f(a.g + b.g),
+		normalize_f(a.b + b.b)});
 }
 
 t_color3	c3prod(t_color3 a, t_color3 b)

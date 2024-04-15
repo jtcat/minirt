@@ -6,14 +6,14 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:10:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 18:57:08 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:22:52 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "unistd.h"
 
-static inline float	ftern(int cond, float a, float b)
+float	ftern(int cond, float a, float b)
 {
 	return ((float)cond * a + (float) !cond * b);
 }

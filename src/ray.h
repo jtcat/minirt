@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/13 18:55:16 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:04:58 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define RAY_H
 
 # include "datatypes/vec3.h"
+# include "datatypes/vec2.h"
 
 typedef struct s_ray
 {

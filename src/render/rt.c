@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt2.c                                              :+:      :+:    :+:   */
+/*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 00:32:28 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/15 17:23:18 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-#define SPEC_EXP 5.f
-#define SPEC_F .8f
-#define MIN_HIT_DIST .0001f
-
-static inline void	hit_transform(
-		t_primitive *prim, t_vec3 *hit, t_vec3 *normal)
+static inline void	norm_calc(t_hit *hit)
 {
-	*hit = transf_point(prim->transf.mat, hit);
-	*normal = transf_vec(prim->transf.mat, normal);
+	hit->norm_fn(hit);
+	hit->normal = transf_vec(hit->prim->transf.mat, &hit->normal);
 }
 
 static inline void	ray_transform(
@@ -33,25 +28,25 @@ static inline void	ray_transform(
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit)
 {
 	int		i;
-	t_vec2	bound;
-	t_ray	transf_ray;
+	t_hit	tmp_hit;
+	float	tmp_dist;
 
 	i = 0;
-	bound = (t_vec2){MIN_HIT_DIST, INFINITY};
-	hit->dist = INFINITY;
+	tmp_hit.bound.y = INFINITY;
+	tmp_hit.bound.x = MIN_HIT_DIST;
 	while (i < ctx->prim_n)
 	{
-		ray_transform(ray, &transf_ray, &ctx->prims[i]);
-		if (ctx->prims[i].intersect(ctx->prims[i].spec,
-				&transf_ray, bound, hit))
+		ray_transform(ray, &tmp_hit.ray, &ctx->prims[i]);
+		tmp_dist = ctx->prims[i].intersect(ctx->prims[i].spec, &tmp_hit);
+		if (tmp_dist > MIN_HIT_DIST)
 		{
-			hit->ray = transf_ray;
-			hit->prim = &ctx->prims[i];
-			bound.y = hit->dist;
+			tmp_hit.bound.y = tmp_dist;
+			tmp_hit.prim = &ctx->prims[i];
+			*hit = tmp_hit;
 		}
 		i++;
 	}
-	return (hit->dist);
+	return (tmp_hit.bound.y);
 }
 
 // Each dot product term should only be included if
@@ -68,14 +63,15 @@ static inline t_color3	light_cast(t_rtctx *ctx, t_ray *ray, t_hit *hit)
 	t_vec3		surf_to_light;
 	t_color3	color;
 
-	i = 0;
+	i = -1;
 	color = c3prod(hit->prim->color, ctx->ambient);
-	while (i < ctx->light_n)
+	while (++i < ctx->light_n)
 	{
 		surf_to_light = v3sub(ctx->lights[i].pos, ray->origin);
 		ray->dir = v3unit(surf_to_light);
 		if (scene_intersect(ctx, ray, &pass) < v3length(&surf_to_light))
 			return (color);
+		norm_calc(hit);
 		diffuse_f = fmax(v3dot(ray->dir, hit->normal)
 				* ctx->lights[i].f, 0.f);
 		color = c3sum(color, c3prod(c3scalef(ctx->lights[i].color,
@@ -84,7 +80,6 @@ static inline t_color3	light_cast(t_rtctx *ctx, t_ray *ray, t_hit *hit)
 					(diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray->dir,
 									&hit->normal), hit->ray.dir), 0.f)
 						* SPEC_F, SPEC_EXP)));
-		i++;
 	}
 	return (color);
 }
@@ -93,9 +88,8 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 {
 	t_ray	ray;
 
-	hit->normal = v3unit(hit->normal);
 	ray.origin = v3sum(hit->ray.origin,
-			v3scalef(v3unit(hit->ray.dir), hit->dist * 0.999f));
-	hit_transform(hit->prim, &ray.origin, &hit->normal);
+			v3scalef(v3unit(hit->ray.dir), hit->bound.y * 0.999f));
+	ray.origin = transf_point(hit->prim->transf.mat, &ray.origin);
 	return (c3_to_argb(light_cast(ctx, &ray, hit)));
 }

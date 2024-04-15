@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 01:06:54 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/15 17:09:37 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 	t_primitive	*plane;
 
 	plane = malloc(sizeof(t_primitive));
-	plane->spec = NULL;
-	if (!plane)
+	plane->spec = malloc(sizeof(t_plane));
+	if (!plane || !plane->spec)
 		return (NULL);
 	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(plane));
 	tokens = parse_transform(tokens, &plane->transf);

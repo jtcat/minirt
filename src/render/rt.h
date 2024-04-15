@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 00:34:27 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/15 16:57:11 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 
 # define WINDOW_TITLE "miniRT"
 # define DESTROY_NOTIFY 17
+
+# define SPEC_EXP 5.f
+# define SPEC_F .8f
+# define MIN_HIT_DIST .0001f
 
 typedef struct s_light
 {

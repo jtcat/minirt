@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 19:18:52 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:11:18 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,53 @@ enum e_primtype
 };
 
 typedef struct s_primitive	t_primitive;
+typedef struct s_hit	t_hit;
 
-typedef struct s_hit
+typedef void(*t_fn_norm)(t_hit *hit);
+typedef float(*t_fn_intersect)(void *prim, t_hit *hit);
+
+struct s_hit
 {
 	t_primitive	*prim;
 	t_ray		ray;
 	t_vec3		normal;
-	double		dist;
-}	t_hit;
+	t_vec2		bound;
+	t_fn_norm	norm_fn;
+};
 
-typedef bool	(*t_fn_intersect)(void *prim, t_ray *ray, \
-		t_vec2 bound, t_hit *hit);
-
-typedef struct s_primitive
+struct s_primitive
 {
 	enum e_primtype	type;
 	t_transf		transf;
 	t_color3		color;
 	void			*spec;
 	t_fn_intersect	intersect;
-}	t_primitive;
+};
+
+typedef struct s_plane
+{
+	float	a;
+}	t_plane;
 
 typedef struct s_sphere
 {
 	float	radius;
+	float	c;
 }	t_sphere;
 
 typedef struct s_cylinder
 {
 	float	r;
 	float	h;
+	float	y;
 }	t_cylinder;
 
 void	prim_init(t_primitive *prim);
 void	prim_destroy(void *vprim);
 
 // Intersections
-bool	i_sphere(void *prim, t_ray *ray, t_vec2 bound, t_hit *hit);
-bool	i_plane(void *prim, t_ray *ray, t_vec2 distBound, t_hit *hit);
-bool	i_cylinder(void *prim, t_ray *ray, t_vec2 bound, t_hit *hit);
+float	i_sphere(void *prim, t_hit *hit);
+float	i_plane(void *prim, t_hit *hit);
+float	i_cylinder(void *prim, t_hit *hit);
+
 #endif

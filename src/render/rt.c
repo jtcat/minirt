@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 17:23:18 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/15 21:25:08 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static inline t_color3	light_cast(t_rtctx *ctx, t_ray *ray, t_hit *hit)
 		ray->dir = v3unit(surf_to_light);
 		if (scene_intersect(ctx, ray, &pass) < v3length(&surf_to_light))
 			return (color);
-		norm_calc(hit);
 		diffuse_f = fmax(v3dot(ray->dir, hit->normal)
 				* ctx->lights[i].f, 0.f);
 		color = c3sum(color, c3prod(c3scalef(ctx->lights[i].color,
@@ -88,6 +87,7 @@ t_argb	get_light_color(t_rtctx *ctx, t_hit *hit)
 {
 	t_ray	ray;
 
+	norm_calc(hit);
 	ray.origin = v3sum(hit->ray.origin,
 			v3scalef(v3unit(hit->ray.dir), hit->bound.y * 0.999f));
 	ray.origin = transf_point(hit->prim->transf.mat, &ray.origin);

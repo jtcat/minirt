@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:28:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 17:25:47 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/16 15:56:45 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static void	n_cyl_body(t_hit *hit)
 					(t_vec3){0.f, spec->y, 0.f}), 1.f / spec->r));
 }
 
-// h = y
 static void	n_cyl_caps(t_hit *hit)
 {
 	hit->normal = (t_vec3){0.f, fsign(((t_cylinder *)hit->prim->spec)->y), 0.f};

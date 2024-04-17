@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 16:57:11 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/17 20:33:42 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ll_to_arr(t_rtctx *ctx);
 void	cleanup_mlx(t_rtctx *ctx);
 void	rtctx_destroy(t_rtctx *ctx);
 void	render(t_rtctx *ctx);
+void	display(t_rtctx *ctx, t_mlx_img *img);
 
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit);
 t_argb	get_light_color(t_rtctx *ctx, t_hit *hit);

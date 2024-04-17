@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 16:59:32 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/17 20:32:39 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ static inline t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
 	if (scene_intersect(ctx, ray, &hit) < INFINITY)
 		return (get_light_color(ctx, &hit));
 	return (0);
+}
+
+void	display(t_rtctx *ctx, t_mlx_img *img)
+{
+	mlx_put_image_to_window(ctx->mlx_ptr,
+		ctx->window_ptr, img->img_ptr, 0, 0);
 }
 
 void	render(t_rtctx *ctx)
@@ -44,6 +50,4 @@ void	render(t_rtctx *ctx)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(ctx->mlx_ptr,
-		ctx->window_ptr, ctx->img.img_ptr, 0, 0);
 }

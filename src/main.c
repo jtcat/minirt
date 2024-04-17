@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 18:48:33 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 20:34:34 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ int	key_handler(int keycode, void *params)
 {
 	if (keycode == XK_Escape)
 		mlx_loop_end(params);
+	return (1);
+}
+
+int	expose_handler(t_rtctx *ctx)
+{
+	display(ctx, &ctx->img);
 	return (1);
 }
 
@@ -39,9 +45,10 @@ int	render_main(t_rtctx *ctx)
 	cam_init(&ctx->cam);
 	ctx->mlx_ptr = mlx_init();
 	create_window(ctx);
+	render(ctx);
 	mlx_key_hook(ctx->window_ptr, &key_handler, ctx->mlx_ptr);
 	mlx_hook(ctx->window_ptr, DESTROY_NOTIFY, 0, &mlx_loop_end, ctx->mlx_ptr);
-	render(ctx);
+	mlx_expose_hook(ctx->window_ptr, expose_handler, ctx);
 	mlx_loop(ctx->mlx_ptr);
 	cleanup_mlx(ctx);
 	return (0);

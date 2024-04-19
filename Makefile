@@ -22,7 +22,7 @@ SRC:= $(addprefix $(SRC_DIR), \
 		$(addprefix parser/, \
 				parser.c parser2.c parser3.c parser4.c) \
 		$(addprefix intersect/, \
-				primitives.c) \
+				prim_cylinder.c prim_sphere.c prim_plane.c prim_utils.c) \
 		$(addprefix render/, \
 				render.c rt.c rt_utils.c))
 

@@ -6,7 +6,11 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/18 15:57:01 by psotto-m         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/19 15:02:52 by jcat             ###   ########.fr       */
+>>>>>>> 7f4ccd7 (first interface logic and refactor)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +37,6 @@ int		clamp(int a, int min, int max);
 float	fclamp(float a, float min, float max);
 int		key_handler(int keycode, void *params);
 void	arg_val(int argc, char **argv);
+
+void	ft_strjoin_morph(char **dst, const char *other);
 #endif

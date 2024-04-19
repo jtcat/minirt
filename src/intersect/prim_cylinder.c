@@ -5,13 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/19 14:21:36 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/19 15:07:55 by psotto-m         ###   ########.fr       */
+/*   Created: 2024/04/15 09:28:19 by jcat              #+#    #+#             */
+/*   Updated: 2024/04/24 12:06:18 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../datatypes/vec3.h"
 #include "primitives.h"
+#include "../render/rt.h"
 
 static void	n_cyl_body(t_hit *hit)
 {

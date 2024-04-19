@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/17 20:33:42 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/19 14:52:29 by jcat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "../datatypes/vec3.h"
 # include "../datatypes/argb.h"
 # include "../intersect/primitives.h"
+# include "../interface/if.h"
 
 # define WINDOW_TITLE "miniRT"
 # define DESTROY_NOTIFY 17
@@ -30,6 +31,15 @@
 # define SPEC_EXP 5.f
 # define SPEC_F .8f
 # define MIN_HIT_DIST .0001f
+
+enum e_objtype {RT_CAMERA, RT_LIGHT, RT_PRIM_PLANE, RT_PRIM_SPHERE, RT_PRIM_CYLINDER};
+
+typedef struct s_obj
+{
+	enum e_objtype	type;
+	t_transf		transf;
+	void			*spec;
+}	t_obj;
 
 typedef struct s_light
 {
@@ -40,14 +50,16 @@ typedef struct s_light
 
 typedef struct s_rtctx
 {
+	t_ifctx		ifctx;
 	void		*mlx_ptr;
 	void		*window_ptr;
 	t_mlx_img	img;
 	t_camera	cam;
-	t_primitive	*prims;
-	t_light		*lights;
+	t_obj		*prims;
+	t_obj		*lights;
 	t_list		*ll_lights;
 	t_list		*ll_prims;
+	int			obj_n;
 	int			prim_n;
 	int			light_n;
 	t_color3	ambient;

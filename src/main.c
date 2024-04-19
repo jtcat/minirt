@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/17 20:34:34 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 12:06:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <libft.h>
 #include "render/rt.h"
 #include "parser/parser.h"
+#include "utils.h"
 
 int	expose_handler(t_rtctx *ctx)
 {
@@ -39,7 +40,7 @@ int	render_main(t_rtctx *ctx)
 	ctx->mlx_ptr = mlx_init();
 	create_window(ctx);
 	render(ctx);
-	mlx_key_hook(ctx->window_ptr, &key_handler, ctx->mlx_ptr);
+	mlx_key_hook(ctx->window_ptr, &key_handler, ctx);
 	mlx_hook(ctx->window_ptr, DESTROY_NOTIFY, 0, &mlx_loop_end, ctx->mlx_ptr);
 	mlx_expose_hook(ctx->window_ptr, expose_handler, ctx);
 	mlx_loop(ctx->mlx_ptr);

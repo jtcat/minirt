@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec2.h                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 17:08:15 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/18 16:14:16 by psotto-m         ###   ########.fr       */
+/*   Created: 2024/04/18 16:15:02 by psotto-m          #+#    #+#             */
+/*   Updated: 2024/04/18 16:15:03 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC2_H
-# define VEC2_H
+#include "matrix.h"
+#include "vec3.h"
 
-typedef struct s_vec2
+void	tf_from_pos(const t_vec3 *pos, t_transf *t)
 {
-	double	x;
-	double	y;
-}	t_vec2;
+	tf_look_up(pos, (t_vec3){0, 1.f, 0}, t);
+}
 
-#endif
+bool	is_normal(t_vec3 *v)
+{
+	return (1);
+	return (v3length(v) <= 1.0f);
+}

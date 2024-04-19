@@ -46,8 +46,3 @@ t_color3	c3sum(t_color3 a, t_color3 b)
 		normalize_f(a.g + b.g),
 		normalize_f(a.b + b.b)});
 }
-
-t_color3	c3prod(t_color3 a, t_color3 b)
-{
-	return ((t_color3){a.r * b.r, a.g * b.g, a.b * b.b});
-}

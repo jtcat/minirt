@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec2.h                                             :+:      :+:    :+:   */
+/*   argb2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 17:08:15 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/18 16:14:16 by psotto-m         ###   ########.fr       */
+/*   Created: 2024/04/18 16:10:25 by psotto-m          #+#    #+#             */
+/*   Updated: 2024/04/18 16:10:26 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC2_H
-# define VEC2_H
+#include "argb.h"
+#include "../utils.h"
 
-typedef struct s_vec2
+t_color3	c3prod(t_color3 a, t_color3 b)
 {
-	double	x;
-	double	y;
-}	t_vec2;
-
-#endif
+	return ((t_color3){a.r * b.r, a.g * b.g, a.b * b.b});
+}

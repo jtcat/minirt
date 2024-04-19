@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/04 02:45:29 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/18 16:14:41 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "vec3.h"
 # include "utils.h"
 
-typedef struct s_camera {
+typedef struct s_camera
+{
 	int		image_width;
 	int		image_height;
 	double	aspect_ratio;

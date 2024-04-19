@@ -37,9 +37,3 @@ t_vec3	vec3(const float x, const float y, const float z)
 {
 	return ((t_vec3){x, y, z});
 }
-
-bool	is_normal(t_vec3 *v)
-{
-	return (1);
-	return (v3length(v) <= 1.0f);
-}

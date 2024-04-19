@@ -16,13 +16,6 @@
 #include "render/rt.h"
 #include "parser/parser.h"
 
-int	key_handler(int keycode, void *params)
-{
-	if (keycode == XK_Escape)
-		mlx_loop_end(params);
-	return (1);
-}
-
 int	expose_handler(t_rtctx *ctx)
 {
 	display(ctx, &ctx->img);
@@ -52,20 +45,6 @@ int	render_main(t_rtctx *ctx)
 	mlx_loop(ctx->mlx_ptr);
 	cleanup_mlx(ctx);
 	return (0);
-}
-
-void	arg_val(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		print_err("Incorrect number of arguments");
-		exit(1);
-	}
-	if (ft_strnstr(argv[1], ".rt", ft_strlen(argv[1])) == NULL)
-	{
-		print_err("File must have an '.rt' extension");
-		exit(1);
-	}
 }
 
 bool	validate_scene(t_rtctx *ctx)

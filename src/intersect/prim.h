@@ -6,13 +6,14 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:25:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 13:27:41 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/19 12:23:26 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRIM_H
 # define PRIM_H
 
-typedef bool(*t_fn_intersect)(void *prim, t_ray *ray, t_vec2 bound, t_hit *hit);
+typedef bool	(*t_fn_intersect)\
+			(void *prim, t_ray *ray, t_vec2 bound, t_hit *hit);
 
 #endif

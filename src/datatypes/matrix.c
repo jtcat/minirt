@@ -66,11 +66,6 @@ void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)
 	tf_update_inv(t);
 }
 
-void	tf_from_pos(const t_vec3 *pos, t_transf *t)
-{
-	tf_look_up(pos, (t_vec3){0, 1.f, 0}, t);
-}
-
 t_vec3	transf_point(const float m[4][4], const t_vec3 *v)
 {
 	return ((t_vec3){

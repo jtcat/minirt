@@ -14,13 +14,13 @@ NAME:= miniRT
 SRC_DIR:= src/
 
 SRC:= $(addprefix $(SRC_DIR), \
-			main.c utils.c \
+			main.c utils.c utils2.c\
 		$(addprefix datatypes/, \
-			camera.c vec3.c vec3_2.c matrix.c argb.c) \
+			camera.c vec3.c vec3_2.c matrix.c argb.c argb2.c utils.c) \
 		$(addprefix gnl/, \
 				gnl.c gnl_utils.c) \
 		$(addprefix parser/, \
-				parser.c parser2.c parser3.c) \
+				parser.c parser2.c parser3.c parser4.c) \
 		$(addprefix intersect/, \
 				primitives.c) \
 		$(addprefix render/, \

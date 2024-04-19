@@ -32,6 +32,7 @@ char	**parse_light(t_rtctx *ctx, char **tokens);
 char	**parse_sphere(t_rtctx *ctx, char **tokens);
 char	**parse_plane(t_rtctx *ctx, char **tokens);
 char	**parse_cylinder(t_rtctx *ctx, char **tokens);
+char	**parse_transform(char **tokens, t_transf *t);
 
 char	**error_helper(char *msg);
 

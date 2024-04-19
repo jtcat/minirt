@@ -13,12 +13,6 @@
 #include "parser.h"
 #include "../datatypes/argb.h"
 
-char	**error_helper(char *msg)
-{
-	print_err(msg);
-	return (NULL);
-}
-
 // Sets str head via ref
 bool	parse_numb(const char **strref, int *i, int *outsign)
 {

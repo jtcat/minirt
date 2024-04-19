@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 16:22:34 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/18 15:57:01 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ float	ftern(int cond, float a, float b);
 
 int		clamp(int a, int min, int max);
 float	fclamp(float a, float min, float max);
+int		key_handler(int keycode, void *params);
+void	arg_val(int argc, char **argv);
 #endif

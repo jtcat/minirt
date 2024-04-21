@@ -30,6 +30,6 @@ typedef struct s_ifctx
 	float			*obj_attr_ref;
 }	t_ifctx;
 
-void	proc_rt_interface(int keycode, t_rtctx *ctx);
+void	poll_interface(const int key, t_rtctx * const ctx)
 
 #endif

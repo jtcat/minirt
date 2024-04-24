@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/19 15:10:41 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 10:53:44 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../render/rt.h"
-#include "if.h"
+#include "if_utils.h"
 
 static const char	*get_prim_attr_name(const t_obj *obj, void *attrib_ptr)
 {
@@ -48,6 +48,11 @@ static void	poll_rotate(const int key, t_ifctx * const ifctx)
 	transform_apply(&ifctx->sel_obj->transf, &rot_mat);
 }
 
+t_node3d	*if_get_sel_node(t_ifctx *ifctx)
+{
+	return (ifctx->rtctx->node_ref_list[ifctx->node_index]);
+}
+
 static void	poll_translate(const int key, t_ifctx * const ifctx)
 {
 	const t_vec3	pos = {(key == XK_D) - (key == XK_A),
@@ -56,16 +61,16 @@ static void	poll_translate(const int key, t_ifctx * const ifctx)
 	t_transf		transl;
 
 	tf_from_pos(&pos, &transl);
-	transform_apply(&ifctx->sel_obj->transf, &transl);
+	transform_apply(if_get_sel_node(ifctx), &transl);
 }
 
-static void	poll_resize(const int key, t_rtctx * const rtctx)
+static void	cycle_obj_attrib(const int key, t_rtctx * const rtctx)
 {
 	t_ifctx *const	ifctx = &rtctx->ifctx;
-	t_obj *const	obj = get_if_obj_sel(ifctx);
+	t_node3d *const	node = if_get_sel_node(ifctx);
 
 	if (key == XK_D)
-		ifctx->obj_attr_ref = cycle_obj_attr(get_if_obj_sel(ifctx));
+		ifctx->obj_attr_ref = cycle_obj_attr(if_get_sel_node(ifctx));
 	else if (key == XK_A)
 		ifctx->obj_attr_ref = fmax(*ifctx->obj_attr_ref - 1, 0);
 	else if (key == XK_W)
@@ -90,10 +95,10 @@ static void	poll_obj_sel(const int key, t_rtctx * const rtctx)
 	t_ifctx *const	ifctx = &rtctx->ifctx;
 
 	if (key == XK_Q)
-		--ifctx->sel_obj_index;
+		--ifctx->node_index;
 	else if (key == XK_E)
-		++ifctx->sel_obj_index;
-	ifctx->sel_obj_index = clamp(ifctx->sel_obj_index, 0, rtctx->obj_n);
+		++ifctx->node_index;
+	ifctx->node_index = clamp(ifctx->node_index, 0, rtctx->node_n);
 	ifctx->obj_attr_ref = NULL;
 }
 
@@ -124,11 +129,11 @@ void	display_interface(t_rtctx * const ctx)
 		return ;
 	status_str = ft_strjoin("MODE: ", mode_names[ctx->ifctx->mode]);
 	ft_strjoin_morph(&status_str, "\nOBJECT TYPE: ");
-	ft_strjoin_morph(&status_str, obj_types[get_if_obj_sel(ctx->ifctx)->type]);
+	ft_strjoin_morph(&status_str, obj_types[if_get_sel_node(ctx->ifctx)->type]);
 	ft_strjoin_morph(&status_str, "\nATTRIBUTE: ");
 	ft_strjoin_morph(&status_str, tmp);
 	free(tmp);
-	tmp = get_prim_attr_name(get_if_obj_sel(ctx->ifctx));
+	tmp = get_prim_attr_name(if_get_sel_node(ctx->ifctx));
 	ft_strjoin_morph(&status_str, tmp);
 	free(tmp);
 	mlx_string_put(ctx->mlx_ptr, ctx->window_ptr, 20, 20, (1 << 24) - 1, status_str);

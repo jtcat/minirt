@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:18:44 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:39:59 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "../datatypes/camera.h"
 # include "../datatypes/argb.h"
 # include "../intersect/primitives.h"
+# include "../interface/if_utils.h"
 
 # define WINDOW_TITLE "miniRT"
 # define DESTROY_NOTIFY 17
@@ -30,8 +31,12 @@
 # define SPEC_F .8f
 # define MIN_HIT_DIST .0001f
 
+# define IF_MODE_FIRST IF_MODE_TRANSLATE
+# define IF_MODE_LAST IF_MODE_MORPH
+
 typedef struct s_rtctx
 {
+	t_ifctx		ifctx;
 	void		*mlx_ptr;
 	void		*window_ptr;
 	t_mlx_img	img;

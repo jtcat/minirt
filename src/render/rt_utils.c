@@ -6,12 +6,22 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:39:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 09:27:27 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:02:32 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "rt.h"
+#include "../interface/if.h"
+
+int	key_handler(int keycode, t_rtctx *rtctx)
+{
+	if (keycode == XK_Escape)
+		mlx_loop_end(rtctx->mlx_ptr);
+	else
+		poll_interface(keycode, rtctx);
+	return (1);
+}
 
 void	rtctx_init(t_rtctx *ctx)
 {
@@ -42,7 +52,6 @@ void	make_node_ref_list(t_rtctx *rtctx)
 	iter = rtctx->ll_prims;
 	while (iter)
 	{
-		((t_node3d *)iter->content)->type = NODE_PRIM;
 		rtctx->node_ref_list[i++] = iter->content;
 		iter = iter->next;
 	}
@@ -53,7 +62,6 @@ void	make_node_ref_list(t_rtctx *rtctx)
 		iter = iter->next;
 	}
 }
-
 
 void	rtctx_destroy(t_rtctx *ctx)
 {

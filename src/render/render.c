@@ -6,11 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 09:32:51 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:29:19 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "../interface/if.h"
 
 static inline t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
 {
@@ -25,7 +26,7 @@ void	display(t_rtctx *ctx, t_mlx_img *img)
 {
 	mlx_put_image_to_window(ctx->mlx_ptr,
 		ctx->window_ptr, img->img_ptr, 0, 0);
-	//display_interface(ctx);
+	display_interface(&ctx->ifctx);
 }
 
 void	render(t_rtctx *ctx)

@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:44:14 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:44:16 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:10:57 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	arg_val(int argc, char **argv)
 	}
 }
 
-int	key_handler(int keycode, void *params)
+int	key_handler(int keycode, t_rtctx *ctx)
 {
 	if (keycode == XK_Escape)
-		mlx_loop_end(params);
+		mlx_loop_end(ctx->mlx_ptr);
+//	else
+//	 	poll_interface(keycode, ctx);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:47:37 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:47:38 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:12:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,48 +21,43 @@
 #include "../render/rt.h"
 #include "../intersect/primitives.h"
 
-char	**parse_cylinder(t_rtctx *ctx, char **tokens)
+char	**parse_plane(t_rtctx *ctx, char **tokens)
 {
-	t_primitive	*cyl;
-	float		tmp;
+	t_plane	*plane;
 
-	cyl = malloc(sizeof(t_primitive));
-	cyl->spec = malloc(sizeof(t_cylinder));
-	if (!cyl || !cyl->spec)
-		return (NULL);
-	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(cyl));
-	tokens = parse_transform(tokens, &cyl->transf);
+	plane = plane_new();
+	if (!plane)
+		return (error_helper("Out of memory!"));
+	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(plane));
+	tokens = parse_transform(tokens, (t_node3d *)plane);
 	if (!tokens)
 		return (NULL);
-	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+	if (!parse_rgb(*(tokens++), &((t_primitive *)plane)->color))
 		return (NULL);
-	((t_cylinder *)cyl->spec)->r = tmp / 2.0;
-	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
-		return (NULL);
-	((t_cylinder *)cyl->spec)->h = tmp / 2.0;
-	if (!parse_rgb(*(tokens++), &cyl->color))
-		return (NULL);
-	cyl->intersect = i_cylinder;
-	++ctx->prim_n;
+	ctx->node_n++;
 	return (tokens);
 }
 
-char	**parse_plane(t_rtctx *ctx, char **tokens)
+char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 {
-	t_primitive	*plane;
+	t_cylinder	*cyl;
+	float	tmp;
 
-	plane = malloc(sizeof(t_primitive));
-	plane->spec = malloc(sizeof(t_plane));
-	if (!plane || !plane->spec)
-		return (NULL);
-	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(plane));
-	tokens = parse_transform(tokens, &plane->transf);
-	if (!tokens)
-		return (NULL);
-	if (!parse_rgb(*(tokens++), &plane->color))
-		return (NULL);
-	plane->intersect = i_plane;
-	++ctx->prim_n;
+	cyl = cylinder_new();
+	if (!cyl)
+		return (error_helper("Out of memory!"));
+	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(cyl));
+	if (!parse_transform(tokens, (t_node3d *)cyl))
+		return (error_helper("Bad cylinder transform"));
+	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+		return (error_helper("Bad cylinder radius"));
+	cyl->r = tmp / 2.0;
+	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+		return (error_helper("Bad cylinder height"));
+	cyl->h = tmp / 2.0;
+	if (!parse_rgb(*(tokens++), &((t_primitive *)cyl)->color))
+		return (error_helper("Bad cylinder color"));
+	ctx->node_n++;
 	return (tokens);
 }
 

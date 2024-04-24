@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 17:09:37 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 12:13:22 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../datatypes/matrix.h"
 #include "../datatypes/argb.h"
 #include "../datatypes/vec3.h"
+#include "../datatypes/light.h"
 #include "../render/rt.h"
 #include "../intersect/primitives.h"
 
@@ -57,10 +58,11 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 		return (NULL);
 	}
 	ctx->cam.hfov = (double)fov / 360.0f * 2 * M_PI;
+	ctx->node_n++;
 	return (tokens);
 }
 
-char	**parse_transform(char **tokens, t_transf *t)
+char	**parse_transform(char **tokens, t_node3d *node)
 {
 	t_vec3	pos;
 	t_vec3	dir;
@@ -69,19 +71,20 @@ char	**parse_transform(char **tokens, t_transf *t)
 		return (NULL);
 	if (!parse_vec3(*(tokens++), &dir) || !is_normal(&dir))
 		return (NULL);
-	tf_look_up(&pos, dir, t);
+	tf_look_up(&pos, dir, &node->transf);
 	return (tokens);
 }
 
 char	**parse_light(t_rtctx *ctx, char **tokens)
 {
+	t_vec3			pos;
 	t_light			*light;
 
-	light = malloc(sizeof(t_light));
+	light = light_new();
 	if (!light)
-		return (NULL);
+		return (error_helper("Out of memory!"));
 	ft_lstadd_back(&ctx->ll_lights, ft_lstnew(light));
-	if (!parse_vec3(*(tokens++), &light->pos))
+	if (!parse_vec3(*(tokens++), &pos))
 		return (error_helper("Missing point light position"));
 	if (!parse_float(*(tokens++), &light->f))
 		return (error_helper("Error in Float"));
@@ -89,30 +92,29 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 		return (error_helper("Light intensity out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &light->color))
 		return (error_helper("Missing point light color"));
-	++ctx->light_n;
+	tf_from_pos(&pos, &light->node.transf);
+	ctx->node_n++;
 	return (tokens);
 }
 
 char	**parse_sphere(t_rtctx *ctx, char **tokens)
 {
+	t_sphere	*sphere;
 	t_vec3		tmpv;
-	t_primitive	*sphere;
 	float		radius;
 
-	sphere = malloc(sizeof(t_primitive));
-	sphere->spec = malloc(sizeof(t_sphere));
-	if (!sphere || !sphere->spec)
-		return (NULL);
+	sphere = sphere_new();
+	if (!sphere)
+		return (error_helper("Out of memory!"));
 	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(sphere));
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
-	tf_from_pos(&tmpv, &sphere->transf);
+	tf_from_pos(&tmpv, &((t_node3d *)sphere)->transf);
 	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
 		return (NULL);
-	((t_sphere *)sphere->spec)->radius = radius / 2.0f;
-	if (!parse_rgb(*(tokens++), &sphere->color))
+	sphere->r = radius / 2.0f;
+	if (!parse_rgb(*(tokens++), &((t_primitive *)sphere)->color))
 		return (NULL);
-	sphere->intersect = i_sphere;
-	++ctx->prim_n;
+	ctx->node_n++;
 	return (tokens);
 }

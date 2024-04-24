@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prim_utils.c                                       :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/19 14:25:20 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/19 14:25:24 by psotto-m         ###   ########.fr       */
+/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
+/*   Updated: 2024/04/24 09:30:36 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../datatypes/vec3.h"
-#include "primitives.h"
+#ifndef RAY_H
+# define RAY_H
 
-void	prim_destroy(void *vprim)
+# include "vec3.h"
+
+typedef struct s_ray
 {
-	t_primitive	*prim;
+	t_vec3	origin;
+	t_vec3	dir;
+}	t_ray;
 
-	prim = (t_primitive *)vprim;
-	if (prim->spec)
-		free(prim->spec);
-	free(prim);
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:39:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 00:32:11 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 09:27:27 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 void	rtctx_init(t_rtctx *ctx)
 {
 	ctx->cam.hfov = -1;
-	ctx->prim_n = 0;
-	ctx->light_n = 0;
+	ctx->node_n = 0;
+	ctx->node_ref_list = NULL;
 	ctx->ll_prims = NULL;
 	ctx->ll_lights = NULL;
-	ctx->prims = NULL;
-	ctx->lights = NULL;
 	ctx->ambient.r = -1;
 }
 
@@ -33,43 +31,34 @@ void	cleanup_mlx(t_rtctx *ctx)
 	free(ctx->mlx_ptr);
 }
 
-void	ll_to_arr(t_rtctx *ctx)
+void	make_node_ref_list(t_rtctx *rtctx)
 {
-	t_list	*iter;
 	int		i;
+	t_list	*iter;
 
-	ctx->lights = malloc(sizeof(t_light) * ctx->light_n);
-	ctx->prims = malloc(sizeof(t_primitive) * ctx->prim_n);
-	iter = ctx->ll_lights;
-	i = 0;
+	rtctx->node_ref_list = malloc(sizeof(t_node3d *) * rtctx->node_n);
+	rtctx->node_ref_list[0] = (t_node3d *)&rtctx->cam;
+	i = 1;
+	iter = rtctx->ll_prims;
 	while (iter)
 	{
-		ctx->lights[i++] = *(t_light *)iter->content;
+		((t_node3d *)iter->content)->type = NODE_PRIM;
+		rtctx->node_ref_list[i++] = iter->content;
 		iter = iter->next;
 	}
-	iter = ctx->ll_prims;
-	i = 0;
+	iter = rtctx->ll_lights;
 	while (iter)
 	{
-		ctx->prims[i++] = *(t_primitive *)iter->content;
+		rtctx->node_ref_list[i++] = iter->content;
 		iter = iter->next;
 	}
-	ft_lstclear(&ctx->ll_lights, free);
-	ft_lstclear(&ctx->ll_prims, free);
-	ctx->ll_lights = NULL;
-	ctx->ll_prims = NULL;
 }
+
 
 void	rtctx_destroy(t_rtctx *ctx)
 {
-	ft_lstclear(&ctx->ll_lights, free);
+	if (ctx->node_ref_list)
+		free(ctx->node_ref_list);
 	ft_lstclear(&ctx->ll_prims, free);
-	if (ctx->prims)
-	{
-		while (ctx->prim_n--)
-			free(ctx->prims[ctx->prim_n].spec);
-		free(ctx->prims);
-	}
-	if (ctx->lights)
-		free(ctx->lights);
+	ft_lstclear(&ctx->ll_lights, free);
 }

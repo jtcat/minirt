@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:26:28 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/15 15:04:58 by jcat             ###   ########.fr       */
+/*   Created: 2024/04/24 09:47:17 by joaoteix          #+#    #+#             */
+/*   Updated: 2024/04/24 09:48:57 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "light.h"
 
-# include "datatypes/vec3.h"
-# include "datatypes/vec2.h"
-
-typedef struct s_ray
+t_light	*light_new(void)
 {
-	t_vec3	origin;
-	t_vec3	dir;
-}	t_ray;
+	t_light	*light;
 
-#endif
+	light = malloc(sizeof(t_light));
+	if (light)
+		light->node.type = NODE_LIGHT;
+	return (light);
+}

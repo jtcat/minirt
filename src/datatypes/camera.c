@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:35:10 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/14 00:46:26 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 09:44:59 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	cam_init(t_camera *cam)
 	t_vec3			viewport_v;
 	t_vec3			viewport_ul;
 
+	cam->node.type = NODE_CAM;
 	cam->focal_length = 1.0f;
 	cam->aspect_ratio = 16.0 / 9.0;
 	cam->image_width = 1300;

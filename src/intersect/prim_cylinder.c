@@ -6,29 +6,28 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:28:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:06:18 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:22:17 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../datatypes/vec3.h"
 #include "primitives.h"
-#include "../render/rt.h"
 
 static void	n_cyl_body(t_hit *hit)
-{
-	t_cylinder *const	spec = (t_cylinder *)hit->prim->spec;
+{		
+	t_cylinder *const	cyl = (t_cylinder *)hit->prim;
 
 	hit->normal = v3unit(v3scalef(v3sub(v3sum(hit->ray.origin,
 						v3scalef(hit->ray.dir, hit->bound.y)),
-					(t_vec3){0.f, spec->y, 0.f}), 1.f / spec->r));
+					(t_vec3){0.f, cyl->y, 0.f}), 1.f / cyl->r));
 }
 
 static void	n_cyl_caps(t_hit *hit)
 {
-	hit->normal = (t_vec3){0.f, fsign(((t_cylinder *)hit->prim->spec)->y), 0.f};
+	hit->normal = (t_vec3){0.f, fsign(((t_cylinder *)hit->prim)->y), 0.f};
 }
 
-static inline float	i_cyl_helper(t_cylinder *spec, t_hit *hit, float k0)
+static inline float	i_cyl_helper(t_cylinder *cyl, t_hit *hit, float k0)
 {
 	const float	k2 = 1.f - hit->ray.dir.y * hit->ray.dir.y;
 	const float	k1 = v3dot(hit->ray.origin, hit->ray.dir) \
@@ -41,14 +40,14 @@ static inline float	i_cyl_helper(t_cylinder *spec, t_hit *hit, float k0)
 		return (-1.f);
 	h = sqrt(h);
 	t = (-k1 - h) / k2;
-	spec->y = hit->ray.origin.y + t * hit->ray.dir.y;
+	cyl->y = hit->ray.origin.y + t * hit->ray.dir.y;
 	if (t > hit->bound.x && t < hit->bound.y
-		&& spec->y > -spec->h && spec->y < spec->h)
+		&& cyl->y > -cyl->h && cyl->y < cyl->h)
 	{
 		hit->norm_fn = n_cyl_body;
 		return (t);
 	}
-	t = (ftern(spec->y < 0.f, -spec->h, spec->h)
+	t = (ftern(cyl->y < 0.f, -cyl->h, cyl->h)
 			- hit->ray.origin.y) / hit->ray.dir.y;
 	if (!(t > hit->bound.x && t < hit->bound.y && fabs(k1 + k2 * t) < h))
 		return (-1.f);
@@ -56,12 +55,11 @@ static inline float	i_cyl_helper(t_cylinder *spec, t_hit *hit, float k0)
 	return (t);
 }
 
-float	i_cylinder(void *rawspec, t_hit *hit)
+float	i_cylinder(t_primitive *cyl, t_hit *hit)
 {
-	t_cylinder *const	spec = (t_cylinder *)rawspec;
 	const float			k0 = v3dot(hit->ray.origin, hit->ray.origin)
 		- hit->ray.origin.y * hit->ray.origin.y
-		- spec->r * spec->r;
+		- ((t_cylinder *)cyl)->r * ((t_cylinder *)cyl)->r;
 
-	return (i_cyl_helper(spec, hit, k0));
+	return (i_cyl_helper((t_cylinder *)cyl, hit, k0));
 }

@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:47:37 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/24 12:12:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:25:58 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 	if (!cyl)
 		return (error_helper("Out of memory!"));
 	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(cyl));
-	if (!parse_transform(tokens, (t_node3d *)cyl))
+	tokens = parse_transform(tokens, (t_node3d *)cyl);
+	if (!tokens)
 		return (error_helper("Bad cylinder transform"));
 	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
 		return (error_helper("Bad cylinder radius"));

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:02:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/23 15:39:14 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:39:31 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 #include <stdbool.h>
 #include "X11/keysym.h"
-#include "../render/rt.h"
 
-# define IF_MODE_FIRST IF_TRANSLATE
-# define IF_MODE_LAST IF_RESIZE
+# define IF_MODE_FIRST IF_MODE_TRANSLATE
+# define IF_MODE_LAST IF_MODE_MORPH
 
-enum e_ifmode {IF_TRANSLATE, IF_ROTATE, IF_RESIZE};
+typedef struct s_rtctx	t_rtctx;
+
+enum e_ifmode {IF_MODE_TRANSLATE, IF_MODE_ROTATE, IF_MODE_MORPH};
 
 typedef struct s_ifctx
 {
@@ -28,7 +29,7 @@ typedef struct s_ifctx
 	enum e_ifmode	mode;
 	bool			visible;
 	int				node_index;
-	float			*obj_attr_ref;
+	float			*node_attr_ref;
 }	t_ifctx;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/23 00:36:39 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:52:47 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)
 	t->mat[2][1] = up_dir.z;
 	t->mat[2][2] = zaxis.z;
 	t->mat[2][3] = pos->z;
+	*(t->mat[3]) = 0;
+	t->mat[3][3] = 1;
 	tf_update_inv(t);
 }
 
@@ -87,4 +89,20 @@ t_vec3	transf_vec(const float m[4][4], const t_vec3 *v)
 		m[1][0] * v->x + m[1][1] * v->y + m[1][2] * v->z,
 		m[2][0] * v->x + m[2][1] * v->y + m[2][2] * v->z,
 			});
+}
+
+// Left transforms right
+// mat mult, store in r;
+void	tf_transform(t_transf *l, t_transf *r)
+{
+	mat_mult(l->mat, r->mat, r->mat);
+	tf_update_inv(r);
+}
+
+void	tf_translate(t_transf *l, const t_vec3 *transl)
+{
+	l->mat[0][3] += transl->x;
+	l->mat[1][3] += transl->y;
+	l->mat[2][3] += transl->z;
+	tf_update_inv(l);
 }

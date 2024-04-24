@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 10:35:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:30:56 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,41 +59,43 @@ float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit)
 // diffuse dot product is positive
 //
 // specular term is -dot to negate ray dir
-static inline t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit)
+static void	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_color3 *dst)
 {
 	t_list		*node;
 	t_light		*light;
 	float		diffuse_f;
-	t_color3	color;
+	t_vec3		light_vec;
 
 	node = rtctx->ll_lights;
-	color = c3prod(hit->prim->color, rtctx->ambient);
+	*dst = c3prod(hit->prim->color, rtctx->ambient);
 	while (node)
 	{
 		light = (t_light *)node->content;
-		ray->dir = v3unit(v3sub(tf_get_pos(&light->node.transf), ray->origin));
-		if (scene_intersect(rtctx, ray, NULL) >= v3length(&ray->dir))
+		light_vec = v3sub(tf_get_pos(&light->node.transf), ray->origin);
+		ray->dir = v3unit(light_vec);
+		if (scene_intersect(rtctx, ray, NULL) >= v3length(&light_vec))
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * light->f, 0.f);
-			color = c3sum(color, c3prod(c3scalef(light->color,
+			*dst = c3sum(*dst, c3prod(c3scalef(light->color,
 							diffuse_f), hit->prim->color));
-			color = c3sum(color, c3scalef((t_color3){1.f, 1.f, 1.f},
+			*dst = c3sum(*dst, c3scalef((t_color3){1.f, 1.f, 1.f},
 						(diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray->dir,
 										&hit->normal), hit->ray.dir), 0.f)
 							* SPEC_F, SPEC_EXP)));
 		}
 		node = node->next;
 	}
-	return (color);
 }
 
 t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit)
 {
-	t_ray	ray;
+	t_ray		ray;
+	t_color3	color;
 
 	norm_calc(hit);
 	ray.origin = v3sum(hit->ray.origin,
 			v3scalef(v3unit(hit->ray.dir), hit->bound.y * 0.999f));
 	ray.origin = transf_point(hit->prim->node.transf.mat, &ray.origin);
-	return (c3_to_argb(light_cast(rtctx, &ray, hit)));
+	light_cast(rtctx, &ray, hit, &color);
+	return (c3_to_argb(color));
 }

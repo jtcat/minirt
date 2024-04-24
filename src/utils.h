@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:18:41 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:16:25 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int		clamp(int a, int min, int max);
 float	fclamp(float a, float min, float max);
 void	arg_val(int argc, char **argv);
 
-void	ft_strjoin_morph(char **dst, const char *other);
+void	ft_strjoin_morph(char **dst, char *other);
 #endif

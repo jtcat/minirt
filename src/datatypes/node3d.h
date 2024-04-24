@@ -6,7 +6,7 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 00:55:48 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/24 01:57:37 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:08:21 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "matrix.h"
 
-enum e_nodetype {NODE_CAM, NODE_PRIM, NODE_LIGHT};
+enum e_nodetype {NODE_CAM, NODE_LIGHT, NODE_PRIM};
 
 typedef struct s_node3d
 {

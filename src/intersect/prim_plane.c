@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:22:57 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/19 14:22:58 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:22:05 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 static void	n_plane(t_hit *hit)
 {
-	hit->normal = (t_vec3){0.f,
-		-fsign(((t_plane *)hit->prim->spec)->a), 0.f};
+	hit->normal = (t_vec3){0.f, -fsign(((t_plane *)hit->prim)->a), 0.f};
 }
 
-float	i_plane(void *spec, t_hit *hit)
+float	i_plane(t_primitive *plane, t_hit *hit)
 {
 	const t_vec3	up = (t_vec3){0.0, 1.0, 0.0};
 	const float		a = v3dot(hit->ray.dir, up);
@@ -29,7 +28,7 @@ float	i_plane(void *spec, t_hit *hit)
 		return (-1.f);
 	else
 	{
-		((t_plane *)spec)->a = a;
+		((t_plane *)plane)->a = a;
 		hit->norm_fn = n_plane;
 		return (d);
 	}

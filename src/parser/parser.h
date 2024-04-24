@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:53:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/13 19:06:56 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:13:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**parse_light(t_rtctx *ctx, char **tokens);
 char	**parse_sphere(t_rtctx *ctx, char **tokens);
 char	**parse_plane(t_rtctx *ctx, char **tokens);
 char	**parse_cylinder(t_rtctx *ctx, char **tokens);
-char	**parse_transform(char **tokens, t_transf *t);
+char	**parse_transform(char **tokens, t_node3d *t);
 
 char	**error_helper(char *msg);
 

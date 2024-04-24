@@ -16,13 +16,13 @@ SRC_DIR:= src/
 SRC:= $(addprefix $(SRC_DIR), \
 			main.c utils.c utils2.c\
 		$(addprefix datatypes/, \
-			camera.c vec3.c vec3_2.c matrix.c argb.c argb2.c utils.c) \
+			camera.c light.c vec3.c vec3_2.c matrix.c argb.c argb2.c utils.c) \
 		$(addprefix gnl/, \
 				gnl.c gnl_utils.c) \
 		$(addprefix parser/, \
 				parser.c parser2.c parser3.c parser4.c) \
 		$(addprefix intersect/, \
-				prim_cylinder.c prim_sphere.c prim_plane.c prim_utils.c) \
+				prim_cylinder.c prim_sphere.c prim_plane.c prim_construct.c) \
 		$(addprefix render/, \
 				render.c rt.c rt_utils.c))
 

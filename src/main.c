@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:54:56 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:06:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:17:40 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	create_window(t_rtctx *ctx)
 			&ctx->img.color_depth, &ctx->img.line_len, &ctx->img.endian);
 }
 
-int	render_main(t_rtctx *ctx)
+int	render_run(t_rtctx *ctx)
 {
 	cam_init(&ctx->cam);
 	ctx->mlx_ptr = mlx_init();
@@ -52,12 +52,12 @@ bool	validate_scene(t_rtctx *ctx)
 {
 	if (ctx->cam.hfov == -1)
 	{
-		print_err("No Camera present");
+		print_err("No camera present");
 		return (false);
 	}
 	if (ctx->ambient.r == -1)
 	{
-		print_err("No Ambient Light present");
+		print_err("No ambient light defined");
 		return (false);
 	}
 	return (true);
@@ -81,8 +81,8 @@ int	main(int argc, char **argv)
 		rtctx_destroy(&ctx);
 		return (1);
 	}
-	ll_to_arr(&ctx);
-	render_main(&ctx);
+	make_node_ref_list(&ctx);
+	render_run(&ctx);
 	rtctx_destroy(&ctx);
 	return (0);
 }

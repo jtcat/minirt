@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/19 14:52:29 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/24 12:18:44 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@
 # include "X11/keysym.h"
 # include <stdbool.h>
 # include "../utils.h"
-# include "../ray.h"
+# include "../datatypes/ray.h"
 # include "../datatypes/camera.h"
-# include "../datatypes/vec3.h"
 # include "../datatypes/argb.h"
 # include "../intersect/primitives.h"
-# include "../interface/if.h"
 
 # define WINDOW_TITLE "miniRT"
 # define DESTROY_NOTIFY 17
@@ -32,47 +30,30 @@
 # define SPEC_F .8f
 # define MIN_HIT_DIST .0001f
 
-enum e_objtype {RT_CAMERA, RT_LIGHT, RT_PRIM_PLANE, RT_PRIM_SPHERE, RT_PRIM_CYLINDER};
-
-typedef struct s_obj
-{
-	enum e_objtype	type;
-	t_transf		transf;
-	void			*spec;
-}	t_obj;
-
-typedef struct s_light
-{
-	t_color3	color;
-	t_vec3		pos;
-	float		f;
-}	t_light;
-
 typedef struct s_rtctx
 {
-	t_ifctx		ifctx;
 	void		*mlx_ptr;
 	void		*window_ptr;
 	t_mlx_img	img;
 	t_camera	cam;
-	t_obj		*prims;
-	t_obj		*lights;
-	t_list		*ll_lights;
+	t_node3d	**node_ref_list;
 	t_list		*ll_prims;
-	int			obj_n;
-	int			prim_n;
-	int			light_n;
+	t_list		*ll_lights;
+	int			node_n;
 	t_color3	ambient;
 	float		ambient_f;
 }	t_rtctx;
 
 void	rtctx_init(t_rtctx *ctx);
-void	ll_to_arr(t_rtctx *ctx);
+void	make_obj_list(t_rtctx *ctx);
 void	cleanup_mlx(t_rtctx *ctx);
 void	rtctx_destroy(t_rtctx *ctx);
-void	render(t_rtctx *ctx);
-void	display(t_rtctx *ctx, t_mlx_img *img);
+void	make_node_ref_list(t_rtctx *rtctx);
 
+int		key_handler(int keycode, t_rtctx *params);
+
+void	display(t_rtctx *ctx, t_mlx_img *img);
+void	render(t_rtctx *ctx);
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit);
 t_argb	get_light_color(t_rtctx *ctx, t_hit *hit);
 

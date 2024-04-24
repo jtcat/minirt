@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 01:11:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/04/23 00:36:39 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static void	tf_update_inv(t_transf *t)
 	t->inv[3][1] = 0.f;
 	t->inv[3][2] = 0.f;
 	t->inv[3][3] = 1;
+}
+
+t_vec3	tf_get_pos(const t_transf *t)
+{
+	return ((t_vec3){t->mat[0][3], t->mat[1][3], t->mat[2][3]});
 }
 
 void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)

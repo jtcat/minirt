@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 18:30:56 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 02:07:43 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static inline void	ray_transform(
 	new_ray->dir = transf_vec(prim->node.transf.inv, &og_ray->dir);
 }
 
-float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit)
+float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit, float min_cull_dist)
 {
 	t_primitive	*prim;
 	t_list		*node;
@@ -43,6 +43,8 @@ float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit)
 		tmp_dist = prim->intersect(prim, &tmp_hit);
 		if (tmp_dist > MIN_HIT_DIST)
 		{
+			if (tmp_dist < min_cull_dist)
+				return (-1.f);
 			tmp_hit.bound.y = tmp_dist;
 			tmp_hit.prim = prim;
 			if (hit)
@@ -73,7 +75,7 @@ static void	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_color3 *dst)
 		light = (t_light *)node->content;
 		light_vec = v3sub(tf_get_pos(&light->node.transf), ray->origin);
 		ray->dir = v3unit(light_vec);
-		if (scene_intersect(rtctx, ray, NULL) >= v3length(&light_vec))
+		if (scene_intersect(rtctx, ray, NULL, v3length(&light_vec) * .999f) > -1.f)
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * light->f, 0.f);
 			*dst = c3sum(*dst, c3prod(c3scalef(light->color,

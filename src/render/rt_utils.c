@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:39:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 00:02:32 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:51:01 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ int	key_handler(int keycode, t_rtctx *rtctx)
 	if (keycode == XK_Escape)
 		mlx_loop_end(rtctx->mlx_ptr);
 	else
+	{
 		poll_interface(keycode, rtctx);
+		render(rtctx);
+		display(rtctx, &rtctx->img);
+	}
 	return (1);
 }
 

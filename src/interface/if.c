@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 00:14:41 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 01:41:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ static void	poll_prim_morph(const int key, t_ifctx *ifctx)
 	t_node3d *const		sel_node = if_get_sel_node(ifctx);
 	t_primitive *const	sel_prim = (t_primitive *)sel_node;
 
-	if (sel_node->type != NODE_PRIM)
+	if (!ifctx->node_attr_ref)
 		return ;
-	if (key == XK_d)
+	if (key == XK_a)
 		ifctx->node_attr_ref = cycle_sel_attr(sel_prim, ifctx->node_attr_ref);
 	else if (key == XK_d)
 		ifctx->node_attr_ref = cycle_sel_attr(sel_prim, ifctx->node_attr_ref);
 	else if (key == XK_w)
 		*ifctx->node_attr_ref += 1.5f;
 	else if (key == XK_s)
-		*ifctx->node_attr_ref = fmax(*ifctx->node_attr_ref - 1.f, 0.f);
+		*ifctx->node_attr_ref = fmax(*ifctx->node_attr_ref - 1.5f, 0.f);
 }
 
 //static void	toggle_interface(t_ifctx * const ifctx)
@@ -105,12 +105,17 @@ static void	cycle_if_mode(t_ifctx * const ifctx)
 
 static void	poll_obj_sel(const int key, t_ifctx *ifctx)
 {
+	t_node3d *const	node = if_get_sel_node(ifctx);
+
 	if (key == XK_q)
 		--ifctx->node_index;
 	else if (key == XK_e)
 		++ifctx->node_index;
 	ifctx->node_index = clamp(ifctx->node_index, 0, ifctx->rtctx->node_n - 1);
-	ifctx->node_attr_ref = NULL;
+	if (node->type == NODE_PRIM)
+		ifctx->node_attr_ref = cycle_sel_attr((t_primitive *)node, ifctx->node_attr_ref);
+	else
+		ifctx->node_attr_ref = NULL;
 }
 
 void	poll_interface(const int key, t_rtctx *rtctx)
@@ -147,15 +152,15 @@ void	display_interface(const t_ifctx *ifctx)
 	status_str = ft_strjoin("MODE: ", mode_names[ifctx->mode]);
 	ft_strjoin_morph(&status_str, " | OBJECT TYPE: ");
 	ft_strjoin_morph(&status_str, obj_types[if_get_sel_node(ifctx)->type]);
-	if (ifctx->node_attr_ref)
-	{
-		ft_strjoin_morph(&status_str, " | ATTRIBUTE: ");
-		ft_strjoin_morph(&status_str,get_prim_attr_name(if_get_sel_node(ifctx), ifctx->node_attr_ref));
-	}
 	if (if_get_sel_node(ifctx)->type == NODE_PRIM)
 	{
 		ft_strjoin_morph(&status_str, " | PRIMITIVE TYPE: ");
 		ft_strjoin_morph(&status_str, prim_names[((t_primitive *)if_get_sel_node(ifctx))->type]);
+	}
+	if (ifctx->node_attr_ref)
+	{
+		ft_strjoin_morph(&status_str, " | ATTRIBUTE: ");
+		ft_strjoin_morph(&status_str,get_prim_attr_name(if_get_sel_node(ifctx), ifctx->node_attr_ref));
 	}
 	mlx_string_put(ifctx->rtctx->mlx_ptr, ifctx->rtctx->window_ptr, 20, 20, (1 << 24) - 1, status_str);
 	free(status_str);

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 23:29:19 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/25 01:53:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static inline t_argb	get_ray_color(t_rtctx *ctx, t_ray *ray)
 {
 	t_hit	hit;
 
-	if (scene_intersect(ctx, ray, &hit) < INFINITY)
+	if (scene_intersect(ctx, ray, &hit, -1.f) < INFINITY)
 		return (get_light_color(ctx, &hit));
 	return (0);
 }

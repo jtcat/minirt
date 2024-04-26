@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:26:38 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:02:33 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 
 	if (ctx->cam.hfov > -1.0)
 		return (error_helper("Camera was redefined"));
-	if (!parse_vec3(*(tokens++), &ctx->cam.lookfrom))
+	if (!parse_vec3(*(tokens++), &ctx->cam.pos))
 		return (error_helper("Camera position error"));
-	if (!parse_vec3(*(tokens++), &ctx->cam.lookdir)
-		|| !is_normal(&ctx->cam.lookdir))
+	if (!parse_vec3(*(tokens++), &ctx->cam.w)
+		|| !is_normal(&ctx->cam.w))
 		return (error_helper("Camera direction error"));
 	if (!parse_int(*(tokens++), &fov))
 		return (NULL);

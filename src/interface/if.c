@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 01:41:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:16:53 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 static char	*get_prim_attr_name(const t_node3d *node, void *attrib_ptr)
 {
+	if (node->type == NODE_CAM)
+		return ("FOV");
 	if (node->type == NODE_PRIM)
 	{
 		if (((t_primitive *)node)->type == PRIM_SPHERE)
@@ -31,15 +33,20 @@ static char	*get_prim_attr_name(const t_node3d *node, void *attrib_ptr)
 	return ("None");
 }
 
-static void	*cycle_sel_attr(const t_primitive *obj, void *curr_attr)
+static void	*cycle_sel_attr(const t_node3d *node, void *curr_attr)
 {
-	if (obj->type == PRIM_SPHERE)
-		return (&((t_sphere *)obj)->r);
-	if (obj->type == PRIM_CYLINDER)
+	if (node->type == NODE_CAM)
+		return (&((t_camera *)node)->hfov);
+	if (node->type == NODE_PRIM)
 	{
-		if (curr_attr == &((t_cylinder *)obj)->h)
-			return (&((t_cylinder *)obj)->r);
-		return (&((t_cylinder *)obj)->h);
+		if (((t_primitive *)node)->type == PRIM_SPHERE)
+			return (&((t_sphere *)node)->r);
+		if (((t_primitive *)node)->type == PRIM_CYLINDER)
+		{
+			if (curr_attr == &((t_cylinder *)node)->h)
+				return (&((t_cylinder *)node)->r);
+			return (&((t_cylinder *)node)->h);
+		}
 	}
 	return (NULL);
 }
@@ -69,7 +76,8 @@ static void	poll_translate(const int key, t_ifctx * const ifctx)
 	if (node->type == NODE_CAM)
 	{
 		tf_from_pos(&transl, &transf);
-		tf_transform(&node->transf, &transf);
+		tf_transform(&transf, &node->transf);
+		cam_calcviewport(&ifctx->rtctx->cam);
 	}
 	else
 		tf_translate(&node->transf, &transl);
@@ -78,14 +86,13 @@ static void	poll_translate(const int key, t_ifctx * const ifctx)
 static void	poll_prim_morph(const int key, t_ifctx *ifctx)
 {
 	t_node3d *const		sel_node = if_get_sel_node(ifctx);
-	t_primitive *const	sel_prim = (t_primitive *)sel_node;
 
 	if (!ifctx->node_attr_ref)
 		return ;
 	if (key == XK_a)
-		ifctx->node_attr_ref = cycle_sel_attr(sel_prim, ifctx->node_attr_ref);
+		ifctx->node_attr_ref = cycle_sel_attr(sel_node, ifctx->node_attr_ref);
 	else if (key == XK_d)
-		ifctx->node_attr_ref = cycle_sel_attr(sel_prim, ifctx->node_attr_ref);
+		ifctx->node_attr_ref = cycle_sel_attr(sel_node, ifctx->node_attr_ref);
 	else if (key == XK_w)
 		*ifctx->node_attr_ref += 1.5f;
 	else if (key == XK_s)
@@ -107,15 +114,13 @@ static void	poll_obj_sel(const int key, t_ifctx *ifctx)
 {
 	t_node3d *const	node = if_get_sel_node(ifctx);
 
+	ifctx->node_attr_ref = NULL;
 	if (key == XK_q)
 		--ifctx->node_index;
 	else if (key == XK_e)
 		++ifctx->node_index;
 	ifctx->node_index = clamp(ifctx->node_index, 0, ifctx->rtctx->node_n - 1);
-	if (node->type == NODE_PRIM)
-		ifctx->node_attr_ref = cycle_sel_attr((t_primitive *)node, ifctx->node_attr_ref);
-	else
-		ifctx->node_attr_ref = NULL;
+	ifctx->node_attr_ref = cycle_sel_attr(node, ifctx->node_attr_ref);
 }
 
 void	poll_interface(const int key, t_rtctx *rtctx)

@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/24 12:09:57 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:02:43 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ typedef struct s_camera {
 	double		viewport_width;
 	double		viewport_height;
 	float		hfov;
-	t_vec3		lookfrom;
-	t_vec3		lookdir;
+	t_vec3		pos;
 	t_vec3		pix_ul_p;
 	t_vec3		pix_du;
 	t_vec3		pix_dv;
@@ -38,5 +37,6 @@ typedef struct s_camera {
 }	t_camera;
 
 void	cam_init(t_camera *cam);
+void	cam_calcviewport(t_camera *cam);
 
 #endif

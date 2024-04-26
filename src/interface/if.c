@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/26 19:16:53 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:25:51 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	poll_translate(const int key, t_ifctx * const ifctx)
 		tf_translate(&node->transf, &transl);
 }
 
-static void	poll_prim_morph(const int key, t_ifctx *ifctx)
+static void	poll_node_morph(const int key, t_ifctx *ifctx)
 {
 	t_node3d *const		sel_node = if_get_sel_node(ifctx);
 
@@ -97,6 +97,8 @@ static void	poll_prim_morph(const int key, t_ifctx *ifctx)
 		*ifctx->node_attr_ref += 1.5f;
 	else if (key == XK_s)
 		*ifctx->node_attr_ref = fmax(*ifctx->node_attr_ref - 1.5f, 0.f);
+	if (sel_node->type == NODE_CAM)
+		cam_calcviewport(&ifctx->rtctx->cam);
 }
 
 //static void	toggle_interface(t_ifctx * const ifctx)
@@ -132,7 +134,7 @@ void	poll_interface(const int key, t_rtctx *rtctx)
 	if (rtctx->ifctx.mode == IF_MODE_ROTATE)
 		printf("Im rotating\n");//poll_rotate(key, ifctx);
 	if (rtctx->ifctx.mode == IF_MODE_MORPH)
-		poll_prim_morph(key, &rtctx->ifctx);
+		poll_node_morph(key, &rtctx->ifctx);
 	poll_obj_sel(key, &rtctx->ifctx);
 }
 
@@ -147,7 +149,7 @@ void	ifctx_init(t_ifctx *ifctx, t_rtctx *rtctx)
 
 void	display_interface(const t_ifctx *ifctx)
 {
-	char * const	mode_names[] = {"Translate", "Rotate", "Reshape"};
+	char * const	mode_names[] = {"Translate", "Rotate", "Morph"};
 	char * const	obj_types[] = {"Camera", "Light", "Primitive"};
 	char * const	prim_names[] = {"Plane", "Sphere", "Cylinder"};
 	char		*status_str;

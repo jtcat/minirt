@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 20:26:57 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 01:53:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:04:19 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	render(t_rtctx *ctx)
 			pix_center = v3sum(v3sum(ctx->cam.pix_ul_p,
 						v3scalei(ctx->cam.pix_du, x)),
 					v3scalei(ctx->cam.pix_dv, y));
-			ray.origin = ctx->cam.lookfrom;
-			ray.dir = v3unit(v3sub(pix_center, ctx->cam.lookfrom));
+			ray.origin = ctx->cam.pos;
+			ray.dir = v3unit(v3sub(pix_center, ctx->cam.pos));
 			write_pix(&ctx->img, x, y, get_ray_color(ctx, &ray));
 			x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:26:43 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/26 18:53:24 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:05:58 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_transf
 void	mat_mult(float a[4][4], float b[4][4], float d[4][4]);
 
 void	tf_translate(t_transf *l, const t_vec3 *transl);
-void	tf_transform(t_transf *a, t_transf *b);
+void	tf_transform(t_transf *l, t_transf *r, t_transf *dst);
 
 t_vec3	transf_point(const float m[4][4], const t_vec3 *v);
 t_vec3	transf_vec(const float m[4][4], const t_vec3 *v);

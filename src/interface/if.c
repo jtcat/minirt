@@ -6,13 +6,15 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/26 19:25:51 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/02 19:47:07 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../render/rt.h"
 #include "if_utils.h"
 #include <stdio.h>
+
+#define CAM_ROT_STEP .2f
 
 static char	*get_prim_attr_name(const t_node3d *node, void *attrib_ptr)
 {
@@ -56,14 +58,54 @@ t_node3d	*if_get_sel_node(const t_ifctx *ifctx)
 	return (ifctx->rtctx->node_ref_list[ifctx->node_index]);
 }
 
-//static void	poll_rotate(const int key, t_ifctx *ifctx)
-//{
-//	t_transf	rot_mat;
-//
-//	// W and S rotate around object X-Axis
-//	// A and D rotate around object Z-Axis
-//	transform_apply(&if_get_sel_node(ifctx)->transf, &rot_mat);
-//}
+void	ft_identity(t_transf *t)
+{
+	t->mat[0][0] = 1;	
+	t->mat[0][1] = 0;	
+	t->mat[0][2] = 0;	
+	t->mat[0][3] = 0;	
+	t->mat[1][0] = 0;	
+	t->mat[1][1] = 1;	
+	t->mat[1][2] = 0;	
+	t->mat[1][3] = 0;	
+	t->mat[2][0] = 0;	
+	t->mat[2][1] = 0;	
+	t->mat[2][2] = 1;	
+	t->mat[2][3] = 0;	
+	t->mat[3][0] = 0;	
+	t->mat[3][1] = 0;	
+	t->mat[3][2] = 0;	
+	t->mat[3][3] = 1;	
+}
+
+static void	poll_rotate(const int key, t_ifctx *ifctx)
+{
+	t_node3d *const	node = if_get_sel_node(ifctx);
+	t_transf		rot;
+	float			yang;
+	float			xang;
+
+	yang = (-(key == XK_a) + (key == XK_d)) * CAM_ROT_STEP;
+	xang = (-(key == XK_w) + (key == XK_s)) * CAM_ROT_STEP;
+	ft_identity(&rot);
+	rot.mat[0][0] = cos(yang);
+	rot.mat[0][2] = sin(yang);
+	rot.mat[2][0] = -sin(yang);
+	rot.mat[2][2] = cos(yang);
+	tf_transform(&node->transf, &rot, &node->transf);
+	rot.mat[1][1] = cos(xang);
+	rot.mat[1][2] = -sin(xang);
+	rot.mat[1][0] = 0;
+	rot.mat[0][1] = 0;
+	rot.mat[0][2] = 0;
+	rot.mat[2][1] = sin(xang);
+	rot.mat[2][2] = cos(xang);
+	rot.mat[2][0] = 0;
+	rot.mat[0][0] = 1;
+	tf_transform(&node->transf, &rot, &node->transf);
+	if (node->type == NODE_CAM)
+		cam_calcviewport(&ifctx->rtctx->cam);
+}
 
 static void	poll_translate(const int key, t_ifctx * const ifctx)
 {
@@ -76,7 +118,7 @@ static void	poll_translate(const int key, t_ifctx * const ifctx)
 	if (node->type == NODE_CAM)
 	{
 		tf_from_pos(&transl, &transf);
-		tf_transform(&transf, &node->transf);
+		tf_transform(&transf, &node->transf, &node->transf);
 		cam_calcviewport(&ifctx->rtctx->cam);
 	}
 	else
@@ -100,11 +142,6 @@ static void	poll_node_morph(const int key, t_ifctx *ifctx)
 	if (sel_node->type == NODE_CAM)
 		cam_calcviewport(&ifctx->rtctx->cam);
 }
-
-//static void	toggle_interface(t_ifctx * const ifctx)
-//{
-//	ifctx->visible = !ifctx->visible;
-//}
 
 static void	cycle_if_mode(t_ifctx * const ifctx)
 {
@@ -132,7 +169,7 @@ void	poll_interface(const int key, t_rtctx *rtctx)
 	if (rtctx->ifctx.mode == IF_MODE_TRANSLATE)
 		poll_translate(key, &rtctx->ifctx);
 	if (rtctx->ifctx.mode == IF_MODE_ROTATE)
-		printf("Im rotating\n");//poll_rotate(key, ifctx);
+		poll_rotate(key, &rtctx->ifctx);
 	if (rtctx->ifctx.mode == IF_MODE_MORPH)
 		poll_node_morph(key, &rtctx->ifctx);
 	poll_obj_sel(key, &rtctx->ifctx);

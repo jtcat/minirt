@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/26 19:11:13 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:07:49 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,25 @@ t_vec3	transf_vec(const float m[4][4], const t_vec3 *v)
 
 // Left transforms right
 // mat mult, store in r;
-void	tf_transform(t_transf *l, t_transf *r)
+void	tf_transform(t_transf *l, t_transf *r, t_transf *dst)
 {
-	mat_mult(l->mat, r->mat, r->mat);
-	tf_update_inv(r);
+	float	res[4][4];
+	int		i;
+	int		j;
+
+	mat_mult(l->mat, r->mat, res);
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			dst->mat[i][j] = res[i][j];
+			j++;
+		}
+		i++;
+	}
+	tf_update_inv(dst);
 }
 
 void	tf_translate(t_transf *l, const t_vec3 *transl)

@@ -6,16 +6,11 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:35:10 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/26 19:14:29 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:12:54 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "camera.h"
-
-static inline bool	v3iszero(t_vec3 v)
-{
-	return (v.x == 0 && v.y == 0 && v.z == 0);
-}
 
 void	cam_calcviewport(t_camera *cam)
 {

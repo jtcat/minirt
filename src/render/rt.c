@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 02:07:43 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/03 01:41:56 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit, float min_cull_dis
 // diffuse dot product is positive
 //
 // specular term is -dot to negate ray dir
-static void	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_color3 *dst)
+static t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_ray *og_ray)
 {
 	t_list		*node;
 	t_light		*light;
 	float		diffuse_f;
 	t_vec3		light_vec;
+	t_color3	color;
 
 	node = rtctx->ll_lights;
-	*dst = c3prod(hit->prim->color, rtctx->ambient);
+	color = c3prod(hit->prim->color, rtctx->ambient);
 	while (node)
 	{
 		light = (t_light *)node->content;
@@ -78,26 +79,25 @@ static void	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_color3 *dst)
 		if (scene_intersect(rtctx, ray, NULL, v3length(&light_vec) * .999f) > -1.f)
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * light->f, 0.f);
-			*dst = c3sum(*dst, c3prod(c3scalef(light->color,
-							diffuse_f), hit->prim->color));
-			*dst = c3sum(*dst, c3scalef((t_color3){1.f, 1.f, 1.f},
+			color = c3sum(color, c3sum(c3prod(c3scalef(light->color, diffuse_f), hit->prim->color),
+						c3scalef((t_color3){1.f, 1.f, 1.f},
 						(diffuse_f >= 0.f) * pow(fmax(-v3dot(perf_ray(&ray->dir,
-										&hit->normal), hit->ray.dir), 0.f)
-							* SPEC_F, SPEC_EXP)));
+										&hit->normal), og_ray->dir), 0.f)
+							* SPEC_F, SPEC_EXP))));
 		}
 		node = node->next;
 	}
+	return (color);
 }
 
-t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit)
+t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit, t_ray *og_ray)
 {
 	t_ray		ray;
-	t_color3	color;
 
 	norm_calc(hit);
 	ray.origin = v3sum(hit->ray.origin,
 			v3scalef(v3unit(hit->ray.dir), hit->bound.y * 0.999f));
 	ray.origin = transf_point(hit->prim->node.transf.mat, &ray.origin);
-	light_cast(rtctx, &ray, hit, &color);
-	return (c3_to_argb(color));
+	return (c3_to_argb(light_cast(rtctx, &ray, hit, og_ray)));
+//	return (c3_to_argb((t_color3){(hit->normal.x + 1)/2, (hit->normal.y + 1)/2, (hit->normal.z + 1)/2}));
 }

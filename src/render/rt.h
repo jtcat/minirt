@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/25 02:05:30 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/03 01:42:13 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int		key_handler(int keycode, t_rtctx *params);
 void	display(t_rtctx *ctx, t_mlx_img *img);
 void	render(t_rtctx *ctx);
 float	scene_intersect(t_rtctx *ctx, t_ray *ray, t_hit *hit, float min_cull_dist);
-t_argb	get_light_color(t_rtctx *ctx, t_hit *hit);
+t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit, t_ray *og_ray);
 
 #endif

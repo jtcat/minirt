@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/26 19:02:33 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:40:14 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 #include "../render/rt.h"
 #include "../intersect/primitives.h"
 
-// Top level token parsers like parse_float should
+// Top level token parsers like parse_double should
 // print their own errors and return NULL
 
 char	**parse_ambient(t_rtctx *ctx, char **tokens)
 {
 	if (ctx->ambient.r > -1)
 		return (error_helper("Ambient light was redefined"));
-	if (!parse_float(*(tokens++), &ctx->ambient_f))
+	if (!parse_double(*(tokens++), &ctx->ambient_f))
 		return (error_helper("Malformed Floar"));
 	if (ctx->ambient_f < 0.0f || ctx->ambient_f > 1.0f)
 		return (error_helper("Ambient ratio out of range (0.0 - 1.0)"));
@@ -86,7 +86,7 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 	ft_lstadd_back(&ctx->ll_lights, ft_lstnew(light));
 	if (!parse_vec3(*(tokens++), &pos))
 		return (error_helper("Missing point light position"));
-	if (!parse_float(*(tokens++), &light->f))
+	if (!parse_double(*(tokens++), &light->f))
 		return (error_helper("Error in Float"));
 	if (light->f < 0.0f || light->f > 1.0f)
 		return (error_helper("Light intensity out of range (0.0 - 1.0)"));
@@ -101,7 +101,7 @@ char	**parse_sphere(t_rtctx *ctx, char **tokens)
 {
 	t_sphere	*sphere;
 	t_vec3		tmpv;
-	float		radius;
+	double		radius;
 
 	sphere = sphere_new();
 	if (!sphere)
@@ -110,7 +110,7 @@ char	**parse_sphere(t_rtctx *ctx, char **tokens)
 	if (!parse_vec3(*(tokens++), &tmpv))
 		return (NULL);
 	tf_from_pos(&tmpv, &((t_node3d *)sphere)->transf);
-	if (!parse_float(*(tokens++), &radius) || radius < 0.0f)
+	if (!parse_double(*(tokens++), &radius) || radius < 0.0f)
 		return (NULL);
 	sphere->r = radius / 2.0f;
 	if (!parse_rgb(*(tokens++), &((t_primitive *)sphere)->color))

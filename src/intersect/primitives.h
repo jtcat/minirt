@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 10:31:02 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:34:46 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_primitive	t_primitive;
 typedef struct s_hit	t_hit;
 
 typedef void(*t_fn_norm)(t_hit *hit);
-typedef float(*t_fn_intersect)(t_primitive *prim, t_hit *hit);
+typedef double(*t_fn_intersect)(t_primitive *prim, t_hit *hit);
 
 struct s_hit
 {
@@ -59,24 +59,24 @@ struct s_primitive
 typedef struct s_plane
 {
 	t_primitive	prim;
-	float		a;
+	double		a;
 }	t_plane;
 
 // Inherits primitive
 typedef struct s_sphere
 {
 	t_primitive	prim;
-	float		r;
-	float		c;
+	double		r;
+	double		c;
 }	t_sphere;
 
 // Inherits primitive
 typedef struct s_cylinder
 {
 	t_primitive	prim;
-	float		r;
-	float		h;
-	float		y;
+	double		r;
+	double		h;
+	double		y;
 }	t_cylinder;
 
 // Contructors
@@ -85,8 +85,8 @@ t_sphere	*sphere_new(void);
 t_cylinder	*cylinder_new(void);
 
 // Intersections
-float	i_sphere(t_primitive *sphere, t_hit *hit);
-float	i_plane(t_primitive *plane, t_hit *hit);
-float	i_cylinder(t_primitive *cyl, t_hit *hit);
+double	i_sphere(t_primitive *sphere, t_hit *hit);
+double	i_plane(t_primitive *plane, t_hit *hit);
+double	i_cylinder(t_primitive *cyl, t_hit *hit);
 
 #endif

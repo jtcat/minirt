@@ -6,12 +6,12 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:07:50 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/27 00:48:14 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:58:39 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static inline float	calc_el(float a[4][4],
-		float b[4][4],
+static inline double	calc_el(double a[4][4],
+		double b[4][4],
 		int row, int col)
 {
     return (a[row][0] * b[0][col]
@@ -22,7 +22,7 @@ static inline float	calc_el(float a[4][4],
 
 // In-place matrix multiplication does not work
 // like this you stupid ape
-void	mat_mult(float a[4][4], float b[4][4], float d[4][4])
+void	mat_mult(double a[4][4], double b[4][4], double d[4][4])
 {
     d[0][0] = calc_el(a, b, 0, 0);
     d[0][1] = calc_el(a, b, 0, 1);

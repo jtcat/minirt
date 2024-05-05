@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/26 19:02:43 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:36:51 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_camera {
 	double		focal_length;
 	double		viewport_width;
 	double		viewport_height;
-	float		hfov;
+	double		hfov;
 	t_vec3		pos;
 	t_vec3		pix_ul_p;
 	t_vec3		pix_du;

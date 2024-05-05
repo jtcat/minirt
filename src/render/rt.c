@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/03 01:41:56 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/04 04:01:17 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_ray *og_ray
 		light = (t_light *)node->content;
 		light_vec = v3sub(tf_get_pos(&light->node.transf), ray->origin);
 		ray->dir = v3unit(light_vec);
-		if (scene_intersect(rtctx, ray, NULL, v3length(&light_vec) * .999f) > -1.f)
+		if (scene_intersect(rtctx, ray, NULL, v3length(&light_vec) * .999) > -1.f)
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * light->f, 0.f);
 			color = c3sum(color, c3sum(c3prod(c3scalef(light->color, diffuse_f), hit->prim->color),
@@ -98,6 +98,6 @@ t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit, t_ray *og_ray)
 	ray.origin = v3sum(hit->ray.origin,
 			v3scalef(v3unit(hit->ray.dir), hit->bound.y * 0.999f));
 	ray.origin = transf_point(hit->prim->node.transf.mat, &ray.origin);
+	//return (c3_to_argb((t_color3){(hit->normal.x + 1)/2, (hit->normal.y + 1)/2, (hit->normal.z + 1)/2}));
 	return (c3_to_argb(light_cast(rtctx, &ray, hit, og_ray)));
-//	return (c3_to_argb((t_color3){(hit->normal.x + 1)/2, (hit->normal.y + 1)/2, (hit->normal.z + 1)/2}));
 }

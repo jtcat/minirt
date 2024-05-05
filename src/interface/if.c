@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/02 19:47:07 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/04 19:00:39 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,26 @@ static void	poll_rotate(const int key, t_ifctx *ifctx)
 	yang = (-(key == XK_a) + (key == XK_d)) * CAM_ROT_STEP;
 	xang = (-(key == XK_w) + (key == XK_s)) * CAM_ROT_STEP;
 	ft_identity(&rot);
-	rot.mat[0][0] = cos(yang);
-	rot.mat[0][2] = sin(yang);
-	rot.mat[2][0] = -sin(yang);
-	rot.mat[2][2] = cos(yang);
+	if (node->type == NODE_CAM)
+	{
+		rot.mat[0][0] = cos(yang);
+		rot.mat[0][2] = sin(yang);
+		rot.mat[2][0] = -sin(yang);
+		rot.mat[2][2] = cos(yang);
+	}
+	else
+	{
+		rot.mat[0][0] = cos(yang);
+		rot.mat[0][1] = -sin(yang);
+		rot.mat[1][0] = sin(yang);
+		rot.mat[1][1] = cos(yang);
+	}
 	tf_transform(&node->transf, &rot, &node->transf);
+	ft_identity(&rot);
 	rot.mat[1][1] = cos(xang);
 	rot.mat[1][2] = -sin(xang);
-	rot.mat[1][0] = 0;
-	rot.mat[0][1] = 0;
-	rot.mat[0][2] = 0;
 	rot.mat[2][1] = sin(xang);
 	rot.mat[2][2] = cos(xang);
-	rot.mat[2][0] = 0;
-	rot.mat[0][0] = 1;
 	tf_transform(&node->transf, &rot, &node->transf);
 	if (node->type == NODE_CAM)
 		cam_calcviewport(&ifctx->rtctx->cam);

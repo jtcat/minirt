@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:53:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:13:54 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:39:27 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "../render/rt.h"
 # include "../gnl/gnl.h"
 
-bool	parse_float(const char *str, float *f);
+bool	parse_double(const char *str, double *f);
 bool	parse_int(const char *str, int *f);
 bool	parse_vec3(const char *str, t_vec3 *f);
 bool	parse_rgb(const char *str, t_color3 *f);

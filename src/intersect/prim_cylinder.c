@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:28:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 12:22:17 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:34:33 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ static void	n_cyl_caps(t_hit *hit)
 	hit->normal = (t_vec3){0.f, fsign(((t_cylinder *)hit->prim)->y), 0.f};
 }
 
-static inline float	i_cyl_helper(t_cylinder *cyl, t_hit *hit, float k0)
+static inline double	i_cyl_helper(t_cylinder *cyl, t_hit *hit, double k0)
 {
-	const float	k2 = 1.f - hit->ray.dir.y * hit->ray.dir.y;
-	const float	k1 = v3dot(hit->ray.origin, hit->ray.dir) \
+	const double	k2 = 1.f - hit->ray.dir.y * hit->ray.dir.y;
+	const double	k1 = v3dot(hit->ray.origin, hit->ray.dir) \
 					- hit->ray.origin.y * hit->ray.dir.y;
-	float		h;
-	float		t;
+	double		h;
+	double		t;
 
 	h = k1 * k1 - k2 * k0;
 	if (h < 0.f)
@@ -55,9 +55,9 @@ static inline float	i_cyl_helper(t_cylinder *cyl, t_hit *hit, float k0)
 	return (t);
 }
 
-float	i_cylinder(t_primitive *cyl, t_hit *hit)
+double	i_cylinder(t_primitive *cyl, t_hit *hit)
 {
-	const float			k0 = v3dot(hit->ray.origin, hit->ray.origin)
+	const double			k0 = v3dot(hit->ray.origin, hit->ray.origin)
 		- hit->ray.origin.y * hit->ray.origin.y
 		- ((t_cylinder *)cyl)->r * ((t_cylinder *)cyl)->r;
 

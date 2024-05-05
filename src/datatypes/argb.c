@@ -6,14 +6,14 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/14 00:49:36 by jcat             ###   ########.fr       */
+/*   Updated: 2024/05/05 16:39:42 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "argb.h"
 #include "../utils.h"
 
-static inline float	normalize_f(float f)
+static inline double	normalize_f(double f)
 {
 	return (fclamp(f, 0.f, 1.f));
 }
@@ -33,7 +33,7 @@ t_argb	c3_to_argb(t_color3 c)
 			| (int)(c.b * 255.f));
 }
 
-t_color3	c3scalef(t_color3 a, float f)
+t_color3	c3scalef(t_color3 a, double f)
 {
 	return ((t_color3){normalize_f(a.r * f),
 		normalize_f(a.g * f),

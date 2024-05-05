@@ -6,14 +6,14 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/02 17:07:49 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:49:11 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include "vec3.h"
 
-static inline float	tf_inv_trprod(t_transf *t, const int i)
+static inline double	tf_inv_trprod(t_transf *t, const int i)
 {
 	return (-t->inv[i][0] * t->mat[0][3]
 			- t->inv[i][1] * t->mat[1][3]
@@ -66,7 +66,7 @@ void	tf_look_along(const t_vec3 *pos, t_vec3 lookdir, t_transf *t)
 	lookdir = v3unit(lookdir);
 	xaxis = v3unit(v3cross(vup, lookdir));
 	if (xaxis.x == 0 && xaxis.y == 0 && xaxis.z == 0.f)
-		xaxis = (t_vec3){1.f, 0, 0};
+		xaxis = (t_vec3){1., 0, 0};
 	yaxis = v3cross(lookdir, xaxis);
 	set_mat_vec(t, xaxis, 0);
 	set_mat_vec(t, yaxis, 1);
@@ -81,14 +81,14 @@ void	tf_look_along(const t_vec3 *pos, t_vec3 lookdir, t_transf *t)
 
 void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)
 {
-	const t_vec3	vup = {0.f, 1.f, 0.f};
+	const t_vec3	vup = {0., 1., 0.};
 	t_vec3			xaxis;
 	t_vec3			zaxis;
 
 	up_dir = v3unit(up_dir);
 	xaxis = v3unit(v3cross(up_dir, vup));
 	if (xaxis.x == 0 && xaxis.y == 0 && xaxis.z == 0.f)
-		xaxis = (t_vec3){1.f, 0, 0};
+		xaxis = (t_vec3){1., 0, 0};
 	zaxis = v3cross(xaxis, up_dir);
 	set_mat_vec(t, xaxis, 0);
 	set_mat_vec(t, up_dir, 1);
@@ -101,7 +101,7 @@ void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)
 	tf_update_inv(t);
 }
 
-t_vec3	transf_point(const float m[4][4], const t_vec3 *v)
+t_vec3	transf_point(const double m[4][4], const t_vec3 *v)
 {
 	return ((t_vec3){
 		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z + m[0][3],
@@ -110,7 +110,7 @@ t_vec3	transf_point(const float m[4][4], const t_vec3 *v)
 		});
 }
 
-t_vec3	transf_vec(const float m[4][4], const t_vec3 *v)
+t_vec3	transf_vec(const double m[4][4], const t_vec3 *v)
 {
 	return ((t_vec3){
 		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z,
@@ -123,7 +123,7 @@ t_vec3	transf_vec(const float m[4][4], const t_vec3 *v)
 // mat mult, store in r;
 void	tf_transform(t_transf *l, t_transf *r, t_transf *dst)
 {
-	float	res[4][4];
+	double	res[4][4];
 	int		i;
 	int		j;
 

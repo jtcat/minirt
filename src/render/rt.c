@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/04 04:01:17 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:37:31 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static inline void	ray_transform(
 	new_ray->dir = transf_vec(prim->node.transf.inv, &og_ray->dir);
 }
 
-float	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit, float min_cull_dist)
+double	scene_intersect(t_rtctx *rtctx, t_ray *ray, t_hit *hit, double min_cull_dist)
 {
 	t_primitive	*prim;
 	t_list		*node;
 	t_hit		tmp_hit;
-	float		tmp_dist;
+	double		tmp_dist;
 
 	tmp_hit.bound.y = INFINITY;
 	tmp_hit.bound.x = MIN_HIT_DIST;
@@ -65,7 +65,7 @@ static t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_ray *og_ray
 {
 	t_list		*node;
 	t_light		*light;
-	float		diffuse_f;
+	double		diffuse_f;
 	t_vec3		light_vec;
 	t_color3	color;
 

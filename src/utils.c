@@ -6,24 +6,24 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:10:12 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/15 16:22:52 by jcat             ###   ########.fr       */
+/*   Updated: 2024/05/05 16:53:21 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "unistd.h"
 
-float	ftern(int cond, float a, float b)
+double	ftern(int cond, double a, double b)
 {
-	return ((float)cond * a + (float) !cond * b);
+	return ((double)cond * a + (double) !cond * b);
 }
 
-float	fsign(float f)
+double	fsign(double f)
 {
 	return ((f > 0.0f) - (f < 0.0f));
 }
 
-static inline float	fsel(float a, float b, float c)
+static inline double	fsel(double a, double b, double c)
 {
 	return (ftern(a >= 0.f, b, c));
 }
@@ -34,7 +34,7 @@ int	clamp(int a, int min, int max)
 	return (fsel(a - max, max, a));
 }
 
-float	fclamp(float a, float min, float max)
+double	fclamp(double a, double min, double max)
 {
 	a = fsel(a - min, a, min);
 	return (fsel(a - max, max, a));

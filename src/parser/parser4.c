@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:47:37 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/04/24 12:25:58 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:42:53 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 {
 	t_cylinder	*cyl;
-	float	tmp;
+	double	tmp;
 
 	cyl = cylinder_new();
 	if (!cyl)
@@ -50,10 +50,10 @@ char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 	tokens = parse_transform(tokens, (t_node3d *)cyl);
 	if (!tokens)
 		return (error_helper("Bad cylinder transform"));
-	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+	if (!parse_double(*(tokens++), &tmp) || tmp < 0.0f)
 		return (error_helper("Bad cylinder radius"));
 	cyl->r = tmp / 2.0;
-	if (!parse_float(*(tokens++), &tmp) || tmp < 0.0f)
+	if (!parse_double(*(tokens++), &tmp) || tmp < 0.0f)
 		return (error_helper("Bad cylinder height"));
 	cyl->h = tmp / 2.0;
 	if (!parse_rgb(*(tokens++), &((t_primitive *)cyl)->color))

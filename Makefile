@@ -6,8 +6,8 @@ LIBFLAGS:= -lXext -lX11 -lm
 
 MFLAGS:= -O4 -fopt-info-optall-optimized -ftree-vectorize -mavx
 
-CFLAGS:= -O3 -Wall -Wextra -Werror
-#CFLAGS:= -g -Wall -Wextra -Werror
+# CFLAGS:= -O3 -Wall -Wextra -Werror
+CFLAGS:= -Wall -Wextra -Werror
 
 NAME:= miniRT
 
@@ -57,9 +57,6 @@ $(MLX):
 
 $(LFT):
 	$(MAKE) -C $(LFT_DIR) bonus
-
-$(MLX):
-	$(MAKE) -C $(MLX_DIR)
 
 clean:
 	$(RM) $(OBJ)

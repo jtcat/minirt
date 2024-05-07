@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 19:54:41 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:59:01 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_color3	light_cast(t_rtctx *rtctx, t_ray *ray,
 	while (node)
 	{
 		light = (t_light *)node->content;
-		light_vec = v3sub(tf_get_pos(&light->node.transf), ray->origin);
+		light_vec = v3sub(tf_get_vec(&light->node.transf, 3), ray->origin);
 		ray->dir = v3unit(light_vec);
 		if (scene_intersect(rtctx, ray, NULL,
 				v3length(&light_vec) * .999) > -1.f)

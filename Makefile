@@ -6,8 +6,8 @@ LIBFLAGS:= -lXext -lX11 -lm
 
 MFLAGS:= -O4 -fopt-info-optall-optimized -ftree-vectorize -mavx
 
-# CFLAGS:= -O3 -Wall -Wextra -Werror
-CFLAGS:= -Wall -Wextra -Werror
+CFLAGS:= -O3 -Wall -Wextra -Werror
+#CFLAGS:= -Wall -Wextra -Werror
 
 NAME:= miniRT
 
@@ -16,7 +16,7 @@ SRC_DIR:= src/
 SRC:= $(addprefix $(SRC_DIR), \
 			main.c utils.c utils2.c\
 		$(addprefix datatypes/, \
-			camera.c light.c vec3.c vec3_2.c matrix.c matrix2.c argb.c argb2.c utils.c) \
+			camera.c light.c vec3.c vec3_2.c matrix.c matrix2.c matrix3.c argb.c argb2.c utils.c) \
 		$(addprefix gnl/, \
 				gnl.c gnl_utils.c) \
 		$(addprefix parser/, \

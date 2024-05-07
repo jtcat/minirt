@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:10:19 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/05 16:49:11 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:14:28 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static inline double	tf_inv_trprod(t_transf *t, const int i)
 			- t->inv[i][2] * t->mat[2][3]);
 }
 
-static void	tf_update_inv(t_transf *t)
+void	tf_update_inv(t_transf *t)
 {
 	t->inv[0][0] = t->mat[0][0];
 	t->inv[0][1] = t->mat[1][0];
@@ -38,16 +38,6 @@ static void	tf_update_inv(t_transf *t)
 	t->inv[3][1] = 0.f;
 	t->inv[3][2] = 0.f;
 	t->inv[3][3] = 1;
-}
-
-t_vec3	tf_get_vec(const t_transf *t, int index)
-{
-	return ((t_vec3){t->mat[0][index], t->mat[1][index], t->mat[2][index]});
-}
-
-t_vec3	tf_get_pos(const t_transf *t)
-{
-	return (tf_get_vec(t, 3));
 }
 
 static inline void	set_mat_vec(t_transf *t, t_vec3 vec, int vindex)
@@ -99,53 +89,4 @@ void	tf_look_up(const t_vec3 *pos, t_vec3 up_dir, t_transf *t)
 	t->mat[3][2] = 0;
 	t->mat[3][3] = 1;
 	tf_update_inv(t);
-}
-
-t_vec3	transf_point(const double m[4][4], const t_vec3 *v)
-{
-	return ((t_vec3){
-		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z + m[0][3],
-		m[1][0] * v->x + m[1][1] * v->y + m[1][2] * v->z + m[1][3],
-		m[2][0] * v->x + m[2][1] * v->y + m[2][2] * v->z + m[2][3],
-		});
-}
-
-t_vec3	transf_vec(const double m[4][4], const t_vec3 *v)
-{
-	return ((t_vec3){
-		m[0][0] * v->x + m[0][1] * v->y + m[0][2] * v->z,
-		m[1][0] * v->x + m[1][1] * v->y + m[1][2] * v->z,
-		m[2][0] * v->x + m[2][1] * v->y + m[2][2] * v->z,
-			});
-}
-
-// Left transforms right
-// mat mult, store in r;
-void	tf_transform(t_transf *l, t_transf *r, t_transf *dst)
-{
-	double	res[4][4];
-	int		i;
-	int		j;
-
-	mat_mult(l->mat, r->mat, res);
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			dst->mat[i][j] = res[i][j];
-			j++;
-		}
-		i++;
-	}
-	tf_update_inv(dst);
-}
-
-void	tf_translate(t_transf *l, const t_vec3 *transl)
-{
-	l->mat[0][3] += transl->x;
-	l->mat[1][3] += transl->y;
-	l->mat[2][3] += transl->z;
-	tf_update_inv(l);
 }

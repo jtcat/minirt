@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:21:29 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/05/07 15:21:54 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:00:29 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 static void	n_sphere(t_hit *hit)
 {
-	hit->normal = v3unit(v3sum(hit->ray.origin,
-				v3scalef(hit->ray.dir,
-					fsign(((t_sphere *)hit->prim)->c) *hit->bound.y)));
+	hit->normal = v3unit(v3scalef(v3sum(hit->ray.origin,
+					v3scalef(hit->ray.dir, hit->bound.y)),
+				fsign(((t_sphere *)hit->prim)->c)));
 }
 
 // IMPORTANT:	ray dir MUST be normalized!

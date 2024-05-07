@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 19:29:20 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:54:13 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ typedef struct s_rtctx
 	double		ambient_f;
 }	t_rtctx;
 
-void	rtctx_init(t_rtctx *ctx);
-void	make_obj_list(t_rtctx *ctx);
-void	cleanup_mlx(t_rtctx *ctx);
-void	rtctx_destroy(t_rtctx *ctx);
-void	make_node_ref_list(t_rtctx *rtctx);
+void		rtctx_init(t_rtctx *ctx);
+void		make_obj_list(t_rtctx *ctx);
+void		cleanup_mlx(t_rtctx *ctx);
+void		rtctx_destroy(t_rtctx *ctx);
+void		make_node_ref_list(t_rtctx *rtctx);
 
-int		key_handler(int keycode, t_rtctx *params);
+int			key_handler(int keycode, t_rtctx *params);
 
-void	display(t_rtctx *ctx, t_mlx_img *img);
-void	render(t_rtctx *ctx);
-double	scene_intersect(t_rtctx *ctx, t_ray *ray,
-		t_hit *hit, double min_cull_dist);
-t_argb	get_light_color(t_rtctx *rtctx, t_hit *hit, t_ray *og_ray);
+void		display(t_rtctx *ctx, t_mlx_img *img);
+void		render(t_rtctx *ctx);
+double		scene_intersect(t_rtctx *ctx, t_ray *ray,
+				t_hit *hit, double min_cull_dist);
 
+t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_ray *og_ray);
 #endif

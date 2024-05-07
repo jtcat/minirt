@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:03:41 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/05 16:39:42 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:55:25 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_argb	c3_to_argb(t_color3 c)
 			| (int)(c.b * 255.f));
 }
 
-t_color3	c3scalef(t_color3 a, double f)
+t_color3	c3scalef(t_color3 a, float f)
 {
 	return ((t_color3){normalize_f(a.r * f),
 		normalize_f(a.g * f),

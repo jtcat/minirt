@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:47:37 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/05/05 16:42:53 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:27:48 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 char	**parse_cylinder(t_rtctx *ctx, char **tokens)
 {
 	t_cylinder	*cyl;
-	double	tmp;
+	double		tmp;
 
 	cyl = cylinder_new();
 	if (!cyl)

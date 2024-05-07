@@ -6,16 +6,21 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 00:55:48 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/04/25 00:08:21 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:53:07 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NODE3D_H
 # define NODE3D_H
 
-#include "matrix.h"
+# include "matrix.h"
 
-enum e_nodetype {NODE_CAM, NODE_LIGHT, NODE_PRIM};
+enum e_nodetype
+{
+	NODE_CAM,
+	NODE_LIGHT,
+	NODE_PRIM,
+};
 
 typedef struct s_node3d
 {

@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:21:29 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/05/05 16:35:57 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:21:54 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ double	i_sphere(t_primitive *sphere, t_hit *hit)
 	const double	r = ((t_sphere *)sphere)->r;
 	const double	b = v3dot(hit->ray.origin, hit->ray.dir);
 	const double	c = v3dot(hit->ray.origin, hit->ray.origin) - r * r;
-	double		h;
-	double		t;
+	double			h;
+	double			t;
 
 	h = b * b - c;
 	if (h < 0.f)

@@ -6,22 +6,27 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:02:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/04/24 18:39:31 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:05:07 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IF_UTILS_H
 # define IF_UTILS_H
 
-#include <stdbool.h>
-#include "X11/keysym.h"
+# include <stdbool.h>
+# include "X11/keysym.h"
 
 # define IF_MODE_FIRST IF_MODE_TRANSLATE
 # define IF_MODE_LAST IF_MODE_MORPH
 
 typedef struct s_rtctx	t_rtctx;
 
-enum e_ifmode {IF_MODE_TRANSLATE, IF_MODE_ROTATE, IF_MODE_MORPH};
+enum e_ifmode
+{
+	IF_MODE_TRANSLATE,
+	IF_MODE_ROTATE,
+	IF_MODE_MORPH
+};
 
 typedef struct s_ifctx
 {

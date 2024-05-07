@@ -6,7 +6,7 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/05 16:36:51 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:50:57 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include "utils.h"
 
 // Inherits node3d
-typedef struct s_camera {
+
+typedef struct s_camera
+{
 	t_node3d	node;
 	int			image_width;
 	int			image_height;

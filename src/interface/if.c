@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/05 16:49:24 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:01:40 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ t_node3d	*if_get_sel_node(const t_ifctx *ifctx)
 
 void	ft_identity(t_transf *t)
 {
-	t->mat[0][0] = 1;	
-	t->mat[0][1] = 0;	
-	t->mat[0][2] = 0;	
-	t->mat[0][3] = 0;	
-	t->mat[1][0] = 0;	
-	t->mat[1][1] = 1;	
-	t->mat[1][2] = 0;	
-	t->mat[1][3] = 0;	
-	t->mat[2][0] = 0;	
-	t->mat[2][1] = 0;	
-	t->mat[2][2] = 1;	
-	t->mat[2][3] = 0;	
-	t->mat[3][0] = 0;	
-	t->mat[3][1] = 0;	
-	t->mat[3][2] = 0;	
-	t->mat[3][3] = 1;	
+	t->mat[0][0] = 1;
+	t->mat[0][1] = 0;
+	t->mat[0][2] = 0;
+	t->mat[0][3] = 0;
+	t->mat[1][0] = 0;
+	t->mat[1][1] = 1;
+	t->mat[1][2] = 0;
+	t->mat[1][3] = 0;
+	t->mat[2][0] = 0;
+	t->mat[2][1] = 0;
+	t->mat[2][2] = 1;
+	t->mat[2][3] = 0;
+	t->mat[3][0] = 0;
+	t->mat[3][1] = 0;
+	t->mat[3][2] = 0;
+	t->mat[3][3] = 1;
 }
 
 static void	poll_rotate(const int key, t_ifctx *ifctx)
@@ -113,12 +113,12 @@ static void	poll_rotate(const int key, t_ifctx *ifctx)
 		cam_calcviewport(&ifctx->rtctx->cam);
 }
 
-static void	poll_translate(const int key, t_ifctx * const ifctx)
+static void	poll_translate(const int key, t_ifctx *const ifctx)
 {
 	t_node3d *const	node = if_get_sel_node(ifctx);
 	const t_vec3	transl = {(key == XK_d) - (key == XK_a),
-					(key == XK_space) - (key == XK_Control_L),
-					(key == XK_w) - (key == XK_s)};
+		(key == XK_space) - (key == XK_Control_L),
+		(key == XK_w) - (key == XK_s)};
 	t_transf		transf;
 
 	if (node->type == NODE_CAM)
@@ -149,7 +149,7 @@ static void	poll_node_morph(const int key, t_ifctx *ifctx)
 		cam_calcviewport(&ifctx->rtctx->cam);
 }
 
-static void	cycle_if_mode(t_ifctx * const ifctx)
+static void	cycle_if_mode(t_ifctx *const ifctx)
 {
 	if (++ifctx->mode > IF_MODE_LAST)
 		ifctx->mode = IF_MODE_FIRST;
@@ -192,9 +192,9 @@ void	ifctx_init(t_ifctx *ifctx, t_rtctx *rtctx)
 
 void	display_interface(const t_ifctx *ifctx)
 {
-	char * const	mode_names[] = {"Translate", "Rotate", "Morph"};
-	char * const	obj_types[] = {"Camera", "Light", "Primitive"};
-	char * const	prim_names[] = {"Plane", "Sphere", "Cylinder"};
+	char *const	mode_names[] = {"Translate", "Rotate", "Morph"};
+	char *const	obj_types[] = {"Camera", "Light", "Primitive"};
+	char *const	prim_names[] = {"Plane", "Sphere", "Cylinder"};
 	char		*status_str;
 
 	if (!ifctx->visible)
@@ -210,7 +210,7 @@ void	display_interface(const t_ifctx *ifctx)
 	if (ifctx->node_attr_ref)
 	{
 		ft_strjoin_morph(&status_str, " | ATTRIBUTE: ");
-		ft_strjoin_morph(&status_str,get_prim_attr_name(if_get_sel_node(ifctx), ifctx->node_attr_ref));
+		ft_strjoin_morph(&status_str, get_prim_attr_name(if_get_sel_node(ifctx), ifctx->node_attr_ref));
 	}
 	mlx_string_put(ifctx->rtctx->mlx_ptr, ifctx->rtctx->window_ptr, 20, 20, (1 << 24) - 1, status_str);
 	free(status_str);

@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:02:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 16:55:22 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:11:16 by psotto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IF_UTILS_H
-# define IF_UTILS_H
+#ifndef IF_UTILS_BONUS_H
+# define IF_UTILS_BONUS_H
 
 # include <stdbool.h>
 # include "X11/keysym.h"

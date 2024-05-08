@@ -101,9 +101,7 @@ fclean: clean
 re: fclean all
 
 minilibx:
-	git clone git@github.com:42Paris/minilibx-linux.git
+	git clone git@github.com:42Paris/minilibx-linux.git minilibx-linux
 	make -C minilibx-linux
 
 .PHONY: all bonus clean fclean
-# include <stdlib.h>
-# include <stdbool.h>

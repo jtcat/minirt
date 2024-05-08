@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/05 16:40:14 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:55:37 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,27 @@ char	**parse_ambient(t_rtctx *ctx, char **tokens)
 	if (ctx->ambient.r > -1)
 		return (error_helper("Ambient light was redefined"));
 	if (!parse_double(*(tokens++), &ctx->ambient_f))
-		return (error_helper("Malformed Floar"));
+		return (error_helper("Bad ambient light factor"));
 	if (ctx->ambient_f < 0.0f || ctx->ambient_f > 1.0f)
-		return (error_helper("Ambient ratio out of range (0.0 - 1.0)"));
+		return (error_helper("Ambient factor out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &ctx->ambient))
-		return (error_helper("Malformed RGB"));
+		return (error_helper("Bad ambient light color"));
 	ctx->ambient = c3scalef(ctx->ambient, ctx->ambient_f);
+	return (tokens);
+}
+
+char	**parse_transform(char **tokens, t_node3d *node)
+{
+	t_vec3	pos;
+	t_vec3	dir;
+
+	if (!parse_vec3(*(tokens++), &pos))
+		return (NULL);
+	if (!parse_vec3(*(tokens++), &dir))
+		return (NULL);
+	if (!is_normal(&dir))
+		return (error_helper("Normal components out of range [-1, 1]"));
+	tf_look_up(&pos, dir, &node->transf);
 	return (tokens);
 }
 
@@ -62,19 +77,6 @@ char	**parse_camera(t_rtctx *ctx, char **tokens)
 	return (tokens);
 }
 
-char	**parse_transform(char **tokens, t_node3d *node)
-{
-	t_vec3	pos;
-	t_vec3	dir;
-
-	if (!parse_vec3(*(tokens++), &pos))
-		return (NULL);
-	if (!parse_vec3(*(tokens++), &dir) || !is_normal(&dir))
-		return (NULL);
-	tf_look_up(&pos, dir, &node->transf);
-	return (tokens);
-}
-
 char	**parse_light(t_rtctx *ctx, char **tokens)
 {
 	t_vec3			pos;
@@ -85,13 +87,13 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 		return (error_helper("Out of memory!"));
 	ft_lstadd_back(&ctx->ll_lights, ft_lstnew(light));
 	if (!parse_vec3(*(tokens++), &pos))
-		return (error_helper("Missing point light position"));
+		return (error_helper("Bad point light position"));
 	if (!parse_double(*(tokens++), &light->f))
-		return (error_helper("Error in Float"));
+		return (error_helper("Bad point light intensity"));
 	if (light->f < 0.0f || light->f > 1.0f)
 		return (error_helper("Light intensity out of range (0.0 - 1.0)"));
 	if (!parse_rgb(*(tokens++), &light->color))
-		return (error_helper("Missing point light color"));
+		return (error_helper("Bad point light color"));
 	tf_from_pos(&pos, &light->node.transf);
 	ctx->node_n++;
 	return (tokens);

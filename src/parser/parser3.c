@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:53:49 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 19:55:43 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:47:38 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ bool	parse_double(const char *str, double *f)
 	if (!*str)
 		return (true);
 	if (*(str++) != '.')
-	{
-		print_err("Malformed double value");
 		return (false);
-	}
 	mag = 0.1f;
 	while (ft_isdigit(*str))
 	{
@@ -72,8 +69,6 @@ bool	parse_double(const char *str, double *f)
 		mag /= 10.0f;
 		++str;
 	}
-	if (*str)
-		print_err("Malformed double value");
 	return (!*str);
 }
 
@@ -93,7 +88,6 @@ bool	parse_vec3(const char *str, t_vec3 *v)
 	{
 		if (!parse_double(strs[i], &tmp))
 		{
-			print_err("Malformed vec3 value");
 			valid = false;
 			break ;
 		}
@@ -122,7 +116,6 @@ bool	parse_rgb(const char *str, t_color3 *color)
 	{
 		if (!parse_int(strs[i], &tmp) || tmp < 0 || tmp > 255)
 		{
-			print_err("Malformed rgb value");
 			valid = false;
 			break ;
 		}

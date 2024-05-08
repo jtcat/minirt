@@ -6,7 +6,7 @@
 /*   By: psotto-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:47:37 by psotto-m          #+#    #+#             */
-/*   Updated: 2024/05/07 15:27:48 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:42:06 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	**parse_plane(t_rtctx *ctx, char **tokens)
 	ft_lstadd_back(&ctx->ll_prims, ft_lstnew(plane));
 	tokens = parse_transform(tokens, (t_node3d *)plane);
 	if (!tokens)
-		return (NULL);
+		return (error_helper("Bad plane transform"));
 	if (!parse_rgb(*(tokens++), &((t_primitive *)plane)->color))
-		return (NULL);
+		return (error_helper("Bad plane color"));
 	ctx->node_n++;
 	return (tokens);
 }

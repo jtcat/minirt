@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 14:45:27 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:51:33 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	**parse_light(t_rtctx *ctx, char **tokens)
 	if (!light)
 		return (error_helper("Out of memory!"));
 	ft_lstadd_back(&ctx->ll_lights, ft_lstnew(light));
+	if (ctx->ll_lights->next != NULL)
+		return (error_helper("Point light was redefined"));
 	if (!parse_vec3(*(tokens++), &pos))
 		return (error_helper("Bad point light position"));
 	if (!parse_double(*(tokens++), &light->f))

@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:17:10 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 13:53:24 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:06:37 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef UTILS_BONUS_H
+# define UTILS_BONUS_H
 
 # include <stdlib.h>
 # include <libft.h>

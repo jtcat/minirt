@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:08:15 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 14:03:31 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:08:35 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC2_H
-# define VEC2_H
+#ifndef VEC2_BONUS_H
+# define VEC2_BONUS_H
 
 typedef struct s_vec2
 {

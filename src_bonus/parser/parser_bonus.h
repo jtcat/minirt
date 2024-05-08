@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:53:06 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 13:57:46 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:11:37 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PARSER_BONUS_H
+# define PARSER_BONUS_H
 
 # include <stdbool.h>
 # include <libft.h>

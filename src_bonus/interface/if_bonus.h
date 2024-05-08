@@ -6,12 +6,12 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 20:53:57 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:05:23 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:09:55 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IF_H
-# define IF_H
+#ifndef IF_BONUS_H
+# define IF_BONUS_H
 
 # include "if_utils_bonus.h"
 # include "../render/rt_bonus.h"

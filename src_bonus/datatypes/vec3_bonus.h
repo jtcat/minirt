@@ -6,12 +6,12 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 13:19:19 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:04:07 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:08:51 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC3_H
-# define VEC3_H
+#ifndef VEC3_BONUS_H
+# define VEC3_BONUS_H
 
 # include <math.h>
 # include <stdbool.h>

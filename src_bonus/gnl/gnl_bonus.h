@@ -6,12 +6,12 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 20:05:03 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:04:56 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:09:11 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GNL_H
-# define GNL_H
+#ifndef GNL_BONUS_H
+# define GNL_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000

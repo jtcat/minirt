@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 13:54:58 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:11:56 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_H
-# define RT_H
+#ifndef RT_BONUS_H
+# define RT_BONUS_H
 
 # include "../../minilibx-linux/mlx.h"
 # include "X11/keysym.h"

@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:59:47 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 14:00:44 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:06:53 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGB_H
-# define ARGB_H
+#ifndef ARGB_BONUS_H
+# define ARGB_BONUS_H
 
 # include <stdint.h>
 

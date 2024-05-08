@@ -6,12 +6,12 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 00:46:12 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:01:45 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:07:30 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIGHT_H
-# define LIGHT_H
+#ifndef LIGHT_BONUS_H
+# define LIGHT_BONUS_H
 
 # include "node3d_bonus.h"
 # include "argb_bonus.h"

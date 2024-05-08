@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:26:43 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 14:02:42 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:07:49 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATRIX_H
-# define MATRIX_H
+#ifndef MATRIX_BONUS_H
+# define MATRIX_BONUS_H
 
 # include <libft.h>
 # include "../datatypes/vec3_bonus.h"

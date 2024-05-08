@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 14:08:39 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:10:35 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIMITIVES_H
-# define PRIMITIVES_H
+#ifndef PRIMITIVES_BONUS_H
+# define PRIMITIVES_BONUS_H
 
 # include <stdlib.h>
 # include <stdbool.h>

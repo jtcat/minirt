@@ -6,12 +6,12 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 00:55:48 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:03:04 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:08:05 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NODE3D_H
-# define NODE3D_H
+#ifndef NODE3D_BONUS_H
+# define NODE3D_BONUS_H
 
 # include "matrix_bonus.h"
 

@@ -6,12 +6,12 @@
 /*   By: joaoteix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:18:33 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 14:12:30 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:07:12 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef CAMERA_BONUS_H
+# define CAMERA_BONUS_H
 
 # include "node3d_bonus.h"
 # include "vec3_bonus.h"

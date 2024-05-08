@@ -86,16 +86,16 @@ $(LFT):
 	$(MAKE) -C $(LFT_DIR) bonus
 
 clean:
-	$(RM) $(OBJ)
-	$(RM) $(OBJ_BONUS)
-	$(RM) -r $(OBJ_DIR)
-	$(RM) -r $(OBJ_DIR_BONUS)
-	$(MAKE) -C $(MLX_DIR) clean
+	$(RM) -f $(OBJ)
+	$(RM) -f $(OBJ_BONUS)
+	$(RM) -rf $(OBJ_DIR)
+	$(RM) -rf $(OBJ_DIR_BONUS)
+	$(MAKE) -C $(MLX_DIR) clean || true
 	$(MAKE) -C $(LFT_DIR) clean
 
 fclean: clean
-	$(RM) $(NAME)
-	$(RM) $(NAME_BONUS)
+	$(RM) -f $(NAME)
+	$(RM) -f $(NAME_BONUS)
 	$(MAKE) -C $(LFT_DIR) fclean
 
 re: fclean all

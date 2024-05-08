@@ -26,7 +26,7 @@ SRC:= $(addprefix $(SRC_DIR), \
 		$(addprefix render/, \
 				render.c rt.c rt_utils.c) \
 		$(addprefix interface/, \
-				if.c))
+				if.c if2.c if3.c))
 
 OBJ_DIR:= obj/
 

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:02:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 15:05:07 by psotto-m         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:34:47 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_ifctx
 	enum e_ifmode	mode;
 	bool			visible;
 	int				node_index;
-	float			*node_attr_ref;
+	double			*node_attr_ref;
 }	t_ifctx;
 
 #endif

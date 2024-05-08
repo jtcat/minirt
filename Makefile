@@ -7,7 +7,7 @@ LIBFLAGS:= -lXext -lX11 -lm
 MFLAGS:= -O4 -fopt-info-optall-optimized -ftree-vectorize -mavx
 
 CFLAGS:= -O3 -Wall -Wextra -Werror
-#CFLAGS:= -Wall -Wextra -Werror
+#CFLAGS:= -g -Wall -Wextra -Werror
 
 NAME:= miniRT
 

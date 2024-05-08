@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 16:20:33 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:48:00 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,15 @@ void	poll_node_morph(const int key, t_ifctx *ifctx)
 {
 	t_node3d *const		sel_node = if_get_sel_node(ifctx);
 
-	if (!ifctx->node_attr_ref)
-		return ;
 	if (key == XK_a)
 		ifctx->node_attr_ref = cycle_sel_attr(sel_node, ifctx->node_attr_ref);
 	else if (key == XK_d)
 		ifctx->node_attr_ref = cycle_sel_attr(sel_node, ifctx->node_attr_ref);
-	else if (key == XK_w)
-		*ifctx->node_attr_ref += 1.5f;
-	else if (key == XK_s)
-		*ifctx->node_attr_ref = fmax((*ifctx->node_attr_ref) - 1.5f, 0.f);
+	if (ifctx->node_attr_ref)
+	{
+		if (key == XK_w)
+			*ifctx->node_attr_ref += 1.5f;
+		if (key == XK_s)
+			*ifctx->node_attr_ref = fmax((*ifctx->node_attr_ref) - 1.5f, 0.f);
+	}
 }

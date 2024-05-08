@@ -6,12 +6,12 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:02:03 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 15:10:06 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:55:22 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IF_UTILS_BONUS_H
-# define IF_UTILS_BONUS_H
+#ifndef IF_UTILS_H
+# define IF_UTILS_H
 
 # include <stdbool.h>
 # include "X11/keysym.h"
@@ -34,7 +34,7 @@ typedef struct s_ifctx
 	enum e_ifmode	mode;
 	bool			visible;
 	int				node_index;
-	float			*node_attr_ref;
+	double			*node_attr_ref;
 }	t_ifctx;
 
 #endif

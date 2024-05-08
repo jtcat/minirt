@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 20:19:14 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 10:26:25 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:34:30 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "../datatypes/ray.h"
-# include "prim_fn_types.h"
 
 typedef struct s_primitive	t_primitive;
 typedef struct s_hit		t_hit;

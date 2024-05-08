@@ -11,7 +11,11 @@ CFLAGS:= -O3 -Wall -Wextra -Werror
 
 NAME:= miniRT
 
+NAME_BONUS:= miniRT_bonus
+
 SRC_DIR:= src/
+
+SRC_DIR_BONUS:= src_bonus/
 
 SRC:= $(addprefix $(SRC_DIR), \
 			main.c utils.c utils2.c\
@@ -28,9 +32,26 @@ SRC:= $(addprefix $(SRC_DIR), \
 		$(addprefix interface/, \
 				if.c if2.c if3.c))
 
+SRC_BONUS:= $(addprefix $(SRC_DIR_BONUS), \
+			main_bonus.c utils_bonus.c utils2_bonus.c\
+		$(addprefix datatypes/, \
+			camera_bonus.c light_bonus.c vec3_bonus.c vec3_2_bonus.c matrix_bonus.c matrix2_bonus.c matrix3_bonus.c argb_bonus.c argb2_bonus.c utils_bonus.c) \
+		$(addprefix gnl/, \
+				gnl_bonus.c gnl_utils_bonus.c) \
+		$(addprefix parser/, \
+				parser_bonus.c parser2_bonus.c parser3_bonus.c parser4_bonus.c) \
+		$(addprefix intersect/, \
+				prim_cylinder_bonus.c prim_sphere_bonus.c prim_plane_bonus.c prim_construct_bonus.c) \
+		$(addprefix render/, \
+				render_bonus.c rt_bonus.c rt_utils_bonus.c) \
+		$(addprefix interface/, \
+				if_bonus.c if2_bonus.c if3_bonus.c))
+
 OBJ_DIR:= obj/
+OBJ_DIR_BONUS:= obj_bonus/
 
 OBJ:= $(patsubst $(SRC_DIR)%,$(OBJ_DIR)%,$(SRC:.c=.o))
+OBJ_BONUS:= $(patsubst $(SRC_DIR_BONUS)%,$(OBJ_DIR_BONUS)%,$(SRC_BONUS:.c=.o))
 
 MLX_DIR:= minilibx-linux
 
@@ -42,15 +63,21 @@ LFT:= $(LFT_DIR)/libft.a
 
 all: $(NAME)
 
-maps:
-	cp -r ../minirt_bruno/scenes .
+bonus: $(NAME_BONUS)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	mkdir -p $(OBJ_DIR)$*
 	$(CC) $(CFLAGS) $(INCDIRS) -c $< -o $@
 
+$(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
+	mkdir -p $(OBJ_DIR_BONUS)$*
+	$(CC) $(CFLAGS) $(INCDIRS) -c $< -o $@
+
 $(NAME): $(MLX) $(LFT) $(OBJ)
 	$(CC) $(CFLAGS) $(LIBFLAGS) $(OBJ) $(MLX) $(LFT) $(INCDIRS) -o $@ 
+
+$(NAME_BONUS): $(MLX) $(LFT) $(OBJ_BONUS)
+	$(CC) $(CFLAGS) $(LIBFLAGS) $(OBJ_BONUS) $(MLX) $(LFT) $(INCDIRS) -o $@ 
 
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
@@ -60,12 +87,15 @@ $(LFT):
 
 clean:
 	$(RM) $(OBJ)
+	$(RM) $(OBJ_BONUS)
 	$(RM) -r $(OBJ_DIR)
+	$(RM) -r $(OBJ_DIR_BONUS)
 	$(MAKE) -C $(MLX_DIR) clean
 	$(MAKE) -C $(LFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) $(NAME_BONUS)
 	$(MAKE) -C $(LFT_DIR) fclean
 
 re: fclean all
@@ -73,4 +103,7 @@ re: fclean all
 minilibx:
 	git clone git@github.com:42Paris/minilibx-linux.git
 	make -C minilibx-linux
-	
+
+.PHONY: all bonus clean fclean
+# include <stdlib.h>
+# include <stdbool.h>

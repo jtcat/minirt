@@ -5,8 +5,10 @@ a.out
 bonus
 #scenes/
 miniRT
+miniRT_bonus
 minilibx-linux
 obj/
+obj_bonus/
 compile_commands.json
 .cache
 .vscode

@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:59:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 10:21:15 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:20:33 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,5 @@ void	poll_node_morph(const int key, t_ifctx *ifctx)
 	else if (key == XK_w)
 		*ifctx->node_attr_ref += 1.5f;
 	else if (key == XK_s)
-		*ifctx->node_attr_ref = fmax(*ifctx->node_attr_ref - 1.5f, 0.f);
-	if (sel_node->type == NODE_CAM)
-		cam_calcviewport(&ifctx->rtctx->cam);
+		*ifctx->node_attr_ref = fmax((*ifctx->node_attr_ref) - 1.5f, 0.f);
 }

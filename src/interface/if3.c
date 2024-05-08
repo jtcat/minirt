@@ -6,7 +6,7 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:12:11 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 10:21:13 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:02:52 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	*cycle_sel_attr(const t_node3d *node, void *curr_attr)
 {
-	if (node->type == NODE_CAM)
-		return (&((t_camera *)node)->hfov);
 	if (node->type == NODE_PRIM)
 	{
 		if (((t_primitive *)node)->type == PRIM_SPHERE)

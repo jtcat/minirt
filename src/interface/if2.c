@@ -6,7 +6,7 @@
 /*   By: joaoteix <joaoteix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 21:13:08 by joaoteix          #+#    #+#             */
-/*   Updated: 2024/05/08 10:17:52 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:04:07 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 static char	*get_prim_attr_name(const t_node3d *node, void *attrib_ptr)
 {
-	if (node->type == NODE_CAM)
-		return ("FOV");
 	if (node->type == NODE_PRIM)
 	{
 		if (((t_primitive *)node)->type == PRIM_SPHERE)
@@ -78,7 +76,7 @@ void	display_interface(const t_ifctx *ifctx)
 		ft_strjoin_morph(&status_str,
 			prim_names[((t_primitive *)if_get_sel_node(ifctx))->type]);
 	}
-	if (ifctx->node_attr_ref)
+	if (ifctx->mode == IF_MODE_MORPH)
 	{
 		ft_strjoin_morph(&status_str, " | ATTRIBUTE: ");
 		ft_strjoin_morph(&status_str,

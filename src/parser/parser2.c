@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 00:03:48 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/08 10:55:37 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:45:27 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**parse_transform(char **tokens, t_node3d *node)
 	if (!parse_vec3(*(tokens++), &dir))
 		return (NULL);
 	if (!is_normal(&dir))
-		return (error_helper("Normal components out of range [-1, 1]"));
+		return (NULL);
 	tf_look_up(&pos, dir, &node->transf);
 	return (tokens);
 }

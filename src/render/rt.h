@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 16:03:30 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 19:54:13 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:15:26 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ void		render(t_rtctx *ctx);
 double		scene_intersect(t_rtctx *ctx, t_ray *ray,
 				t_hit *hit, double min_cull_dist);
 
-t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit, t_ray *og_ray);
+t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit);
 #endif

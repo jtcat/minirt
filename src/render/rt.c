@@ -6,7 +6,7 @@
 /*   By: jcat <joaoteix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 00:18:46 by jcat              #+#    #+#             */
-/*   Updated: 2024/05/07 19:59:01 by joaoteix         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:14:14 by joaoteix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ float	spec_f(t_ray *ray, t_hit *hit, t_ray *og_ray)
 // diffuse dot product is positive
 //
 // specular term is -dot to negate ray dir
-t_color3	light_cast(t_rtctx *rtctx, t_ray *ray,
-		t_hit *hit, t_ray *og_ray)
+t_color3	light_cast(t_rtctx *rtctx, t_ray *ray, t_hit *hit)
 {
 	t_list		*node;
 	t_light		*light;
@@ -82,10 +81,8 @@ t_color3	light_cast(t_rtctx *rtctx, t_ray *ray,
 				v3length(&light_vec) * .999) > -1.f)
 		{
 			diffuse_f = fmax(v3dot(ray->dir, hit->normal) * light->f, 0.f);
-			color = c3sum(color, c3sum(c3prod(c3scalef(light->color, diffuse_f),
-							hit->prim->color),
-						c3scalef((t_color3){1.f, 1.f, 1.f},
-							(diffuse_f >= 0.f) * spec_f(ray, hit, og_ray))));
+			color = c3sum(color, c3prod(c3scalef(light->color, diffuse_f),
+						hit->prim->color));
 		}
 		node = node->next;
 	}

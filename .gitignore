@@ -3,10 +3,10 @@
 *.a
 a.out
 bonus
-scenes/
+#scenes/
 miniRT
+minilibx-linux
 obj/
 compile_commands.json
 .cache
 .vscode
-notes_parses

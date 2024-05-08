@@ -3,7 +3,7 @@ This is a simple software ray tracer written in C.
 # Authorship
 João Catarino: [@jtcat](https://github.com/jtcat)
 
-Pedro Souto: [@peterbikes](https://github.com/peterbikes)
+Pedro Mota: [@peterbikes](https://github.com/peterbikes)
 # Features
 - Scene description via file
 - Phong shading

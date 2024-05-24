@@ -15,7 +15,7 @@ Pedro Mota: [@peterbikes](https://github.com/peterbikes)
 - Real-time scene editing
 # Building
 This project requires the 42 School [minilibx](https://github.com/42Paris/minilibx-linux) library to be present at the root of the project.
-Then simply run `make`
+Then simply run `make bonus`
 # Usage
 MiniRT requires a scene description file with an `.rt` extension.
 

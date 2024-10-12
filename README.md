@@ -2,6 +2,7 @@
 This is a simple software ray tracer written in C.
 # Authorship
 João Catarino: [@jtcat](https://github.com/jtcat)
+
 Pedro Mota: [@peterbikes](https://github.com/peterbikes)
 
 # Example
